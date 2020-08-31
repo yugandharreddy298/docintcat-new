@@ -1,0 +1,470 @@
+<div class="row" (contextmenu)="selectedName=false;showlist=false">
+  <div class="col-lg-10 col-md-12 col-sm-12">
+    <section class="employee-height">
+      <div class="content-nav ietop1 pt-3">
+        <div class="row headfont fon-16 fw-4 col1-f pt-3 bc-icons-2 pl-1 fileselection">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0 bg-none1">
+              <li class="breadcrumb-item"><a class="bc-ic-tx shwtxtclr">Employees</a>
+                
+                <!-- <i class="fas fa-angle-double-right mx-2  fon-12" aria-hidden="true"></i> -->
+                
+                </li>
+            </ol>
+          </nav>
+          <hr class="mt-0 hr-w hr1_bg">
+        </div>
+        <div class="row place-nav-c link-quick link-quick3 headfont fon-16 fw-5" style="background-color: #fafafa">
+          <div class="col-lg-9 col-md-9 col-sm-12 p-0">
+            <p class="pt-3 mb-0 fntweight">Employees list</p>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 p-0"
+            *ngIf="getemployeedata && getemployeedata.length==0 && !isloading && showexcelbutton ">
+            <button class="add-emp-but " data-toggle="modal" data-target="#excelmodelata"
+              (click)=" (search&&search.length!=0) && clearresult()"> <img src="assets/images/exceldata.png"
+                class="add-emp-pad">Import Data</button>
+          </div>
+          <hr class="mt-0 hr-w">
+        </div>
+      </div>
+      <div class="row" *ngIf="searchresult" (click)="selectedName=false;showlist=false"
+        [ngClass]="{'main-nav-position-employee ': !iebrowser}">
+        <div class="col-lg-6 col-md-6">
+          <div class="input-group mb-3 row mar-t-11">
+            <label for="inputPassword" class="col-form-label">Employee Search :</label>
+            <form autocomplete="off" class="search-form ng-untouched ng-pristine ng-invalid ml-2" name="searchForm"
+              novalidate="">
+              <div class="d-flex justify-content-center h-100">
+                <div class="mobile-searchbar">
+                  <input aria-describedby="basic-addon2" aria-label="Recipient's username"
+                    class="mobile_search_input ng-untouched ng-pristine ng-invalid" name="SearchValue"
+                    placeholder="Search" required style="border-left:none;" type="text"
+                    ng-reflect-klass="mobile_search_input" ng-reflect-ng-class="[object Object]" ng-reflect-required=""
+                    ng-reflect-name="SearchValue" [(ngModel)]="search" (keyup)="searchBackend(search)">
+
+                  <a class="mobile_search_icon" (click)="searchemployee(search)"><i class="fas fa-search"></i></a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 Add-employee-flex">
+          <button class="add-emp-but mar-t-11" data-toggle="modal" data-target="#centralModallg"
+            (click)="(search&&search.length!=0) &&  clearresult()" style="margin-right: 10px !important;"> <img
+              src="assets/images/Group23.png" class="add-emp-pad">Add Employee</button>
+          <button class="add-emp-but mar-t-11" data-toggle="modal" data-target="#excelmodelata"
+            (click)=" (search&&search.length!=0) && clearresult()"> <img src="assets/images/exceldata.png"
+              class="add-emp-pad">Import Data</button>
+        </div>
+      </div>
+      <!-- Central Modal Small -->
+      <div class="modal fade bd-example-modal-xl" id="centralModallg" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+          <form #addForm="ngForm" (ngSubmit)="addemployee(addForm)">
+            <div class="modal-content">
+              <div class="modal-header mod-head-bg">
+                <h4 class="modal-title w-100 add-new-emp-pop" id="myModalLabel">Add New Employee</h4>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"
+                  (click)="closeModel1(addForm)">
+                  <span aria-hidden="true" class="white-colr">&times;</span>
+                </button>
+                <button type="button" hidden id="sample" class="close " data-dismiss="modal" aria-label="Close">
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row pad-lr-7r">
+                  <div class="col-lg-4 mar-20-tb">
+                    <!-- Default input -->
+                    <label for="exampleForm2">First Name</label>
+                    <input type="text" [(ngModel)]="fname" pattern="^[A-Za-z\s]{1,35}$" #fname1="ngModel" name="fname"
+                      [class.has-error]="fname1.invalid && fname1.touched" [class.has-success]="fname1.valid" required
+                      class="form-control">
+                    <div *ngIf="fname1.invalid && (fname1.dirty || fname1.touched)|| formSubmitted&&fname1.errors">
+                      <div class="employee-pop-errormsg-height">
+                        <div class="text-danger" *ngIf="fname1.errors.required">Please Enter First Name</div>
+                        <div class="text-danger" *ngIf="(fname1.errors.pattern)">Enter Characters only</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 mar-20-tb">
+                    <!-- Default input -->
+                    <label for="exampleForm2">Last Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="lname" pattern="^[A-Za-z\s]{1,35}$"
+                      #lname1="ngModel" name="lname" [class.has-error]="lname1.invalid && lname1.touched"
+                      [class.has-success]="lname1.valid" required>
+                    <div class="employee-pop-errormsg-height">
+                      <div *ngIf="lname1.invalid && (lname1.dirty || lname1.touched)|| formSubmitted&&lname1.errors">
+                        <div class="text-danger" *ngIf="lname1.errors.required">Please Enter Last Name</div>
+                        <div class="text-danger" *ngIf="(lname1.errors.pattern)">Enter Characters only</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 mar-20-tb">
+                    <!-- Default input -->
+                    <label for="exampleForm2">Email</label>
+                    <input type="email" [(ngModel)]="email" #email1="ngModel" (keyup)="check1=false"
+                      (change)="EmailVerification(email)" name="email"
+                      pattern="([A-Za-z]|[0-9])[A-Za-z0-9.-]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})" required
+                      class="form-control">
+                    <div class="employee-pop-errormsg-height">
+                      <div *ngIf="email1.invalid && (email1.dirty || email1.touched)|| formSubmitted&&email1.errors">
+
+                        <div class="text-danger" *ngIf="email1.errors.required">Please Enter Email </div>
+                        <div class="text-danger" *ngIf="(email1.errors.pattern)">Invalid Email </div>
+
+                      </div>
+                      <div class="text-danger" *ngIf="check1">Email already existed</div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mar-20-tb">
+                    <!-- Default input -->
+                    <label for="exampleForm2">Mobile Number</label>
+                    <input type="text" [(ngModel)]="mobilenumber" pattern="[0-9]{10}" #mobilenumber1="ngModel"
+                      name="mobilenumber" [class.has-error]="mobilenumber1.invalid && mobilenumber1.touched"
+                      [class.has-success]="mobilenumber1.valid" required class="form-control">
+                    <div class="employee-pop-errormsg-height">
+                      <div class="text-danger"
+                        *ngIf="mobilenumber1.invalid && (mobilenumber1.dirty || mobilenumber1.touched)|| formSubmitted&&mobilenumber1.errors">
+                        <div class="text-danger" *ngIf="mobilenumber1.errors.required">Please Enter Mobile number </div>
+                        <div class="text-danger" *ngIf="(mobilenumber1.errors.pattern)">Invalid Mobile number</div>
+                      </div>
+                      <div *ngIf="check &&  mobilenumber1.dirty && mobilenumber1.touched">Mobile number already existed
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mar-20-tb">
+                    <label for="exampleForm2">Department</label>
+                    <select class="browser-default custom-select bgclr" #fontSize value="Select" name="department"
+                      #departmentname="ngModel" [(ngModel)]="department" required>
+                      <option selected *ngIf="departments?.length==0">- No Departments Found -</option>
+                      <option *ngFor="let i of departments" [(value)]="i._id">{{i.deptname}}</option>
+                    </select>
+                    <div class="employee-pop-errormsg-height">
+                      <div class="text-danger"
+                        *ngIf="departmentname.invalid && (departmentname.dirty || departmentname.touched)|| formSubmitted&&departmentname.errors">
+                        <div class="text-danger" *ngIf="departmentname.errors.required">Please select department</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mar-20-tb">
+                    <div>
+                      <label for="exampleForm2">Gender</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" name="gender" [(ngModel)]="gender"
+                        id="defaultInline1" value="male" required>
+                      <label class="custom-control-label" for="defaultInline1">Male</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" name="gender" [(ngModel)]="gender"
+                        id="defaultInline2" value="female" required>
+                      <label class="custom-control-label" for="defaultInline2">Female</label>
+                    </div>
+                    <div class="text-danger" *ngIf="!gender && GenderNotSelected">Please select employee gender </div>
+                    <!-- Default inline 3-->
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm but-close" data-dismiss="modal"
+                  (click)="closeModel1(addForm)">Close</button>
+                <button type="submit" class="add-btn side_bg" (click)=" formSubmitted=true;">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Central Modal Small -->
+      <div class="loader1" *ngIf="isloading"></div>
+      <div class="row  mt-2">
+        <div class="table-responsive mrgt0p scrolstyle"  *ngIf="getemployeedata!=0">
+          <table
+            class="table table_space table-fixed cntraln w-100 d-block d-md-table table-responsive tblresp tdpadng11 tblstyle tblmrgn">
+            <thead class="thcolor tab-bg" *ngIf="getemployeedata!=0" (click)="selectedName=false;showlist=false">
+              <tr>
+                <th class="table_td_pad tblwdth">
+                  First Name
+
+                  <i class="fa fa-caret-up pl-point caret-up-pos" aria-hidden="true"
+                    (click)="sortFNameAsc();uparrow=true;dateSort=false;nameSort=true;"
+                    [ngClass]="{'caret-up-pos-active' :uparrow && nameSort }"></i>
+                  <i class="fa fa-caret-down caret-down-pos pl-point" aria-hidden="true"
+                    (click)="sortFNameDsc();uparrow=false;dateSort=false;nameSort=true;"
+                    [ngClass]="{'caret-down-pos-active' :  !uparrow && nameSort}"></i>
+                </th>
+
+                <th class="table_td_pad tblwdth">
+                  Last Name
+
+                  <i class="fa fa-caret-up caret-up-pos pl-point" aria-hidden="true"
+                    (click)="sortLNameAsc();dateuparrow=true;dateSort=true;nameSort=false;"
+                    [ngClass]="{'caret-up-pos-active' :dateuparrow && dateSort }"></i>
+                  <i class="fa fa-caret-down caret-down-pos pl-point" aria-hidden="true"
+                    (click)="sortLNameDsc();dateuparrow=false;dateSort=true;nameSort=false;"
+                    [ngClass]="{'caret-down-pos-active' : !dateuparrow && dateSort}"></i>
+                </th>
+
+                <th scope="col" class="table_td_pad tblwdth">
+                  
+                  Gender
+                  <i class="fa fa-caret-up caret-up-pos pl-point" aria-hidden="true"></i>
+                  <i class="fa fa-caret-down caret-down-pos pl-point" aria-hidden="true"></i>
+                
+                </th>
+
+                <th scope="col" class="table_td_pad tblwdth">Mobile Number</th>
+                <th scope="col" class="table_td_pad tblwdth">Email</th>
+                <th scope="col" class="table_td_pad tblwdth">Department</th>
+                <th scope="col" class="table_td_pad tblwdth">Status</th>
+                <th scope="col" class="table_td_pad tblwdth">Actions</th>
+
+              </tr>
+            </thead>
+            <tbody class="tdatacol headfont fon-14 fw-4 pl-point">
+              <tr class="showbutton " *ngFor="let element of getemployeedata;let i = index"
+                [ngClass]="{'employee-tr-inactive' :(element && element.active && !element.status )}">
+                <td> 
+
+                    <p class="tex-over employee-email mb-0" matTooltip="{{element.fname}}"
+                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                    aria-label="Button that displays a tooltip when focused or hovered over">
+                  {{element.fname}}
+                </p>
+                
+                </td>
+                <td>
+                    <p class="tex-over employee-email mb-0" matTooltip="{{element.lname}}"
+                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                    aria-label="Button that displays a tooltip when focused or hovered over">
+                  {{element.lname}}
+                </p>
+                </td>
+                <td>{{element.gender}}</td>
+                <td>{{element.mobilenumber}}</td>
+                <td>
+                  <p class="tex-over employee-email mb-0" matTooltip="{{element.email}}"
+                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                    aria-label="Button that displays a tooltip when focused or hovered over">{{element.email}}</p>
+                </td>
+                <td *ngIf="element.department">{{element.department.deptname}}</td>
+                <td *ngIf="!element.department">Not Assigned</td>
+                <td *ngIf="!element.active">Pending </td>
+                <td *ngIf="element.active">
+                  <label class="switch">
+                    <input type="checkbox" id="{{i}}" [checked]="(element.status)" [(ngModel)]="element.status"
+                      (click)="deleteempData(element,'')" hidden>
+                    <div class="slider round"></div>
+                  </label>
+                </td>
+                <td class="pl-0">
+                  <ul class="icon-hover li_place pl-0 li5t">
+                    <li  class="icon-dis">
+                        <a  class="dot envelop" *ngIf='!element.active'>
+                            <i class="far fa-envelope resend pl-point employee-resend hvrefct ic0n" (click)="resendmail(element)"
+                            matTooltipClass="example-tooltip-red" matTooltip="Resend"
+                            aria-label="Button that displays a red tooltip when focused or hovered over"></i>
+                          </a>
+
+                      
+                     
+                      
+                      
+                      </li>
+                    <li class="icon-dis">
+                      
+                        <a  class="dot dot-bg1">
+                      <i class="fas fa-pen penicn pl-point employee-pen hvrefct ic0n"
+                        (click)="editempData(element)" matTooltipClass="example-tooltip-red"
+                        matTooltip="Update"
+                        aria-label="Button that displays a tooltip when focused or hovered over"></i>
+                      </a>
+                      
+                      </li>
+                    <li class="icon-dis">
+                      
+                        <a  class="dot dot-bg"> <i class="fas fa-trash-alt pl-point employee-trash hvrefct ic0n"
+                        (click)="deleteempData(element,'delete')" matTooltipClass="example-tooltip-red"
+                        matTooltip="Delete"
+                        aria-label="Button that displays a tooltip when focused or hovered over"></i>
+                      </a>
+                      
+                      
+                      </li>
+                  </ul>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- ==============================no employees found ================================================== -->
+      <div *ngIf=" getemployeedata && getemployeedata.length==0 && !isloading">
+        <div class="nodepart-imag">
+          <div>
+            <img src="assets/images/Group4328.png">
+          </div>
+          <p class="nodepart-content">No Employees Found</p>
+          <div>
+            <button class="add-dep-but" data-toggle="modal" data-target="#centralModallg"><img
+                src="assets/images/Group4318.png" class="add-new-emp-pic-pad">Add New Employee</button>
+          </div>
+        </div>
+      </div>
+      <!-- ==============================no employees found ================================================== -->
+      <div> <input type="file" style="display: none" id="selectinputfile" #fileInput (change)="addteztexcel()"
+          accept=".xls,.xlsx">
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- grid view-->
+<div class="modal fade bd-example-modal-xl" id="excelmodelata" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false">
+  <div class="modal-dialog modal-xl modal-dialog-centered employee-modal-width" role="document">
+    <div class="modal-content">
+      <div class="modal-header mod-head-bg">
+        <h4 class="modal-title w-100 add-new-emp-pop" id="myModalLabel">Import Data From Excel</h4>
+        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="white-colr">&times;</span>
+        </button>
+        <button type="button" hidden id="closeexcelmodel" class="close " data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body employee-modal-height">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-12 employee-flex employee-shadow">
+
+            <div class="employee-image-flex employee-button-position1"><img src="../../assets/images/employee.png">
+            </div>
+            <div class="employee-image-flex"> <button class="add-emp-but mar-t-11" (click)="downloadsheet()"> Download
+                Template</button></div>
+          </div>
+          <div class="col-lg-1 col-md-1 col-sm-12 employee-flex">(or)</div>
+          <div class="col-lg-5 col-md-5 col-sm-12 employee-flex employee-shadow">
+
+            <div class="employee-image-flex employee-button-position2"><img src="../../assets/images/employeeexcel.png">
+            </div>
+            <div class="employee-image-flex"><button class="add-emp-but mar-t-11" (click)="selectexcelsheet()">Choose
+                File to Upload</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button data-toggle="modal" data-target="#resultdataexcel" id="showresults" hidden></button>
+<div class="modal fade bd-example-modal-xl" id="resultdataexcel" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false">
+  <div class="modal-dialog modal-xl modal-dialog-centered employee-modal-width" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header mod-head-bg1">
+        <div class="row" style="width: 100%">
+          <div class="col-lg-2 offset-lg-1 col-md-2 employee-table-image"><img
+              src="../../assets/images/employee-image.png"></div>
+          <div class="col-lg-9 col-md-9 employee-table-data">
+            <h4 class="text-danger">Employees Data</h4>
+            <!-- <p>Doc Intact offers you unmeasurable robust technology solutions.you unmeasurable robust technology solutions  </p> -->
+          </div>
+        </div>
+        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <button type="button" hidden id="closeexcelmodel" class="close " data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body employee-table-height">
+        <div class="row">
+          <div class="table-responsive mrgt0p scrolstyle">
+            <table class="table  table-fixed cntraln w-100 d-block d-md-table table-responsive tblresp tdpadng11 tblstyle01">
+              <thead class="thcolor tab-bg1" *ngIf="getemployeedata!=0">
+                <tr>
+                  <th class="table_td_pad tblwdth">First Name </th>
+                  <th class="table_td_pad tblwdth"> Last Name </th>
+                  <th scope="col" class="table_td_pad tblwdth">Gender</th>
+                  <th scope="col" class="table_td_pad tblwdth">Mobile Number</th>
+                  <th scope="col" class="table_td_pad tblwdth">Email</th>
+                  <th scope="col" class="table_td_pad tblwdth">Department</th>
+                  <th scope="col" class="table_td_pad tblwdth">Status</th>
+                </tr>
+              </thead>
+              <tbody class="headfont fon-14 fw-4 pl-point" *ngIf="resultarry">
+                <tr class="showbutton  excel-tabledata" *ngFor="let element of resultarry.success">
+                  <td *ngIf="element && element.fname"> {{element.fname}}</td>
+                  <td *ngIf="element && !element.fname">Not Available </td>
+                  <td *ngIf="element && element.lname">{{element.lname}} </td>
+                  <td *ngIf="element && !element.lname"> Not Available </td>
+                  <td *ngIf=" element && element.gender">{{element.gender}} </td>
+                  <td *ngIf=" element && !element.gender">Not Available </td>
+                  <td *ngIf=" element && element.mobilenumber">{{element.mobilenumber}} </td>
+                  <td *ngIf=" element && !element.mobilenumber">Not Available </td>
+                  <td>
+                    <p class="txt-ellip1 employee-email mb-0" matTooltip="{{element.email}}"
+                      matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                      aria-label="Button that displays a tooltip when focused or hovered over">{{element.email}}</p>
+                  </td>
+                  <td *ngIf="element.departmentname">{{element.departmentname}}</td>
+
+                  <td *ngIf="!element.departmentname">Not Available</td>
+                  <td class="scssclr">success </td>
+                </tr>
+                <tr class="showbutton employee-tabledata-failed excel-tabledata"
+                  *ngFor="let element of resultarry.userexistdata">
+                  <td *ngIf="element && element.fname">{{element.fname}}</td>
+                  <td *ngIf="element && !element.fname"> Not Available </td>
+                  <td *ngIf="element && element.lname">{{element.lname}} </td>
+                  <td *ngIf="element && !element.lname"> Not Available </td>
+                  <td *ngIf="element && element.gender">{{element.gender}} </td>
+                  <td *ngIf="element && !element.gender"> Not Available </td>
+                  <td *ngIf="element && element.mobilenumber">{{element.mobilenumber}} </td>
+                  <td *ngIf="element && !element.mobilenumber">Not Available </td>
+                  <td *ngIf="element && element.email">
+                    <p class="txt-ellip1 employee-email mb-0" matTooltip="{{element.email}}"
+                      matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                      aria-label="Button that displays a tooltip when focused or hovered over">{{element.email}}</p>
+                  </td>
+                  <td *ngIf="element.departmentname">{{element.departmentname}}</td>
+                  <td *ngIf="!element.departmentname">Not Assigned</td>
+                  <td class="cl0r">Failed (User Already Exists) </td>
+                </tr>
+                <tr class="showbutton employee-tabledata-failed excel-tabledata"
+                  *ngFor="let element of resultarry.faileddata">
+                  <td *ngIf="element && element.fname" [ngClass]="{'cl0r' : element&& element.firstname}">
+                    {{element.fname}} </td>
+                  <td *ngIf="element && !element.fname" class="cl0r">Not Available </td>
+                  <td *ngIf="element && element.lname" [ngClass]="{'cl0r' : element&& element.lastname}">
+                    {{element.lname}} </td>
+                  <td *ngIf="element && !element.lname" class="cl0r"> Not Available </td>
+                  <td *ngIf=" element && element.gender" [ngClass]="{'cl0r' : element&& element.gender1}">
+                    {{element.gender}} </td>
+                  <td *ngIf=" element && !element.gender" class="cl0r">Not Available </td>
+                  <td *ngIf=" element && element.mobilenumber" [ngClass]="{'cl0r' : element&& element.mobileinvalid}">
+                    {{element.mobilenumber}} </td>
+                  <td *ngIf=" element && !element.mobilenumber" class="cl0r">Not Available </td>
+                  <td *ngIf=" element && element.email" [ngClass]="{'cl0r' : element&& element.emailinvalid}">
+                    <p class="txt-ellip1 employee-email mb-0" matTooltip="{{element.email}}"
+                      matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                      aria-label="Button that displays a tooltip when focused or hovered over">{{element.email}}</p>
+                  </td>
+                  <td *ngIf=" element && !element.email" class="cl0r">Not Available </td>
+                  <td *ngIf=" element && element.departmentname " [ngClass]="{'cl0r' : element&& element.dept}">
+                    {{element.departmentname}}</td>
+                  <td *ngIf="!element.departmentname" class="cl0r">Not Available</td>
+                  <td class="cl0r">One or more mandatory field(s) are Missing/Invalid</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

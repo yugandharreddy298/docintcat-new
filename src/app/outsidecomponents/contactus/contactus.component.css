@@ -1,0 +1,102 @@
+.blak-clr {
+    color: #4CA2D1;
+    font-size: 24px;
+    font-weight: 600
+}
+
+.fon-48 {
+    font-size: 24px;
+}
+
+.fon-med {
+    font-weight: 400;
+}
+
+.pad-t-6rem {
+    padding: 6rem 0 0 2rem;
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+.pad-for-feelfree {
+    padding: 0 0 0 7px;
+    margin: 0 0 2rem 0;
+}
+
+.map-bg {
+    background-image: url(/../../assets/images/map.png);
+    background-repeat: no-repeat;
+    padding: 7.2rem 0;
+}
+
+.pad-r-2rem {
+    padding: 0 0 0 2rem;
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+    line-height: 2.5rem;
+}
+
+.under-contact-bg {
+    background: #FAFAFA;
+}
+
+.white-bg {
+    background: #fff
+}
+
+.pad-t-4rem {
+    padding: 4rem 0 7rem 0;
+}
+
+.mar-t-1rem {
+    margin-top: 0.5rem;
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+    color: #4CA2D1;
+}
+
+.phone-pic-bg {
+    background: #fff;
+    border-radius: 50%;
+    border: none;
+    padding: 5px 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+}
+
+.bor-rit {
+    border-right: 1px solid #707070;
+}
+
+.ash-color {
+    font-weight: 400;
+}
+
+.get-in-touch {
+    background: #f3f3f5;
+    padding: 1.5rem 0;
+    color: #4CA2D1;
+}
+
+.pad-ltb-2rem {
+    padding: 1rem 2rem 0 2rem;
+}
+
+.pad-lb-2rem {
+    padding: 0 2rem;
+}
+
+.input-bg {
+    background: #f3f3f5;
+}
+
+.send-message-but {
+    padding: 0.6rem 8rem;
+    background: linear-gradient(200deg, rgb(104, 177, 216), rgb(104, 134, 173));
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.pad-tb-1rem {
+    padding: 1rem 0;
+}

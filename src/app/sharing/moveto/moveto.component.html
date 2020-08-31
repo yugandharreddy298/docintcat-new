@@ -1,0 +1,102 @@
+<!-- MyFiles -->
+
+<div class="modal-header header">
+  <h1 mat-dialog-title class="newflder">MyFiles</h1>
+  <button type="button" class="close dismissbutton" (click)="close()" mat-dialog-close aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="root-pad">
+  <div [ngClass]="{'move-highligh-icon1':select}">
+    <i class="fa fa-chevron-right" aria-hidden="true" *ngIf="allFoldersList && allFoldersList.source._value.length==0"
+      style="vertical-align:super;margin-left: 20px;"></i>
+    <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="allFoldersList && allFoldersList.source._value.length!=0"
+      style="vertical-align:super;margin-left: 20px;color: #228dcc;"></i>
+    <span class='name verticla-span-text1 align12' (click)="selected('root');select=true">
+      MyFiles
+    </span>
+  </div>
+</div>
+<div class="move-create-folder" *ngIf="allFoldersList && allFoldersList.source._value.length==0">
+  <p>Create a folder </p>
+</div>
+
+<div *ngIf='!dailogData.multi'>
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" id="style-15" class="scorl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+      <div class="tree-node" *ngIf='dailogData.move._id!=node._id'>
+        <button mat-icon-button disabled></button>
+        <div (click)='selected(node)' (dblclick)="changeState(node)"
+          [ngClass]="{'move-highligh-icon':node._id== selectednode}">
+          <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
+            {{ node.type ==='file' ? 'description' : 'folder' }}
+          </mat-icon>
+          <span class='name align21'>{{node.name}}</span>
+        </div>
+      </div>
+    </mat-tree-node>
+    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+      <div class="tree-node" (click)='selected(node)' *ngIf='dailogData.move._id!=node._id'>{{expand_more}}
+        {{chevron_right}}
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror" (click)='selected(node);' [ngClass]="{'high':node._id== selectednode}">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        <div (click)='selected(node)' (dblclick)="changeState(node)"
+          [ngClass]="{'move-highligh-icon':node._id== selectednode}">
+          <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
+            {{ node.type ==='file' ? 'description' : 'folder' }}
+          </mat-icon>
+          <span class='name align21'>{{node.name}}</span>
+        </div>
+      </div>
+    </mat-tree-node>
+  </mat-tree>
+</div>
+
+<div *ngIf='dailogData.multi'>
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" id="style-15" class="scorl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+      <div class="tree-node">
+        <button mat-icon-button disabled></button>
+        <div (click)='selected(node)' (dblclick)="changeState(node)"
+          [ngClass]="{'move-highligh-icon':node._id== selectednode}">
+          <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
+            {{ node.type ==='file' ? 'description' : 'folder' }}
+          </mat-icon>
+          <span class='name align21'>{{node.name}}</span>
+        </div>
+      </div>
+    </mat-tree-node>
+
+    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+      <div class="tree-node moveTochild" (click)='selected(node)'>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror" (click)='selected(node);' [ngClass]="{'high':node._id== selectednode}">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        <div (click)='selected(node)' (dblclick)="changeState(node)"
+          [ngClass]="{'move-highligh-icon':node._id== selectednode}">
+          <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
+            {{ node.type ==='file' ? 'description' : 'folder' }}
+          </mat-icon>
+          <span class='name align21'>{{node.name}}</span>
+        </div>
+      </div>
+    </mat-tree-node>
+  </mat-tree>
+</div>
+
+
+<div class="row mar-15">
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <button class="bor-bg" (click)="openNewFolderDialog()">
+      <i class="fas fa-folder-plus foldericon f0lderf0nt"></i>
+      <span>New Folder</span></button>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right movefile-width-button">
+    <button class="move-here-but " [ngClass]="{'move-here-but1':show1}" (click)="Move()">Move Here</button>
+  </div>
+</div>

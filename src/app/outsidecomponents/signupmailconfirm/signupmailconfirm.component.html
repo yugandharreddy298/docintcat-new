@@ -1,0 +1,139 @@
+<section class="bx-sh pl-topres bg-fff1">
+  <div class="container-fulid">
+    <nav class="navbar navbar-expand-lg navbar-light sh-none">
+      <a class="navbar-brand" href="#"><img src="assets/images/logo.svg" width="146px"></a>
+    </nav>
+  </div>
+</section>
+
+<section>
+  <button type="button" id='openModalButton' class="close no-bor-outlin" (click)="activateemail()"
+    style="display:none;">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <mat-card class="text-center mail-popup headfont p-3 sh-none">
+          <!-- link expired -->
+          <div *ngIf="mailstatus && mailstatus.linkstatus =='Link Expired' && userInfo && !activeastatus">
+            <div>
+              <h5 class="fon-22 fon-col1 fw-500" *ngIf="!show1">Link Expired</h5>
+              <p class="fon-18 fon-col2 fw-4" *ngIf="show || show1">We've Sent You a Confirmation Email.</p>
+            </div>
+            <div class="col-lg-5 m-auto pb-2">
+              <img src="assets/images/resendmail.png" width="150px">
+            </div>
+            <div class="fw-4 fon-col6 fon-18 pb-2" *ngIf="show || show1">
+              <p class="col-lg-6 col-md-12 col-sm-12 text-center m-auto">
+                Click the link in your email to confirm your account.
+                If you can't find the email check your spam folder or click the link
+                below to resend.
+              </p>
+
+            </div>
+            <div class="fw-500" *ngIf="!show">
+              <a (click)="resendEmailLink()" class="fon-18 fon-col3">Resend Confirmation Email </a>
+            </div>
+
+          </div>
+          <div *ngIf="show">
+            <countdown #countdown [config]="{leftTime: 120}" (finished)="finishTest()">$!m!:$!s!</countdown>
+          </div>
+          <div *ngIf="userInfo && activeastatus" style="transform: translate(0%,220px);">
+            <h5 class="fon-40 fon-col3 fw-5 txt2font ">Already User has been Verified.
+            </h5>
+            <div class="headfont">
+              <a href="#" class="fon-18 fw-5 fon-col3">Back to sign in</a>
+            </div>
+          </div>
+          <div *ngIf="invalduser">
+            <h5 class="fon-40 fon-col3 fw-5 txt2font alignmiddle">InValid Link. If you want to register click back to
+              signup
+            </h5>
+            <div class="headfont" *ngIf="invalduser">
+              <a href="#" class="fon-18 fw-5 fon-col3">Back to signup</a>
+            </div>
+          </div>
+          <div *ngIf="mailstatus && mailstatus.linkstatus=='Success' && userInfo && !activeastatus">
+            <div>
+              <h5 class="fon-40 fon-col3 fw-5 txt2font">Congratulations</h5>
+              <p class="fon-22 fon-col1 headfont fw-500">Your mail has been sucessfully verified</p>
+            </div>
+            <div class="col-lg-4 m-auto">
+              <img src="assets/images/success.png" width="80%" class="width12">
+            </div>
+            <div class="fw-3 fon-col6">
+            </div>
+
+            <div class="headfont">
+              <a href="#" class="fon-18 fw-5 fon-col3">Back to sign in</a>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer-bg d-show mt-60">
+  <div class="container headfont fon-16 fw-3">
+    <div class="row ">
+      <div class="col-lg-3 col-sm-12 col-xs-12 col-md-12">
+        <a><img src="assets/images/FLogo.svg"></a>
+      </div>
+      <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-5">
+        <a routerLink="/about">About us</a>
+      </div>
+      <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-5">
+        <a routerLink="/features">Features</a>
+      </div>
+
+      <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-5">
+        <a routerLink="/faq">FAQs</a>
+      </div>
+      <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-5 ps-0">
+        <a routerLink="/contact">Contact us</a>
+      </div>
+      <div class="col-lg-2 col-sm-12 col-xs-12 col-md-12 mt-5 ps-0 ">
+        <a routerLink="/privacy">Privacy</a><span class="privacy">/</span> <a routerLink="/termsandconditions">Terms &
+          Conditions</a>
+      </div>
+      <div class="col-lg-2 col-sm-12 col-xs-12 col-md-12 text-center pl-mt fl-pt fon-18">
+        <p class="white-colr ch-white">Follow us</p>
+
+        <span class="dot1 dot-bg3">
+          <i class="fab fa-facebook-f"></i>
+        </span>
+        <span class="dot1 dot-bg3 ml-3">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span class="dot1 dot-bg3 ml-3">
+          <i class="fab fa-twitter"></i>
+        </span>
+      </div>
+    </div>
+    <hr class="mb-0 hr-wh">
+    <div class="row headfont fon-14 fw-4 m-auto p-2 text-center">
+      <div class="col-12 white-colr ch-white pl-5">
+        © <span id="year">2019</span> All Rights reserved to DOC INTACT
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- ipad footer starts -->
+<section class="ipad-home-footer i-show headfont f00ter">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        © <span id="year">2019</span> All Rights reserved to DOC INTACT
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
+
+        <span class="dot1 dot-bg3"><i class="fab fa-facebook-f"></i></span>
+        <span class="dot1 dot-bg3 ml-3"><i class="fas fa-envelope"></i></span>
+        <span class="dot1 dot-bg3 ml-3"><i class="fab fa-twitter"></i></span>
+      </div>
+    </div>
+  </div>
+</section>

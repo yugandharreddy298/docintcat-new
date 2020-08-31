@@ -1,0 +1,26 @@
+/**
+ * Broadcast updates to client when the model changes
+ */
+
+'use strict';
+
+var Notification = require('./notification.model');
+
+exports.register = function(socket) {
+  Notification.schema.post('save', function (doc) {
+    onSave(socket, doc);
+  });
+  Notification.schema.post('remove', function (doc) {
+    onRemove(socket, doc);
+  });
+}
+
+function onSave(socket, doc, cb) {
+  socket.emit('notification:save', doc);
+  // socket.broadcast.emit('notification:save', doc);
+}
+
+function onRemove(socket, doc, cb) {
+  socket.emit('notification:remove', doc);
+  // socket.broadcast.emit('notification:remove', doc);
+}

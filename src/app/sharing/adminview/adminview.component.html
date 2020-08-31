@@ -1,0 +1,308 @@
+<!-- container   Start -->
+<div class="container-fluid ietop no-padding mrgn-top">
+  <div class="col-md-12 no-padding">
+    <!-- loader Start-->
+    <div class="loader" *ngIf="isloading"></div> 
+     <!-- loader End-->
+     <!--  File sharing status Start-->
+    <div clas="row">
+      <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 pad-tb-16 flx b0x1">
+            <mat-card class="matwidth dashbord-signature">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-xs-12 text-center m0b001">
+                  <div class="bgclr circle1">
+                    <img src="../../assets/images/files.png" width="30px">
+                  </div>
+                </div>
+                <div class="col-lg-9 col-md-9 text-center m0b0001">
+                  <p class="p-style clr3"> Files</p>
+                  <p class=" align num clr3" *ngIf="fileData"> {{this.fileData.length}}</p>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 pad-tb-16 flx b0x1">
+            <mat-card class="matwidth dashbord-signature1">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-xs-12 text-center m0b001">
+                  <div class="bgclr circle1">
+                    <img src="../../assets/images/wait-for-signature.png" width="30px">
+                  </div>
+                </div>
+                <div class="col-lg-9 col-md-9 text-center m0b0001">
+                  <p class="p-style clr1 x"> Shared</p>
+                  <p class=" align num clr1" *ngIf="pendingList"> {{pendingList.length}}</p>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 pad-tb-16 flx b0x1">
+            <mat-card class="matwidth dashbord-signature2">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center m0b001">
+                  <div class="bgclr circle1">
+                    <img src="../../assets/images/partially.png" width="30px">
+                  </div>
+                </div>
+                <div class="col-lg-9 col-md-9 text-center m0b0001">
+                  <p class="p-style clr2">Partially completed</p>
+                  <p class=" align num clr2" *ngIf="InprogressList"> {{InprogressList.length}}</p>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 pad-tb-16 flx b0x1">
+            <mat-card class="matwidth  dashbord-signature3">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-xs-12 text-center m0b001">
+                  <div class="bgclr circle1">
+                    <img src="../../assets/images/completed.png" width="30px">
+                  </div>
+                </div>
+                <div class="col-lg-9 col-md-9 text-center m0b0001">
+                  <p class="p-style clr3"> Completed</p>
+                  <p class=" align num clr3" *ngIf="completedList"> {{completedList.length}}</p>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  File sharing status End-->
+  </div>
+    <!--  No Files Start-->
+  <div *ngIf="fileData && fileData.length==0" class="text-center" style="padding-top: 20%;padding-bottom: 20%;">
+    <h3 class="color3">No Files Found</h3>
+  </div>
+     <!--  No Files Start-->
+
+  <!-- File View and File Viewtime charts Start  -->
+  <div class="col-md-12" style="margin-top: 30px;" [hidden]="!(fileData && fileData.length)">
+    <div>
+      <div class="row">
+        <!-- File Views  Start -->
+        <div class="col-lg-6 col-md-12 responsive-file-view mb-4">
+          <div class="box2">
+            <div class="file-view">
+              <h4>File Views</h4>
+            </div>
+            <div class="row mar-t-3r">
+              <div class="col-lg-4 no-padding width11">
+                <mat-form-field class="feildunderline feildunderline1 mt-field bg-remove selt wid-100"
+                  *ngIf="fileData && fileData.length && documentsIdList">
+                  <mat-select name="documentsIdList" [(ngModel)]="documentsIdList" multiple
+                    placeholder="{{myplaceHolder3}}">
+                    <mat-option (onSelectionChange)="Filelist($event);" *ngFor="let i of fileData" [value]="i._id">
+                      {{i.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 no-padding1 width11">
+                <div class="mar-t-1r">
+                  <mat-form-field class="feildunderline feildunderline1 mt-field bg-remove selt wid-100">
+                    <input matInput autocomplete="off" placeholder="{{Dateplaceholder1}}" #date5="bsDaterangepicker"
+                      bsDaterangepicker name="fileViewdate" [(ngModel)]="fileViewdate"
+                      (ngModelChange)="selectedDate('Custom Date',$event);nofilevIews=true;" [maxDate]="maxDate" [bsConfig]="bsConfig"
+                      readonly>
+                    <mat-icon matSuffix (click)="date5.toggle()" class="cursor cal-icon" title="Select date range"
+                      *ngIf="Dateplaceholder1!=null">date_range</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-lg-4 no-padding2 width11">
+                <ul class="dashboar-list">
+                  <li>(Or)</li>
+                  <li (click)="selectedDate('Today', false);showDate=false;nofilevIews=true;"><a
+                      [ngClass]="{'active': dateSelected == 'Today'}">Today</a></li>
+                  <li (click)="selectedDate('Yesterday', false);showDate=false;nofilevIews=true;"><a
+                      [ngClass]="{'active':dateSelected == 'Yesterday'}">Yesterday</a></li>
+                </ul>
+              </div>
+            </div>
+            <canvas id="fileView-chart" width="800" height="400"
+              *ngIf="documentsIdList && documentsIdList.length!=0"></canvas>
+            <div *ngIf="documentsIdList && documentsIdList.length==0" class="text-center"
+              style="padding-top: 22%;padding-bottom: 22%;">
+              <h3 class="color3" *ngIf="!nofilevIews">Please select atleast one file</h3>
+              <h3 class="color3" *ngIf="nofilevIews">No Files found on selected Date</h3>
+
+            </div>
+          </div>
+        </div>
+         <!-- File Views  End -->
+      <!-- File Viewing Time  Start -->
+        <div class="col-lg-6 col-md-12 responsive-file-view mb-4">
+          <div class="box2">
+            <div class="file-view">
+              <h4 class="col-md-12 align brdrbtm">File Viewing Time</h4>
+            </div>
+            <div class="row mar-t-3r">
+              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 no-padding width11">
+                <mat-form-field class="feildunderline feildunderline1 mt-field bg-remove selt wid-100"
+                  *ngIf="documentsIdTimingList && fileData && fileData.length">
+                  <mat-select name="documentsIdTimingList" [(ngModel)]="documentsIdTimingList" multiple
+                    placeholder="{{myplaceHolder2}}">
+                    <mat-option (onSelectionChange)="fileViewTimings($event)" *ngFor="let i of fileData"
+                      [value]="i._id">{{i.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 no-padding1 width11">
+                <div class="mar-t-1r">
+                  <mat-form-field class="feildunderline feildunderline1 mt-field bg-remove selt wid-100">
+                    <input matInput autocomplete="off" placeholder="{{Dateplaceholder2}}" #date6="bsDaterangepicker"
+                      bsDaterangepicker name="Devicedate" [(ngModel)]="Devicedate"
+                      (ngModelChange)="FilelistTiming($event);noFileviewTiming=true;" [maxDate]="maxDate" [bsConfig]="bsConfig" readonly>
+                    <mat-icon matSuffix (click)="date6.toggle()" class="cursor cal-icon" title="Select date range"
+                      *ngIf="Dateplaceholder2!=null">
+                      date_range
+                    </mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 no-padding2 width11">
+                <ul class="dashboar-list">
+                  <li>(Or)</li>
+                  <li (click)="FilelistTiming('today');showDate2=false;showtoday1=true;showyest1=false;noFileviewTiming=true"><a
+                      [ngClass]="{'active':showtoday1}">Today</a></li>
+                  <li (click)="FilelistTiming('yesterday');showDate2=false;showtoday1=false;showyest1=true;noFileviewTiming=true"><a
+                      [ngClass]="{'active':showyest1}">Yesterday</a></li>
+                </ul>
+              </div>
+            </div>
+            <canvas id="fileViewingTime-chart" width="800" height="400"
+              *ngIf="documentsIdTimingList && documentsIdTimingList.length!=0"></canvas>
+            <div *ngIf="documentsIdTimingList && documentsIdTimingList.length==0" class="text-center"
+              style="padding-top: 22%;padding-bottom: 22%;">
+              <h3 class="color3" *ngIf="!noFileviewTiming">Please select atleast one file</h3>
+              <h3 class="color3" *ngIf="noFileviewTiming">No Files found on selected Date</h3>
+
+            </div>
+          </div>
+        </div>
+          <!-- File Viewing Time  End -->
+      </div>
+    </div>
+  </div>
+    <!-- File View and File Viewtime charts End  -->
+
+  <!-- maps Chart Start -->
+  <div class="col-md-12" *ngIf="fileData && fileData.length">
+    <div class="row ">
+      <div class="col-md-12 col-md-12 col-lg-12 py-2">
+        <mat-card-title>
+          <div class="row pad-tb-1r">
+            <div class="col-lg-7">
+              <h4 class="col-md-12 align brdrbtm fon-24 i_col">File Views Country & City</h4>
+            </div>
+            <div class="col-lg-2 width11">
+              <div>
+                <mat-form-field class="feildunderline feildunderline1 mt-field bg-remove selt wid-100">
+                  <input matInput autocomplete="off" placeholder="{{Dateplaceholder3}}" #date1="bsDaterangepicker"
+                    bsDaterangepicker name="mapviewdate" [(ngModel)]="mapviewdate"
+                    (ngModelChange)="selectDatemap('Custom Date',$event)" [maxDate]="maxDate" [bsConfig]="bsConfig"
+                    readonly>
+                  <mat-icon matSuffix (click)="date1.toggle()" class="cursor cal-icon" title="Select date range"
+                    *ngIf="Dateplaceholder3!=null">
+                    date_range
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-2 width11">
+              <ul class="dashboar-list">
+                <li>(Or)</li>
+                <li (click)="todayDatamap('today');showDate=false;showtoday2=true;showyest2=false"><a
+                    [ngClass]="{'active':showtoday2}">Today</a></li>
+                <li (click)="todayDatamap('yesterday');showDate=false;showtoday2=false;showyest2=true"><a
+                    [ngClass]="{'active':showyest2}">Yesterday</a></li>
+              </ul>
+            </div>
+          </div>
+        </mat-card-title>
+        <mat-card-content>
+          <app-nearmaps *ngIf="profiledata" [yesterdaydate]='yesterdaydate' [todaydate]='todaydate' [email]='email'
+            name="location" #myMap height="500px"></app-nearmaps>
+        </mat-card-content>
+      </div>
+    </div>
+  </div>
+<!-- maps Chart End -->
+  <!-- file view device and status  Chart  Start-->
+  <div class="col-md-12" [hidden]="!(fileData && fileData.length)">
+    <div class="row mb-4">
+      <!-- File Viewing Device  Start -->
+      <div class="col-lg-6 col-md-12 responsive-file-view mb-4">
+        <div class="box2 box13">
+          <div class="file-view">
+            <h4>File Views In Devices</h4>
+          </div>
+          <div class="row mar-t-3r">
+            <div class="col-lg-4 no-padding width11">
+              <mat-form-field class="feildunderline feildunderline1 mt-field bg-remove selt wid-100"
+                *ngIf="fileData && fileData.length && documentsIdDevicesList">
+                <mat-select name="documentsIdDevicesList" [(ngModel)]="documentsIdDevicesList" multiple
+                  placeholder=" {{myplaceHolder}} ">
+                  <mat-option (onSelectionChange)="fileListDevices($event)" *ngFor="let i of fileData" [value]="i._id">
+                    {{i.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 no-padding1 width11">
+              <div class="mar-t-1r">
+                <mat-form-field class="feildunderline feildunderline1 mt-field bg-remove selt wid-100">
+                  <input matInput autocomplete="off" placeholder="{{Dateplaceholder4}}" #date1="bsDaterangepicker"
+                    bsDaterangepicker name="fileviewdate" [(ngModel)]="fileviewdate"
+                    (ngModelChange)="selectDate('Custom Date',$event);noDeviceViews=true;" [maxDate]="maxDate" [bsConfig]="bsConfig"
+                    readonly>
+                  <mat-icon matSuffix (click)="date1.toggle()" class="cursor cal-icon" title="Select date range"
+                    *ngIf="Dateplaceholder4!=null">date_range
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-4 no-padding2 width11">
+              <ul class="dashboar-list">
+                <li>(Or)</li>
+                <li (click)="selectDate('Today',false);showDate4=false;showtoday3=true;showyest3=false;noDeviceViews=true;"><a
+                    [ngClass]="{'active':showtoday3}">Today</a></li>
+                <li (click)="selectDate('Yesterday', false);showDate4=false;showtoday3=false;showyest3=true;noDeviceViews=true;"><a
+                    [ngClass]="{'active':showyest3}">Yesterday</a></li>
+              </ul>
+            </div>
+          </div>
+          <canvas id="fileViewDevice-chart" width="800" height="400"
+            *ngIf="documentsIdDevicesList && documentsIdDevicesList.length!=0"></canvas>
+          <div *ngIf="documentsIdDevicesList && documentsIdDevicesList.length==0" class="text-center"
+            style="padding-top: 22%;padding-bottom: 22%;">
+            <h3 class="color3" *ngIf="!noDeviceViews">Please select atleast one file</h3>
+            <h3 class="color3" *ngIf="noDeviceViews">No Files found on selected Date</h3>
+
+          </div>
+        </div>
+      </div>
+      <!-- File Viewing Device  End -->
+        <!-- Total Document Status Start -->
+      <div class="col-lg-6 col-md-12 responsive-file-view mb-4">
+        <div class="box2 box13">
+          <h4 class="col-md-12 align brdrbtm pad-tb-1r">Total Documents Status</h4>
+          <div class="pt-3 pb-5">
+            <canvas id="pie-chart" width="800" height="400"
+              *ngIf="(pendingList && pendingList.length!=0) || (InprogressList &&InprogressList.length!=0) || (completedList && completedList.length!=0)"></canvas>
+          </div>
+          <div
+            *ngIf="(pendingList && pendingList.length==0) && (InprogressList &&InprogressList.length==0) && (completedList && completedList.length==0)"
+            class="text-center" style="padding-top: 22%;padding-bottom: 23%;">
+            <h3 class="color3">Please share atleast one file</h3>
+          </div>
+        </div>
+      </div>
+       <!-- Total Document Status  End-->
+    </div>
+  </div>
+  <!-- file view device and status  Chart  End-->
+</div>
+<!-- container   End -->

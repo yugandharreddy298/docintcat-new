@@ -1,0 +1,88 @@
+<div class="loader" *ngIf="isloading"></div>
+<img src="assets/images/bgimg.png" width="15%" class="bgimg">
+<div class="container-fluid">
+  <div class="row top_header">
+
+
+
+    <div class="col-md-3 text-right">
+      <img class="logo" src="assets/images/logo.svg" width="233px" (click)="BackToHome()" style="cursor: pointer;">
+    </div>
+    <!-- <div class="col-md-6">
+      <form autocomplete="off" class="search-form ml-2" #searchForm="ngForm" 
+        name="searchForm">
+        <div class="d-flex justify-content-center h-100">
+          <div class="mobile-searchbar" style="display: none;">
+            <input aria-describedby="basic-addon2" aria-label="Recipient's username"
+              class="mobile_search_input ng-untouched ng-pristine ng-invalid" name="SearchValue" placeholder="Search"
+              required="" style="border-left:none;" type="text"  
+              [(ngModel)]="search" (paste)="test($event)"  accept='image/*'>
+            <mat-autocomplete class="mat-autocomplete">
+            
+            </mat-autocomplete>
+            <a class="mobile_search_icon" ><i class="fas fa-search"></i></a>
+          </div>
+        </div>
+      </form>
+    </div> -->
+    <div class="col-md-9 text-right">
+      <button class="btn btn-button" (click)="SignUp()">
+        Sign Up
+      </button>
+    </div>
+
+
+
+  </div>
+
+
+
+<div class="outer_div">
+  <div class="row pading">
+    <!-- <div class="col-md-12">
+      <h3 class="subhd">Folders</h3>
+    </div> -->
+    <nav aria-label="breadcrumb">
+      <ol  class="breadcrumb mb-0 p-0 bg-none1">
+        <li class="breadcrumb-item">
+          <a class="bc-ic-tx"> <h3 class="subhd" (click)="navigateback('root')">Folders</h3></a></li>
+          <li class="breadcrumb-item ng-star-inserted" *ngFor="let p of path">
+            <a  class="bc-ic-tx" (click)="navigateback(p)">
+              <i  class="fas fa-angle-right mx-2 i_col fon-12"></i> {{p.name}}</a>
+          </li>
+        </ol>
+      </nav>
+     
+  </div>
+  <hr class="horizon_line"  *ngIf="folderElements && folderElements.length!=0">
+  <div  class="col-lg-3 col-md-12 col-sm-12 m-auto" *ngIf="folderElements && folderElements.length==0 &&fileElements && fileElements.length==0 && !isloading">
+    <img  src="assets/images/noitems.png" width="100%">
+  </div>
+  <div class="row pading2" *ngIf="folderElements && folderElements.length!=0">
+    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 folder_img text-center"  *ngFor="let folders of folderElements">
+      <div (dblclick)="NavigateToFolder(folders)">
+        <img  src="assets/images/f0lder.png" width="45%">
+        <p class="filename">{{folders.name}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row pading" *ngIf="fileElements && fileElements.length!=0">
+    <div class="col-md-12">
+      <h3 class="subhd1">Files</h3>
+    </div>
+  </div>
+  <div class="row pading1" *ngIf="fileElements && fileElements.length!=0">
+    <div class="col-lg-2 col-md-4 text-center col-sm-6 col-xs-12" *ngFor="let files of fileElements">
+      <div (dblclick)="navigatetoFile(files)" class="file_img">
+        <img src="assets/images/pdf-image.png" width="40%">
+        <p class="filename">{{files.name}}</p>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+
+</div>

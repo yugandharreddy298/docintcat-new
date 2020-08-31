@@ -1,0 +1,302 @@
+<div *ngIf="!mobileLinkData && expired" class="center">
+  <div class="container">
+    <div class="row mt-4">
+      <img src="../../assets/images/errorimage.png" class="errorimage">
+    </div>
+    <div class="row mt-4">
+      <div class="error_button">
+        <a class="error_border">ERROR</a>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <p class="mb-0 error-text">Sorry, This Session has Expired</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isloader" class="loaderinmobile"><img src="assets/images/loader.gif"></div>
+
+<!--  For Signature -->
+<div *ngIf="mobileLinkData && (mobileLinkData.type=='signature' || mobileLinkData.type=='initial')">
+  <div [hidden]="openCrop" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin m-0 p-0">
+    <div class="box1">
+      <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12  p-txt-1">{{mobileLinkData.type | titlecase}}</p>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul class="listitems">
+          <li>
+            <a (click)="colorcodefun('#008000')">
+              <div class="circle green"></div>
+            </a>
+          </li>
+          <li>
+            <a (click)="colorcodefun('#0000FF')">
+              <div class="circle blue"></div>
+            </a>
+          </li>
+          <li>
+            <a (click)="colorcodefun('#000000')">
+              <div class="circle darkgreen"></div>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="box2-1">
+          <div style="display:inline;">
+            <ng-signature-pad format="base64" *ngIf="isOpenPad" (done)="showImage($event)"
+              [(points)]="signatureValidation" [penColor]='pencolor' [emitOnDragEnd]='true' [showDoneButton]='false'
+              (cleared)="clearsign()" [editable]='true' id="uploadCaptureInputFile" class="linkstyle" [height]="250"
+              [clearButtonClass]=sample [showClearButton]="true" [responsive]='true' [width]="windowWidth">
+            </ng-signature-pad>
+            <ng-signature-pad format="base64" *ngIf="!isOpenPad" (done)="showImage($event)" [showDoneButton]='false'
+              (cleared)="clearsign()" [editable]='true' id="uploadCaptureInputFile" class="linkstyle" [height]="250"
+              [clearButtonClass]=sample [showClearButton]="true" [responsive]='true' [width]="windowWidth">
+            </ng-signature-pad>
+            <button class="btn btn-default btnstyle1" (click)="signatureNext('signature')">Next</button>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="openCrop && !submitted" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin m-0 p-0">
+    <div class="row box1">
+      <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12  p-txt-1">{{mobileLinkData.type | titlecase}}</p>
+      <div class="col-sm-12">
+        <div>
+          <image-cropper *ngIf="isOpenPad" class="cropimagesize" [imageBase64]="signatureImage"
+            [maintainAspectRatio]="false" format="png" (imageCropped)="imageCropped($event)"
+            (loadImageFailed)="loadImageFailed()"
+            [imageQuality]="100">
+          </image-cropper>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div *ngIf="croppedImage">
+          <img [src]="croppedImage" width="100%" />
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <ul class="ulitems">
+        <li><button class="btn btn-default btnstyle3" style="margin-left:0px;" [disabled]="isloader"
+            (click)="back();">Back</button></li>
+        <li><button class="btn btn-default btnstyle2" style="margin-left: 15px;" [disabled]="isloader"
+            (click)="Save()">Save</button></li>
+      </ul>
+    </div>
+  </div>
+  <div *ngIf="submitted" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin p-0 m-0">
+    <div class="box1">
+      <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12  p-txt-3">{{mobileLinkData.type | titlecase}}</p>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div *ngIf="croppedImage" class="box2-3 row align-items-center justify-content-center">
+          <img [src]="croppedImage" width="100%">
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="message">{{mobileLinkData.type | titlecase}} saved successfully
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  For Signature End -->
+
+<!--  For Photo -->
+<div *ngIf="mobileLinkData && mobileLinkData.type=='photo'">
+  <div [hidden]="openCrop">
+    <div *ngIf="!showWebcam" style="text-align:center">
+      <button type="button" class="btn btn-primary" (click)="showWebcam=true">Open Camera</button>
+    </div>
+    <div *ngIf="showWebcam" style="text-align:center">
+      <div *ngIf="!webcamImage">
+        <h5 class="mt-3 mb-3">Capture Your Photo</h5>
+        <div>
+          <webcam [height]="230" [style.width.%]="100" [trigger]="triggerObservable"
+            (imageCapture)="handleImage($event)" *ngIf="showWebcam" [allowCameraSwitch]="allowCameraSwitch"
+            [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"
+            (cameraSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)"></webcam>
+        </div>
+        <br />
+        <button *ngIf="!webcamImage && !errors.length" type="button" class="btn btn-default video-button"
+          (click)="triggerSnapshot();openCrop=true" title="Take Picture">
+          <mat-icon style="display: flex;">photo_camera</mat-icon>
+        </button>&nbsp;&nbsp;
+        <button *ngIf="!webcamImage && !errors.length" type="button" class="btn btn-secondary video-button"
+          (click)="showNextWebcam(true);" title="Switch Camera">
+          <mat-icon style="display: flex;">switch_camera</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="openCrop && !submitted" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin m-0 p-0">
+    <div class="box1">
+      <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12  p-txt-1">Photo</p>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="box2-2">
+          <div class="div1">
+            <div>
+              <image-cropper [imageBase64]="webcamImage.imageAsDataUrl" [maintainAspectRatio]="false" format="png"
+                (imageCropped)="imageCropped($event)"
+                (loadImageFailed)="loadImageFailed()" [imageQuality]="100" [style.height.px]="200"></image-cropper>
+            </div>
+          </div>
+          <div class="vl"></div>
+          <hr class="hrstyle">
+          <div class="div2">
+            <div class="col-md-12 align">
+              <div *ngIf="croppedImage" class="mobile-image-link">
+                <img [src]="croppedImage" width="100%">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul class="ulitems">
+          <li><button class="btn btn-default video-back-button" style="margin-left:0px;" [disabled]="isloader"
+              (click)="Cancel()">Back</button></li>
+          <li><button class="btn btn-default video-save-button" style="margin-left: 15px;" [disabled]="isloader"
+              (click)="photoSubmit()">Save</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="submitted" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin p-0 m-0">
+    <div class="box1">
+      <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12  p-txt-3">Photo</p>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div *ngIf="croppedImage" class="box2-3 row align-items-center justify-content-center">
+          <img [src]="croppedImage" width="100%">
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="message">Photo saved successfully
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  For Photo End -->
+
+<!--  For Stamp End-->
+<div *ngIf="mobileLinkData && mobileLinkData.type=='stamp'">
+  <div [hidden]="openCrop">
+    <div class="col-md-12 bgclr">
+      <div class="col-md-4 mrgn">
+        <div class="box1_1">
+          <img src="assets/images/upldimg.png" class="imgstyle imgmrgn pointer">
+          <div class="filecontent" >
+            <label class="pstyle" for="upload-file">Choose Image</label>
+            <input id="upload-file" class="upldfile" type="file" name="stamp" accept=".png, .jpeg , .jpg"
+              (change)="onFileSelected($event,'stamp')" (click)="changeFileInput($event)"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="imageFile && openCrop && !submitted" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin m-0 p-0">
+    <div class="box1">
+      <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12  p-txt-1">Stamp</p>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="box2-2">
+          <div class="div1">
+            <div>
+              <image-cropper [imageChangedEvent]="imageFile" [maintainAspectRatio]="false" format="png"
+                (imageCropped)="imageCropped($event)" 
+                (loadImageFailed)="loadImageFailed()" [imageQuality]="100"></image-cropper>
+            </div>
+          </div>
+          <div class="vl"></div>
+          <hr class="hrstyle">
+          <div class="div2">
+            <div class="col-md-12 align">
+              <div *ngIf="croppedImage">
+                <img [src]="croppedImage" width="100%" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul class="ulitems">
+          <li><button class="btn btn-default stamppad-back-button" style="margin-left:0px;" [disabled]="isloader"
+              (click)="Cancel()">Back</button></li>
+          <li><button class="btn btn-default stamppad-save-button" style="margin-left: 15px;" [disabled]="isloader"
+              (click)="stampSubmit()">Save</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="submitted" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin p-0 m-0">
+    <div class="box1">
+      <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12  p-txt-3">Stamp</p>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div *ngIf="croppedImage" class="box2-3 row align-items-center justify-content-center">
+          <img [src]="croppedImage" width="100%">
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="message">Stamp saved successfully
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  For Stamp End -->
+
+<div>
+  <app-aunthicate *ngIf='authenticate' [authIputSend]="authIput" (closeModel)="modelClosing($event)"></app-aunthicate>
+  <button type="button" hidden  data-keyboard="false" data-toggle="modal"
+    data-target="#messageModal" id="modalOpenBtn">Modal Open</button>
+  <!-- Message Modal  -->
+  <div class="modal" id="messageModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header" style="justify-content: end ; border-bottom: none;">
+          <button type="button" class="close" id="modalClosBtn" data-dismiss="modal"
+            (click)="closemsgmodal()">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body container">
+          <div *ngIf="!camLoaderSuccess && !camLoaderFail">
+            <div class="row align-items-center " style="text-align: center;">
+              <div style="width:100%; ">
+                <div class="preloader"></div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="camLoaderSuccess && !camLoaderFail">
+            <div class="row align-items-center " style="text-align: center;">
+              <div style="width:100%; "><img src="assets/images/Group7538.png"> </div>
+              <div class="hr-w text-center">
+                <h4 style="color:#79DE53">Sucessfully Verified</h4>
+              </div>
+              <div style="width:100%;color:#000000 ">Your face authentication was successfully verified.
+                Please click on Submit button for confirm the photo.</div>
+              <div style="width:100%; color:red" *ngIf="expired">{{errorres}}</div>
+            </div>
+            <div class="row align-items-center justify-content-center" style="padding: 30px">
+              <button type="button" class="btn side_bg" (click)="setPhoto();closemsgmodal()">
+                <img *ngIf="otploader" src="../assets/newloader.gif" />Submit</button>
+            </div>
+          </div>
+          <div *ngIf="!camLoaderSuccess && camLoaderFail">
+            <div class="row align-items-center " style="text-align: center;">
+              <div class="hr-w"><img src="/assets/images/Group7542.png"> </div>
+              <div class="hr-w text-center">
+                <h4 style="color:#F05228">Not Verified</h4>
+              </div>
+              <div style="width:100%;color:#000000 ">Your authentication was failed!. Please click to Retry
+                button for try again.</div>
+            </div>
+            <div class="row align-items-center justify-content-center" style="padding: 30px"><button type="button"
+                class="btn  side_bg" (click)="retry()">Retry</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

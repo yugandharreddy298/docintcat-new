@@ -1,0 +1,28 @@
+<div *ngIf='show && !expired'>
+  <div class="row">
+    <div class="col-6 ">
+    </div>
+    <div class="col-6" class="tex-rit">
+      Sign In to continue..
+      <a class="nav-link waves-effect waves-light">
+        <button type="button" class="sign-in-but" (click)=signInPage()>Sign in</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="sharedocument && sharedocument.validity == 'expired'" class="center">
+  <div class="container">
+    <div class="row mt-4">
+      <img src="../../assets/images/errorimage.png" class="errorimage">
+    </div>
+    <div class="row mt-4">
+      <div class="error_button">
+        <a class="error_border">ERROR</a>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <p class="mb-0 error-text">Sorry, This Session has Expired</p>
+    </div>
+  </div>
+</div>

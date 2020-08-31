@@ -1,0 +1,649 @@
+<!-- select options -->
+<div *ngIf="!title" class="pt-0">
+  <button type="button" class="close no-bor-outlin login-cls-btn pad-15" mat-dialog-close id="sharepopio"
+    aria-label="Close">
+    <span aria-hidden="true" class="pad-all-20">&times;</span>
+  </button>
+
+  <div mat-dialog-title class="modalheadbox">
+    <h4 class="selectionheading">Select Your Option</h4>
+  </div>
+  <mat-dialog-content class="select-option-pad " style="margin: 0 1rem 0 2rem !important;">
+    <div class="row bodycontent row-hei-pop-invidual">
+      <div class="col-md-6 col-lg-6 col-sm-6 " id="defaultExample1" (click)="selectTypeIndividual()">
+        <div class="individualbox" [ngClass]="{ 'individualbox-active': individualclick}">
+          <div class="tick-mark" [ngClass]="{ 'tick-mark-active': individualclick}">
+            <div class="individualbox1" [ngClass]="{ 'individualbox1-active': individualclick}">
+              <h4 class="individualheading">Individual</h4>
+              <p class="individualcontent ">Make Sure you're sharing the file (s) to an individual who is not from your
+                organization.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-lg-6 col-sm-6 " (click)="selectTypeOrganization()">
+        <div class="organisationbox" [ngClass]="{ 'organisationbox-active': organisationclick}">
+          <div class="tick-mark" [ngClass]="{ 'tick-mark-active': organisationclick}">
+            <div class="organisationbox1" [ngClass]="{ 'organisationbox1-active': organisationclick}">
+              <h4 class="organisationheading">Organization</h4>
+              <p class="organisationcontent ">Share your files simply by selecting the respective department within the
+                organization.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </mat-dialog-content>
+</div>
+
+<!--------------------------------------------------------- organisation---------------------------------------------------------------->
+<div *ngIf="title=='Organisation'" class="pad-24">
+  <div class="loader" *ngIf="isloading"></div>
+
+  <button type="button" class="close no-bor-outlin login-cls-btn closebtn f" mat-dialog-close aria-label="Close">
+    <span aria-hidden="true" class="pad-all-20">&times;</span>
+  </button>
+
+  <h4 *ngIf="dailogdata.multi" class=" w-100" id="myModalLabel">
+        <span class="popupheading">Share For Review (<span
+          *ngIf="dailogdata.content.files.length >=1 &&dailogdata.content.folders.length >=1">{{dailogdata.content.files.length}}
+          Files </span>
+          <span
+          *ngIf="dailogdata.content.files.length == 1 && dailogdata.content.folders.length == 0 ">{{dailogdata.content.files[0].name}}
+           </span>
+           <span
+           *ngIf="dailogdata.content.files.length >1 &&dailogdata.content.folders.length == 0">{{dailogdata.content.files.length}}
+           Files </span>   
+  <span
+          *ngIf="dailogdata.content.folders.length >=1 && dailogdata.content.files.length >=1">and
+  </span>
+  <span
+  *ngIf="dailogdata.content.folders.length == 1 && dailogdata.content.files.length == 0">{{dailogdata.content.folders[0].name}}
+   </span>
+   <span *ngIf="dailogdata.content.folders.length >1  && dailogdata.content.files.length == 0">{{dailogdata.content.folders.length}}
+          Folders</span>
+  <span *ngIf="dailogdata.content.folders.length >=1  && dailogdata.content.files.length >=1">{{dailogdata.content.folders.length}}
+          Folders</span>)</span>
+  </h4>
+
+
+  <h4 *ngIf="!dailogdata.multi" class=" w-100" id="myModalLabel" [ngClass]="{'f':!dailogdata.multi}">
+    <img src="assets/images/Group2564.png" *ngIf="dailogdata.content.isFile">&nbsp;&nbsp;<span
+      class="popupheading textstyle11" *ngIf="dailogdata.content.isFile">{{dailogdata.content.name}}</span>
+    <img src="assets/images/Group3389.png" *ngIf="dailogdata.content.isFolder">&nbsp;&nbsp;<span
+      class="popupheading textstyle11" *ngIf="dailogdata.content.isFolder">{{dailogdata.content.name}}</span>
+
+  </h4>
+  <!--======================================================Departmentshare===================================================================== -->
+  <div class="row" *ngIf='!hlevelad'>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 43px;"
+      *ngIf="!dailogdata.multi && dailogdata.content && (dailogdata.content.isFile || dailogdata.content.isFolder) && !hlevelad && !updatedepartment">
+      <div class="row">
+        <div class="col-lg-4 offset-lg-2 col-md-6 col-sm-12 col-xs-12  custom-control custom-radio">
+          <input type="radio" class="custom-control-input" id="defaultGroupExample1" [(ngModel)]="Sharetype"
+            value='Review' (change)='Radiochange(Sharetype)' name="Sharetype">
+          <label class="custom-control-label fon-16 txt2font color-3 fw-3 radiioo" for="defaultGroupExample1">Share For
+            Review</label>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  custom-control custom-radio  ml-lg-0"
+          [ngClass]="{'disableclick': (currentVersionFieldValues && currentVersionFieldValues.length) || dailogdata.content.isFolder }">
+          <input type="radio" class="custom-control-input" id="defaultGroupExample2" [(ngModel)]="Sharetype"
+            value='Signature' (change)='Radiochange(Sharetype)' name="Sharetype">
+          <label class="custom-control-label fon-16 txt2font color-3 fw-3 radiiooo" for="defaultGroupExample2">Share For
+            Signature</label>
+        </div>
+      </div>
+    </div>
+
+    <hr class="col-md-12 hrline">
+    <div class="col-lg-12 testingggg scroll-style m0bstyle">
+      <div class="col" *ngIf='!updatedepartment'>
+        <form #shareform="ngForm" (ngSubmit)="Share(shareform)">
+          <div class="modal-body">
+            <div class="row top-1">
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <label class="labelfont">Department to Share</label>
+                <mat-form-field class="wid-100 fieldstyle1">
+                  <mat-label>Select Department to Share</mat-label>
+                  <mat-select disableRipple #mySelect name="access" [(ngModel)]="department" name='department'
+                    disableOptionCentering="boolean" (selectionChange)="departmentSelection(department); selectall=true"
+                    #department1="ngModel" multiple>
+                    <mat-option *ngFor='let i of departments' [value]="i._id">{{i.deptname}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- ========================DepartmentHierarchy-============================= -->
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngIf="employeedata.length>1 && !dailogdata.multi">
+                <label class="btnstyle" (click)="hlevelad=true">Hierarchy Level</label>
+              </div>
+            </div>
+            <!-- ==================================select-department-heading ends================== -->
+
+            <div class="row" *ngIf='!updatedepartment'>
+
+
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <label class="labelfont">User Access</label>
+                <mat-form-field class="wid-100  feildunderline feildunderline1 line11 fontt11">
+                  <mat-select disableRipple name="access" [(ngModel)]="access" disableOptionCentering="boolean"
+                    (ngModelChange)="accessoptionchanges(access)" #access1="ngModel">
+                    <mat-option value="Allowusers">Login with Access</mat-option>
+                    <mat-option value="public">Public</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <label class="labelfont">Expiry Date & Time</label>
+                <input placeholder="DD/MM/YYYY" [owlDateTime]="dt1" class="datepicker datef0nt height112" [min]=minDate
+                  name="access_expirydate" [(ngModel)]="access_expirydate" (ngModelChange)="expirydatechanges(access_expirydate)" 
+                  #event_date_time1="ngModel" [owlDateTimeTrigger]="dt1" readonly>
+                <owl-date-time [hour12Timer]="true" panelClass="datepicker-overlay" #dt1></owl-date-time>
+                <i class="fa fa-times-circle close-but-in-calender1 cl0sebut" *ngIf='access_expirydate' style="cursor: pointer"
+                  (click)="access_expirydate=null"></i>
+                <i class="far fa-calendar-alt calendericon123 expiry0 calend" aria-hidden="true" [owlDateTimeTrigger]="dt1"></i>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngIf='(dailogdata.content.files && dailogdata.content.files.length) || dailogdata.content.isFile'>
+                <label class="labelfont">Share Access</label>
+                <mat-form-field class="wid-100  fieldstyle1 fontt11">
+                  <mat-select disableRipple name="shareAccess" disableOptionCentering="boolean"
+                    [(ngModel)]="shareAccess" (ngModelChange)="shareaccesschanges(shareAccess)" multiple>
+                    <mat-option *ngFor="let i of accesmodeList" [value]="i.value">{{i.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
+            </div>
+
+
+            <div class="col-md-4 p-0" *ngIf='!updatedepartment'>
+
+              <div class="divsharecalender">
+                <input type="checkbox" name="pin" [(ngModel)]="pin" (ngModelChange)="pinchange(pin)"> PIN
+                <div *ngIf="pin">
+                  <span class="shaces drpdn">Enter PIN</span><br>
+                  <input type = "{{passwordtype}}" class="inputfield inputfield-pin form-control wdth" name="filepassword"
+                    autocomplete="new-password" required [(ngModel)]="filepassword" pattern="^[0-9]{4,6}$"  maxlength="6"
+                    (ngModelChange)="passwordupdatechanges(filepassword)" #password134='ngModel'>
+                    <i class="{{passwordIcon}} ic0nn" (click)='hideShowPassword()' (keypress)="numberOnly($event)" aria-hidden="true"></i>
+                    <!-- <div class="text-danger sml-danger-txt" *ngIf="password134.invalid && password134.errors.pattern">
+                    Must be Number with 4 to 6 Range </div> -->
+                     <div class="text-danger sml-danger-txt" *ngIf="filepassword && filepassword.length<6">
+                      Must be of 6 numeric characters </div>
+                </div>
+              </div>
+            </div>
+            <div class="top-1" *ngIf='!updatedepartment'>
+              <div class="form-group" style="width: 100%;">
+                <textarea class="form-control rounded-0 txtcss" id="exampleFormControlTextarea2" name="message"
+                  [(ngModel)]="message" (ngModelChange)="messagechanges(message)" rows="3"
+                  placeholder="Type Your Message Here"></textarea>
+              </div>
+            </div>
+            <!-- ==========================================================fileds ends ============================================================================ -->
+
+            <!-- ===================================================users info starts============================================================================== -->
+
+
+            <div class="row" *ngIf="employeevalues.length>0 && showselection">
+              <div class="col-md-1 col-sm-3 col-xs-3 wdth">
+                <div class="custom-control custom-checkbox mb-3 ml">
+                  <input type="checkbox" id="customCheck1" class="custom-control-input" name="selectall"
+                    [(ngModel)]="selectall" (ngModelChange)="selectallchange(selectall,'share')">
+                  <label class="custom-control-label" for="customCheck1"></label>
+                </div>
+              </div>
+
+              <label class="col-md-6 col-sm-6 col-xs-6 wdth">Select all</label>
+              <div class="col-md-12">
+                <mat-card class="gap-bw-cads bor-non boxshdw" *ngFor="let i of employeevalues;let j=index">
+                  <div class="combodiv cntrdiv">
+                    <div class="row bx-shad">
+                      <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 checkbox-pad">
+                        <div class="custom-control custom-checkbox mb-3 mt-10">
+                          <input type="checkbox" id="{{j}}-customCheck" class="custom-control-input"
+                            name="checkbox[{{j}}]" [(ngModel)]="i.checkbox"
+                            (ngModelChange)="singlecheckboxchanges(j,i.checkbox)">
+                          <label class="custom-control-label" for="{{j}}-customCheck"></label>
+                        </div>
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 flx ps-0">
+                        <span class="mailpad">
+                          <ngx-avatar [name]="i.fname">
+                          </ngx-avatar>
+                        </span>
+                        <span class="pad-user">
+                          <p class="zero-marg fon-14">{{i.fname}}</p>
+                          <p class="zero-marg fon-14">{{i.email}}</p>
+                        </span>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ps-0 text-center bot-but-pad">
+                        <button type="button" class="bor-non bg-none1" data-toggle="collapse" [attr.id]="i._id"
+                          [attr.data-target]="'#aaa' + i._id"> <i *ngIf="!i.cross" class="fas fa-pen penicn"
+                            data-toggle="collapse" [attr.data-target]="'#aaa' + i._id" (click)="i.cross=true"></i>
+                          <i *ngIf="i.cross" class="fas fa-times cross" data-toggle="collapse"
+                            [attr.data-target]="'#aaa' + i._id" (click)="i.cross=false"></i></button>
+                        <button type="button" class="bor-non bg-none1" (click)="removesharing(j)">
+                          <i class="far fa-trash-alt deleteicn"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="row mrgngp collapse cntraln only-bx-shd mrgn001" [id]="'aaa'+i._id">
+                      <div id="exTab3" class="container navcontainer">
+                        <div class="tab-content clearfix spacecss">
+                          <div class="tab-pane active">
+                            <div class="navcontainer  text-center pdd-30" *ngIf="!dailogdata.multi">
+                              <!-- Radio button-->
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" (click)="shareRadioChange(i,'Review')" class="custom-control-input"
+                                  [id]="'#defaultInline1' + i._id" [(ngModel)]="i.Sharetype" value='Review'
+                                  name="Sharetype[{{j}}]">
+                                <label class="custom-control-label" [for]="'#defaultInline1' + i._id">Share
+                                  For
+                                  Review</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline"
+                                [ngClass]=" {'disableclick':(currentVersionFieldValues && currentVersionFieldValues.length)}">
+                                <input type="radio" (click)="shareRadioChange(i,'Signature')"
+                                  class="custom-control-input" [id]="'#defaultInline2' + i._id"
+                                  [(ngModel)]="i.Sharetype" value='Signature' name="Sharetype[{{j}}]">
+                                <label class="custom-control-label" [for]="'#defaultInline2' + i._id">Share
+                                  For
+                                  Signature</label>
+                              </div>
+                            </div>
+                            <div class="row pdd-30">
+                              <div class='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+                                <label class="labelfont">User Access</label>
+                                <mat-form-field class="wid-100  feildunderline feildunderline1 line11 fontt11">
+                                  <mat-select disableRipple name="access[{{j}}]" [(ngModel)]="i.access"
+                                    #access1="ngModel" disableOptionCentering="boolean">
+                                    <mat-option value="Allowusers">Login with Access</mat-option>
+                                    <mat-option value="public">Public</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+                              </div>
+                              <div class='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+                                <label class="labelfont">Expiry Date & Time</label>
+                                <input [owlDateTime]="dt1" class="datepicker datef0nt height112"
+                                  name="access_expirydate[{{j}}]" [(ngModel)]="i.access_expirydate"
+                                  (ngModelChange)="singleexpirydatechanges(j,i.access_expirydate)" [min]=minDate
+                                  #event_date_time1="ngModel" [owlDateTimeTrigger]="dt1" placeholder="DD/MM/YYYY">
+                                <owl-date-time #dt1></owl-date-time>
+                                <i class="fa fa-times-circle close-but-in-calender1 cl0sebut" *ngIf='i.access_expirydate' style="cursor: pointer"
+                                (click)="i.access_expirydate=null"></i>
+                              <i class="far fa-calendar-alt calendericon123 expiry0 calend" aria-hidden="true" [owlDateTimeTrigger]="dt1"></i>
+                              </div>
+
+                              <div class='col-lg-4 col-md-6 col-sm-12 col-xs-12' *ngIf='(dailogdata.content.files && dailogdata.content.files.length) || dailogdata.content.isFile'>
+                                <label class="labelfont">Share Access</label>
+                                <mat-form-field class="wid-100 fieldstyle1 fontt11">
+                                  <mat-select disableRipple name="shareAccess[{{j}}]" disableOptionCentering="boolean"
+                                    [(ngModel)]="i.shareAccess" multiple>
+                                    <mat-option *ngFor="let i of accesmodeList" [value]="i.value">{{i.name}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-4">
+                                <div class="divsharecalender">
+                                  <input type="checkbox" name="pin[{{j}}]" [(ngModel)]="i.pin" (ngModelChange) = "RadioChange(i.pin, j)"> PIN
+                                  <div *ngIf="i.pin">
+                                    <span class="shaces drpdn labelfont">Enter PIN</span><br>
+                                    <input type = "{{i.passwordtype}}" class="inputfield inputfield-pin form-control"
+                                      name="filepassword[{{j}}]" autocomplete="new-password" required
+                                      pattern="^[0-9]{4,6}$" [(ngModel)]="i.filepassword" #password134='ngModel' maxlength="6" (keypress)="numberOnly($event)"  (ngModelChange) = "PINModelChange($event, j)">
+                                      <i class="{{i.passwordIcon}}  iicon" (click)='hideShowPasswordUpdate(i)' aria-hidden="true"></i>
+                                      <div class="text-danger sml-danger-txt" *ngIf="i.filepassword && i.filepassword.length<6">
+                                        Must be of 6 numeric characters </div>
+                                  </div>
+                                </div>
+                              </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <button type="button" [disabled] = "PINDisable[j] && i.pin" (click)="savechanges(i,'save',j); i.cross = false"
+                                  class="pop-save-but pull-right" >Save</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+
+            <!-- ==========================================================users info ends============================================ -->
+            <div *ngIf="!dailogdata.multi && !showselection && sharedwith?.length>0">
+              <div>
+                <p class="shared-wit">Shared with Departments:</p>
+                <hr>
+              </div>
+
+              <!-- ========================mat-chips  starts  -============================= -->
+              <div class="departs-chips-hei">
+                <div class="row">
+                  <div class="col-lg-3 application-but" *ngFor='let i of sharedwith'>
+                    <p class="zero-marg fon-14 " (click)="departmentdetail(i.Sharedwith);updatedepartment=true">
+                      {{i.department_name}}</p>
+                    <button type="button" class="into-but" (click)="removedepart(i.Sharedwith,i.department_id)"><img
+                        src="assets/images/Group4010.png"></button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!-- ========================mat-chips ends-============================= -->
+
+
+
+
+            <!-- =============================share with departments ends=================================== -->
+            <div class="modal-footer footer-pad-mar">
+              <div class="col-md-12">
+                <div class="row pull-right">
+                  <ul class="listitems">
+                    <li><button type="submit" [disabled]="submitted || (pin && pinDisable)" class="share-but">Share</button></li>
+                    <li *ngIf="showselection && !dailogdata.multi"><button *ngIf="showselection" type="button"
+                        class="share-but"
+                        (click)="showselection=false; department=''; employeedata=[]; selectall=true">Back</button></li>
+                    <li><button type="button" class="close-but" data-dismiss="modal" (click)="close()">Close</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- ========================DepartmentUpdate-============================= -->
+
+
+      <div class="col-lg-12 top-1" style="margin: 0 auto" *ngIf='updatedepartment'>
+        <form #shareupdateform="ngForm" (ngSubmit)="updateAll(shareupdateform)">
+          <div>
+            <p class="shared-wit">Shared with Departments:</p>
+            <hr>
+          </div>
+
+          <!-- ========================mat-chips  starts  -============================= -->
+          <div class="top-1">
+            <div class="row">
+              <div class="col-lg-3 application-but" *ngFor='let i of sharedwith'>
+                <p class="zero-marg fon-14 pointer" (click)="departmentdetail(i.Sharedwith)">{{i.department_name}}</p>
+                <button type="button" (click)="removedepart(i.Sharedwith,i.department_id)" class="into-but"><img
+                    src="assets/images/Group4010.png"></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 top-1"
+            *ngIf="!dailogdata.multi && dailogdata.content && dailogdata.content.isFile">
+            <div class="row">
+              <div class="col-lg-4 offset-lg-2 col-md-12 col-sm-12 col-xs-12  custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="defaultGroupExample1" [(ngModel)]="Sharetype"
+                  value='Review' (change)='Radiochange(Sharetype)' name="Sharetype">
+                <label class="custom-control-label fon-16 txt2font color-3 fw-3" for="defaultGroupExample1">Share For
+                  Review</label>
+              </div>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12  custom-control custom-radio ml-3 ml-md-2 ml-lg-0"
+                [ngClass]=" {'disableclick':(currentVersionFieldValues && currentVersionFieldValues.length)}">
+                <input type="radio" class="custom-control-input" id="defaultGroupExample2" [(ngModel)]="Sharetype"
+                  value='Signature' (change)='Radiochange(Sharetype)' name="Sharetype">
+                <label class="custom-control-label fon-16 txt2font color-3 fw-3" for="defaultGroupExample2">Share For
+                  Signature</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row top-1">
+
+            <div class="col-lg-4">
+              <label class="labelfont">User Access</label>
+              <mat-form-field class="wid-100 feildunderline feildunderline1 line11 fontt11">
+                <mat-select disableRipple name="access" [(ngModel)]="access"
+                  (ngModelChange)="accessoptionchanges(access)" #access1="ngModel">
+                  <mat-option value="Allowusers">Login with Access</mat-option>
+                  <mat-option value="public">Public</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <label class="labelfont">Expiry Date & Time</label>
+              <input [owlDateTime]="dt1" class="datepicker datef0nt height112" [min]=minDate name="access_expirydate"
+                [(ngModel)]="access_expirydate" (ngModelChange)="expirydatechanges(access_expirydate)"
+                #event_date_time1="ngModel" [owlDateTimeTrigger]="dt1" placeholder="DD/MM/YYYY">
+              <owl-date-time #dt1></owl-date-time>
+              <i class="fa fa-times-circle close-but-in-calender1 cl0sebut" *ngIf='access_expirydate' style="cursor: pointer"
+              (click)="access_expirydate=null"></i>
+            <i class="far fa-calendar-alt calendericon123 expiry0 calend" aria-hidden="true" [owlDateTimeTrigger]="dt1"></i>
+            </div>
+            <div class="col-lg-4" *ngIf='(dailogdata.content.files && dailogdata.content.files.length) || dailogdata.content.isFile'>
+              <label class="labelfont">Share Access</label>
+              <mat-form-field class="wid-100 fieldstyle1 fontt11">
+
+                <mat-select disableRipple name="shareAccess" [(ngModel)]="shareAccess"
+                  (ngModelChange)="shareaccesschanges(shareAccess)" multiple>
+                  <mat-option *ngFor="let i of accesmodeList" [value]="i.value">{{i.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+
+          </div>
+          <div class="col-md-4 p-0">
+            <div class="divsharecalender">
+              <input type="checkbox" name="pin" [(ngModel)]="pin" (ngModelChange)="pinchange(pin)"> PIN
+              <div *ngIf="pin">
+                <span class="shaces drpdn labelfont">Enter PIN</span><br>
+                <input type = "{{passwordtype}}" class="inputfield inputfield-pin form-control width wdth" name="filepassword"
+                  autocomplete="new-password" required [(ngModel)]="filepassword" pattern="^[0-9]{4,6}$"  maxlength="6"
+                  (ngModelChange)="passwordupdatechanges(filepassword)"(keypress)="numberOnly($event)"   #password134='ngModel' placeholder="">
+                  <i class="{{passwordIcon}} ic0nn" (click)='hideShowPassword()' aria-hidden="true"></i>
+                  <div class="text-danger sml-danger-txt" *ngIf="filepassword && filepassword.length<6">
+                    Must be of 6 numeric characters </div>
+              </div>
+            </div>
+          </div>
+          <div class="top-1">
+            <div class="form-group" style="width: 100%;">
+              <textarea class="form-control rounded-0 txtcss" id="exampleFormControlTextarea2" name="message"
+                [(ngModel)]="message" (ngModelChange)="messagechanges(message)" rows="3"
+                placeholder="Type Your Message Here"></textarea>
+            </div>
+          </div>
+
+
+          <div class="wid-100" *ngIf="employees.length>0">
+            <div class="row">
+              <div class="col-md-1 col-sm-3 col-xs-3 wdth">
+                <div class="custom-control custom-checkbox mb-3 ml">
+                  <input type="checkbox" id="customCheck1" class="custom-control-input" name="selectall"
+                    [(ngModel)]="selectall" (ngModelChange)="selectallchange(selectall,'update')">
+                  <label class="custom-control-label" for="customCheck1"></label>
+                </div>
+              </div>
+
+              <label class="col-md-6 col-sm-6 col-xs-6 wdth p-0">Select all</label>
+            </div>
+            <mat-card class="gap-bw-cads bor-non boxshdw01" *ngFor="let emp of employees;let k=index">
+              <div class="combodiv01 cntrdiv row">
+                <div class="custom-control custom-checkbox mb-3 ml">
+                  <input type="checkbox" id="customCheck1" class="custom-control-input" name="checkbox[{{k}}]"
+                    [(ngModel)]="emp.checkbox" (ngModelChange)="selectallchange(emp,'update')">
+                  <label class="custom-control-label" for="customCheck1"></label>
+                </div>
+                <div class="col-lg-8 flx ps-0">
+                  <span class="mailpad">
+                    <ngx-avatar [name]="emp.fname">
+                    </ngx-avatar>
+                  </span>
+                  <span>
+                    <p class="zero-marg fon-14 wrdbrk">{{emp.toid.fname}}</p>
+                    <p class="zero-marg fon-14 wrdbrk">{{emp.toemail}}</p>
+                    <div *ngIf="emp.revoke" class="reject">
+                      Revoked</div>
+                  </span>
+                  <div class="col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <label class="lnht">
+                      {{emp.difference}}</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 text-center bot-but-pad pd-top">
+                  <button type="button" class="bor-non bg-none1" data-toggle="collapse" [attr.id]="emp._id"
+                    [attr.data-target]="'#aaa' + emp._id"> <i *ngIf="!emp.cross" class="fas fa-pen penicn"
+                      data-toggle="collapse" [attr.data-target]="'#aaa' + emp._id"
+                      (click)="emp.cross=true;emp.pin && getDocPassword(emp)"></i>
+                    <i *ngIf="emp.cross " class="fas fa-times cross" data-toggle="collapse"
+                      [attr.data-target]="'#aaa' + emp._id" (click)="emp.cross=false"></i></button>
+                  <button type="button" class="bor-non bg-none1" (click)="RemoveShareduser(emp)"
+                    [ngClass]=" {'disablebutt':(emp.signed || emp.reviewed)}">
+                    <i class="far fa-trash-alt deleteicn"
+                      [ngClass]=" {'disableclick':(emp.signed || emp.reviewed)}"></i>
+                  </button>
+                </div>
+
+                <div class="mrgngp collapse cntraln pd-lft col-md-12" [id]="'aaa'+emp._id">
+
+                  <div id="exTab3" class="container navcontainer pddng11">
+
+                    <div class="tab-content clearfix spacecss">
+                      <div class="tab-pane active">
+                        <div class="navcontainer  text-center pdd-30">
+                          <!-- Radio button-->
+                          <div class="custom-control custom-radio custom-control-inline"
+                            [ngClass]=" {'disableclick':(emp.signed && emp.reviewed)}">
+                            <input type="radio" (click)="shareRadioChange(emp,'Review')" class="custom-control-input"
+                              [id]="'#defaultInline1' + emp._id" [(ngModel)]="emp.Sharetype" value='Review'
+                              name="Sharetype[{{k}}]">
+                            <label class="custom-control-label" [for]="'#defaultInline1' + emp._id">Share
+                              For
+                              Review</label>
+                          </div>
+
+                          <div class="custom-control custom-radio custom-control-inline"
+                            [ngClass]=" {'disableclick':(emp.signed && emp.reviewed) || (currentVersionFieldValues && currentVersionFieldValues.length &&  (emp.view))}">
+                            <input type="radio" (click)="shareRadioChange(emp,'Signature')" class="custom-control-input"
+                              [id]="'#defaultInline2' + emp._id" [(ngModel)]="emp.Sharetype" value='Signature'
+                              name="Sharetype[{{k}}]">
+                            <label class="custom-control-label" [for]="'#defaultInline2' + emp._id">Share
+                              For
+                              Signature</label>
+                          </div>
+                        </div>
+
+                        <div class="row pdd-30">
+
+                          <div class='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+                            <label class="labelfont">User Access</label>
+                            <mat-form-field class="wid-100 feildunderline feildunderline1 line11 fontt11">
+                              <mat-select disableRipple name="accesstype[{{k}}]" [(ngModel)]="emp.accesstype"
+                                #access1="ngModel">
+                                <mat-option value="Allowusers">Login with Access</mat-option>
+                                <mat-option value="public">Public</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+                          </div>
+
+                          <div class='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
+                            <label class="labelfont">Expiry Date & Time</label>
+
+                            <input [owlDateTime]="dt1" class="datepicker datef0nt height112"
+                              name="access_expirydate[{{k}}]" [(ngModel)]="emp.access_expirydate"
+                              (ngModelChange)="singleexpirydatechanges(k,emp.access_expirydate)" [min]=minDate
+                              #event_date_time1="ngModel" [owlDateTimeTrigger]="dt1" placeholder="DD/MM/YYYY">
+                            <owl-date-time #dt1></owl-date-time>
+                            <i class="fa fa-times-circle close-but-in-calender1 cl0sebut" *ngIf='emp.access_expirydate' style="cursor: pointer"
+                            (click)="emp.access_expirydate=null"></i>
+                          <i class="far fa-calendar-alt calendericon123 expiry0 calend" aria-hidden="true" [owlDateTimeTrigger]="dt1"></i>
+                          </div>
+
+                          <div class='col-lg-4 col-md-6 col-sm-12 col-xs-12' *ngIf='k.fileid'>
+                            <label class="labelfont">Share Access</label>
+                            <mat-form-field class="wid-100 fieldstyle1 fontt11">
+
+                              <mat-select disableRipple name="shareAccess[{{k}}]" [(ngModel)]="emp.shareAccess" multiple
+                                (ngModelChange)="shareaccesschanges(emp.shareAccess)">
+                                <mat-option *ngFor="let a of accesmodeList" [value]="a.value">{{a.name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 col-sm-12 col-xs-12">
+                            <input type="checkbox" class="" name="pin[{{k}}]" [(ngModel)]="emp.pin" (ngModelChange) = "RadioChangeShared(emp.pin, k)"><span> PIN</span>
+                            <div *ngIf="emp.pin">
+                              <input type = "{{emp.passwordtype}}" class="boxpin2 form-control f-style" placeholder="Enter PIN" (keypress)="numberOnly($event)" 
+                                name="filepassword[{{k}}]" autocomplete="new-password" required #filepassword='ngModel'  maxlength="6"
+                                pattern="^[0-9]{4,6}$" [(ngModel)]="emp.filepassword" (ngModelChange) = "PINModelChangeShared($event, k)">
+                                <i class="{{emp.passwordIcon}} eyeic0n" (click)='hideShowPasswordUpdate(emp)' aria-hidden="true"></i>
+                                <div class="text-danger sml-danger-txt" *ngIf="emp.filepassword && emp.filepassword.length<6">
+                                  Must be of 6 numeric characters </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <button mat-raised-button type="button" (click)="revokeFun(emp)"
+                              class="btnforshare revokebtn revokbuton01"><span *ngIf="!emp.revoke">Revoke</span><span
+                                *ngIf="emp.revoke">Un
+                                Revoke</span></button>
+                          </div>
+
+                          <div class="col-md-12 text-right">
+                            <button type="button" [disabled] = "SharedPINDisable[k] && emp.pin" (click)="savechanges(emp,'singleupdate',k);emp.cross=false"
+                              class="pop-save-but">Save</button>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="modal-footer footer-pad-mar">
+            <button type="submit" class="share-but">Update</button>
+            <button type="button" class="share-but" id="myback"
+              (click)="updatedepartment=false; selectall=true">Back</button>
+            <button type="button" class="close-but" data-dismiss="modal" (click)="close()">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================DepartmentHierarchy================================================================== -->
+  <div class="row" *ngIf='hlevelad'>
+    <div class="col">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngFor="let group1 of departmenthierarchy;index as i">
+            <label class="labelfont">Select Level</label>
+            <mat-form-field class="wid-100 feildunderline feildunderline1 line11 fontt11">
+              <mat-select disableRipple [(ngModel)]="group1.value" name="level">
+                <mat-option *ngFor="let group of employeedata;index as j" [value]="group.department_id"
+                  (click)=getlevel(i+1,group.department_id,i,j)>
+                  {{group.department_name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <button class="share-but pull-right" type="button" (click)="hlevelad=false;show=false">Back</button>
+      </div>
+    </div>
+  </div>
+</div>

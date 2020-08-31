@@ -1,0 +1,3 @@
+[ 01/06/2019 13:36:34 ] InputFile::OpenFile, Unexpected Failure. Cannot open file for reading - D:\docIntact\backend\server\api\document/../../../uploads/15593763916.pdf
+[ 01/06/2019 13:37:44 ] PDFParser::ParseEOFLine, Couldn't find tokens in file
+[ 01/06/2019 13:38:04 ] InputFile::OpenFile, Unexpected Failure. Cannot open file for reading - D:\docIntact\backend\server\api\document/../../../uploads/15593764824.pdf

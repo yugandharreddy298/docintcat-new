@@ -1,0 +1,379 @@
+<div role="document">
+        <div class=" mdldata">
+                <div class=" headerclass">
+                        <button type="button" class="close closebtn" mat-dialog-close
+                                aria-hidden="true">&times;</button>
+
+                        <h4 *ngIf="dailogdata.multi" class=" w-100" id="myModalLabel">
+                                <span class="popupheading">Share For Review (<span
+                                                *ngIf="dailogdata.content.files.length >=1 &&dailogdata.content.folders.length >=1">{{dailogdata.content.files.length}}
+                                                Files </span>
+                                                <span
+                                                *ngIf="dailogdata.content.files.length == 1 && dailogdata.content.folders.length == 0 ">{{dailogdata.content.files[0].name}}
+                                                 </span>
+                                                 <span
+                                                 *ngIf="dailogdata.content.files.length >1 &&dailogdata.content.folders.length == 0">{{dailogdata.content.files.length}}
+                                                 Files </span>   
+                                        <span
+                                                *ngIf="dailogdata.content.folders.length >=1 && dailogdata.content.files.length >=1">and
+                                        </span>
+                                        <span
+                                        *ngIf="dailogdata.content.folders.length == 1 && dailogdata.content.files.length == 0">{{dailogdata.content.folders[0].name}}
+                                         </span>
+                                         <span *ngIf="dailogdata.content.folders.length >1  && dailogdata.content.files.length == 0">{{dailogdata.content.folders.length}}
+                                                Folders</span>
+                                        <span *ngIf="dailogdata.content.folders.length >=1  && dailogdata.content.files.length >=1">{{dailogdata.content.folders.length}}
+                                                Folders</span>)</span>
+                        </h4>
+                        <h4 *ngIf="!dailogdata.multi" class=" w-100" id="myModalLabel">
+                                <img src="assets/images/Group2564.png"
+                                        *ngIf="dailogdata.content.isFile">&nbsp;&nbsp;<span class="popupheading"
+                                        *ngIf="dailogdata.content.isFile">{{dailogdata.content.name}}</span>
+                                <img src="assets/images/Group3389.png"
+                                        *ngIf="dailogdata.content.isFolder">&nbsp;&nbsp;<span class="popupheading"
+                                        *ngIf="dailogdata.content.isFolder">{{dailogdata.content.name}}</span>
+                        </h4>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                        *ngIf="!dailogdata.multi && dailogdata.content && (dailogdata.content.isFile || dailogdata.content.isFolder)">
+                        <div class="row">
+                                <div
+                                        class="col-lg-4 offset-lg-2 col-md-4 col-sm-12 col-xs-12  custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="defaultGroupExample1"
+                                                [(ngModel)]="Sharetype" value='Review' (change)='Radiochange(Sharetype)'
+                                                name="Sharetype">
+                                        <label class="custom-control-label fon-16 txt2font color-3 fw-3"
+                                                for="defaultGroupExample1">Share For Review</label>
+                                </div>
+                                <div
+                                        class="col-lg-6 col-md-6 col-sm-12 col-xs-12  custom-control custom-radio  ml-md-2 ml-lg-0"
+                                        [ngClass]=" {'disableclick':(currentVersionFieldValues && currentVersionFieldValues.length) || dailogdata.content.isFolder }">
+                                        <input type="radio" class="custom-control-input" id="defaultGroupExample2"
+                                                [(ngModel)]="Sharetype" value='Signature'
+                                                (change)='Radiochange(Sharetype)' name="Sharetype">
+                                        <label class="custom-control-label fon-16 txt2font color-3 fw-3"
+                                                for="defaultGroupExample2">Share For Signature</label>
+                                </div>
+                        </div>
+                </div>
+ </div>
+ <div class="testingggg scroll-style">
+ <div class=" shringcontainer">        
+<form #sharingForm="ngForm" (ngSubmit)="shareDoc(sharingForm)" name="registrationForm" class="">
+        <div class="row sharelist">
+                <div class="form-inline wdth">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
+                                <span class="peopletitle">People</span><br>
+                                <mat-form-field
+                                        class="line112 feildunderline22 feildunderline222 form-control mailfield harsha feildline underline-no pt-0 place-holder-pos shareedge">
+                                        <mat-chip-list #chipList>
+                                                <mat-chip *ngFor="let email of users;let indx=index;"
+                                                        [selectable]="selectable" [removable]="removable"
+                                                        (removed)="remove(email,indx)" class="mar-t-30"
+                                                        title={{email.email}}>
+                                                        {{email.name}}
+                                                        <mat-icon matChipRemove *ngIf="removable">cancel
+                                                        </mat-icon>
+                                                </mat-chip>
+                                                <input matInput id="email" placeholder="Enter email"
+                                                        class="pad-t-30 height txtcss" #userEmail
+                                                        [formControl]="elementctrl" [matAutocomplete]="auto"
+                                                        [matChipInputFor]="chipList"
+                                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                        [matChipInputAddOnBlur]="addOnBlur"
+                                                        (matChipInputTokenEnd)="add($event)" />
+                                        </mat-chip-list>
+                                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                                                <mat-option *ngFor="let email of filteredemail | async"
+                                                        [(value)]="email._id">
+                                                        {{email.name}}<{{email.email}}>
+                                                </mat-option>
+                                        </mat-autocomplete>
+                                </mat-form-field>
+                                <div class="text-danger" style="position: absolute;" *ngIf="isEmail">Enter email</div>
+                                <div class="text-danger" style="position: absolute;" *ngIf="emailvalid">Please Enter
+                                        valid email </div>
+                        </div>
+                </div>
+        </div>
+        <div class="col-md-12">
+                <div class="row" style="margin-top:30px;">
+                        <div class="titlesharingsettings col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h4 class=" peopletitle">Sharing Settings</h4>
+                        </div>
+                        <div class=" col-lg-4 col-md-4 col-sm-6 dropdowngroup pt-3 pt-lg-0">
+                                <span class="share-sec drpdn"> User Access</span><br>
+                                <mat-form-field class="feildunderline feildunderline1 mt-field bg-remove selt f0nt">
+                                        <mat-select panelClass="my-select-panel-class1" disableOptionCentering="boolean"
+                                                name="access" [(ngModel)]="access" class="field1">
+                                                <mat-option value="public">Public</mat-option>
+                                                <mat-option value="Allowusers">Login With Access
+                                                </mat-option>
+                                        </mat-select>
+                                </mat-form-field>
+                        </div>
+
+                        <div class=" col-lg-4 col-md-4 col-sm-6 shareaccesgroup pt-3 pt-lg-0">
+                                <span class="share-sec"> Document Expiry</span>
+                                <div class="date">
+                                        <span>
+                                                <input [owlDateTime]="dt1" [min]=minDate name="access_expirydate"
+                                                        class="shadow-input" [(ngModel)]="access_expirydate">
+                                                <input type="text" readonly [owlDateTimeTrigger]="dt1"
+                                                        placeholder="DD/MM/YYYY" class="datepicker datef0nt height112"
+                                                        [value]="access_expirydate | dateFilter:'dd-MM-yyyy hh:mm a'">
+                                                <i class="fa fa-times-circle close-but-in-calender"
+                                                        *ngIf="access_expirydate" style="cursor: pointer"
+                                                        (click)="access_expirydate=null"></i>
+                                                <i class="far fa-calendar-alt calendericon" [owlDateTimeTrigger]="dt1"
+                                                        aria-hidden="true"></i>
+                                        </span>
+                                        <owl-date-time [hour12Timer]="true" panelClass="datepicker-overlay" #dt1>
+                                        </owl-date-time>
+                                </div>
+                        </div>
+
+                        <div class=" col-lg-4 col-md-4 col-sm-6 shareaccesgroup pt-3 pt-lg-0" *ngIf='(dailogdata.content.files && dailogdata.content.files.length > 0) || dailogdata.content.isFile'>
+                                <span class="share-sec drpdn"> Share Access</span>
+                                <div class="mt-field ">
+                                        <mat-form-field
+                                                style="font-size: 14px !important;font-weight: normal !important;"
+                                                class="feildunderline feildunderline1 mt-field bg-remove selt dropdow-box-wid f0nt"
+                                                (click)="placeshare=false">
+                                                <mat-select panelClass="my-select-panel-class2" name="shareAccess"
+                                                        [(ngModel)]="shareAccess" multiple>
+                                                        <mat-option *ngFor="let i of accessCode" [value]="i.value">
+                                                                {{i.name}}
+                                                        </mat-option>
+                                                </mat-select>
+                                        </mat-form-field>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        <div class="col-md-12">
+                <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 pt-3 pt-lg-0">
+                                <div class="divsharecalender">
+                                        <input type="checkbox" name="pin" [(ngModel)]="pin" (ngModelChange) = "RadioButtonchange()"> PIN
+                                        <div *ngIf="pin">
+                                                <!-- <span class="shaces drpdn">Enter PIN</span><br> -->
+                                                <input placeholder ="Enter PIN" type="{{passwordtype}}" maxlength="6" (keypress)="numberOnly($event)" class="inputfield inputfield-pin form-control width"
+                                                        name="filepassword" autocomplete="new-password"  required
+                                                        [(ngModel)]="filepassword" #password134='ngModel' (ngModelChange) = ModelChange($event)>
+                                                        <i class="{{passwordIcon}} ic0nn" (click)='hideShowPassword()' aria-hidden="true"></i>
+                                                <div class="text-danger sml-danger-txt"
+                                                        *ngIf="filepassword && filepassword.length<6">
+                                                        Must be of 6 numeric characters</div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="textareacolumn">
+                        <div class="form-group">
+                                <textarea class="form-control rounded-0 txtcss" id="exampleFormControlTextarea2"
+                                        name="message" [(ngModel)]="message" rows="3"
+                                        placeholder="Type Your Message Here"></textarea>
+                        </div>
+                </div>
+        </div>
+        <mat-dialog-actions class="btnshare">
+                <button mat-raised-button [disabled]="submitted || (pin && pinDisable)" class="btnforshare">Share
+                        <img *ngIf="submitted" src='assets/images/shareloader.gif'>
+                </button>
+
+        </mat-dialog-actions>
+</form>
+ </div>
+   <!-- ------------------------------------------------------Already Shared With Starts----------------------------------------------------------------- -->
+<div class="col-md-12 mt-4 mb-4">
+ <div *ngIf='sharedPeople && sharedPeople.length>0' class="form-row">
+<h5 class="hedng col-md-12">Already Shared With</h5>
+<form #shareEditForm="ngForm" (ngSubmit)="savechanges(shareEditForm,i)" name="shareEditForm" style="width:100%">
+ <div class="sharedPeople">
+ <div class="sharetitlebox">
+ <div class="col-md-12 scroll scroll-style">
+  <div class="scrltable" id="style-3">
+ <div *ngFor="let i of sharedPeople;let j=index">
+ <div class="row brdr hvrefct" id="icon_cross_div{{i._id}}">
+<div class="col-md-2 col-sm-12 col-xs-12 col-lg-2">
+        <div class="circleletter lightgreen">
+                <ngx-avatar [name]="i.name">
+                </ngx-avatar>
+        </div>
+</div>
+<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+        <h4 class="fntclr tx-mail">
+                {{i.name  | titlecase}}</h4>
+        <div class="fntclr1 tx-mail">
+                {{i.toemail}}</div>
+        <div *ngIf="i.revoke" class="reject">
+                Revoked</div>
+</div>
+<div class="col-md-3 col-sm-12 col-xs-12 col-lg-3">
+        <label class="lnht">
+                {{i.difference}}</label>
+</div>
+<a hidden id='targetid' target="#icon_cross_div{{i._id}}"></a>
+<div class="col-md-3 col-sm-12 col-xs-12 col-lg-3 sharepop-edit">
+        <i *ngIf="!i.cross" id="icon_cross_{{i._id}}" class="fas fa-pen penicn" data-toggle="collapse"
+                [attr.data-target]="'#aaa' + i._id" (click)="i.cross=true;i.pin && getDocPassword(i)"></i>
+        <i *ngIf="i.cross" class="fas fa-times cross" data-toggle="collapse" [attr.data-target]="'#aaa' + i._id"
+                (click)="i.cross=false"></i>
+        <i class="far fa-trash-alt deleteicn" (click)=RemoveShareduser(i)
+                [ngClass]=" {'disableclick':(i.signed || i.reviewed)}"></i>
+</div>
+<div class="col-md-12">
+<div class="row mrgngp collapse cntraln"    [id]="'aaa'+i._id">
+<div class="container navcontainer col-md-12 text-lg-center">
+        <div [ngClass]=" {'disableclick':(i.signed && i.reviewed)}"
+                class="custom-control custom-radio custom-control-inline">
+                <input type="radio" (click)="shareRadioChange(i,'Review')" class="custom-control-input"
+                        [id]="'#defaultInline1' + i._id" [(ngModel)]="i.Sharetype" value='Review'
+                        name="Sharetype[{{j}}]">
+                <label class="custom-control-label" [for]="'#defaultInline1' + i._id">Share
+                        For
+                        Review</label>
+        </div>
+
+        <div [ngClass]=" {'disableclick':(i.signed && i.reviewed) || (currentVersionFieldValues && currentVersionFieldValues.length && (i.view))}"
+                class="custom-control custom-radio custom-control-inline">
+                <input type="radio" (click)="shareRadioChange(i,'Signature')" class="custom-control-input"
+                        [id]="'#defaultInline2' + i._id" [(ngModel)]="i.Sharetype" value='Signature'
+                        name="Sharetype[{{j}}]">
+                <label class="custom-control-label" [for]="'#defaultInline2' + i._id">Share
+                        For
+                        Signature</label>
+        </div>
+</div>
+<div id="exTab3" class="container navcontainer">
+        <div class="brdrfortab">
+                <ul class="nav nav-pills ulwidth" [ngClass]='{"ulwidthFolder":i.folderid}'>
+                        <li class="active text-center brdr-1" [attr.href]="'#aaaa'+i._id" data-toggle="tab">
+                                <a style="padding: 10px 20px;">Access Mode</a>
+                        </li>
+                        <li class="padngli text-center brdr-1" [attr.href]="'#cccc'+i._id" data-toggle="tab" *ngIf='i.fileid'>
+                                <a style="padding: 10px 20px;">Sharing
+                                        Access</a>
+                        </li>
+                        <li class="padngli text-center" [attr.href]="'#dddd'+i._id" data-toggle="tab">
+                                <a style="padding: 10px 20px;">Expiry
+                                        Date</a>
+                        </li>
+                </ul>
+        </div>
+        <div class="tab-content clearfix spacecss">
+                <div class="tab-pane active" [id]="'aaaa'+i._id">
+                        <div class="inp-cen">
+                                <label></label>
+                                <mat-form-field
+                                        class="feildunderline feildunderline1 mt-field bg-remove selt col-lg-6 col-md-6 col-sm-12">
+                                        <mat-select disableOptionCentering="boolean" panelClass="my-select-panel-class"
+                                                id="sel1" name="accesstype[{{j}}]" [(ngModel)]="i.accesstype"
+                                                (ngModelChange)="i.passwordcheck=false;" #access1="ngModel"
+                                                panelClass="drop-test">
+                                                <mat-option value="public">
+                                                        Public
+                                                </mat-option>
+                                                <mat-option value="Allowusers">
+                                                        Login
+                                                        With
+                                                        Access
+                                                </mat-option>
+
+                                        </mat-select>
+                                </mat-form-field>
+
+                        </div>
+
+                        <div class="col-md-6" style="margin:0 auto;padding:0;">
+                                <div class="col-lg-12  m0bpswd">
+
+                                        <input type="checkbox" class="" name="pin[{{j}}]" [(ngModel)]="i.pin"><span>
+                                                PIN</span>
+
+                                </div>
+
+                                <div class="col-lg-12 m0b001">
+                                        <div *ngIf="i.pin" class="mt-2 mt-lg-0 mt-md-0">
+                                                <input type="{{i.passwordtype}}" class="boxpin2 form-control f-style"
+                                                        placeholder="Enter PIN"  maxlength="6" name="filepassword[{{j}}]" required autocomplete="new-password"
+                                                        #filepassword='ngModel' [(ngModel)]="i.filepassword" (keypress)="numberOnly($event)"  (ngModelChange)="modelChanged($event, j)">
+                                                        <i class="{{i.passwordIcon}} eyeic0n" (click)='hideShowPasswordUpdate(i)' aria-hidden="true"></i>
+
+                                                        <div class="text-danger sml-danger-txt"
+                                                        *ngIf="i.filepassword && i.filepassword.length<6">
+                                                                Must be of 6 numeric characters </div>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-12 m0brvk">
+
+                                        <button type="button" (click)="revokeFun(i)" class="btnforshare revokebtn"><span
+                                                        *ngIf="!i.revoke">Revoke</span><span *ngIf="i.revoke">Un
+                                                        Revoke</span></button>
+                                </div>
+
+                                <div class="col-lg-3">
+                                </div>
+                        </div>
+
+
+                </div>
+                <div class="tab-pane" [id]="'cccc'+i._id" *ngIf='i.fileid'>
+                        <div class="dropdown drpdownstyle3 text-center" id="sel1">
+                                <div>
+                                        <mat-form-field
+                                                class="feildunderline feildunderline1 pos-ab col-lg-6 col-md-6 col-sm-12 plr-0"
+                                                style="margin-bottom: 40%;">
+                                                <mat-select name="shareAccess[{{j}}]" class="feildunderline1 gap-s"
+                                                        [(ngModel)]="i.shareAccess" multiple panelClass="testClass">
+                                                        <mat-option *ngFor="let code of accessCode"
+                                                                [value]="code.value">
+                                                                {{code.name}}
+                                                        </mat-option>
+                                                </mat-select>
+                                        </mat-form-field>
+                                </div>
+
+                        </div>
+                </div>
+                <div class="tab-pane" [id]="'dddd'+i._id">
+                        <div class="date d-flex" style="justify-content: center">
+                                <input [owlDateTime]="dt1"
+                                        class="form-control f-style  col-lg-6 col-md-6 col-sm-12 placecolor"
+                                        [min]=minDate name="access_expirydate[{{j}}]" [(ngModel)]="i.access_expirydate"
+                                        #event_date_time1="ngModel" [owlDateTimeTrigger]="dt1"
+                                        placeholder="Expiry Date & Time" readonly>
+                                <owl-date-time [hour12Timer]="true" panelClass="datepicker-overlay" #dt1>
+                                </owl-date-time>
+                                <i class="fa fa-times-circle close-but-in-calender1"
+                                                        *ngIf='i.access_expirydate' style="cursor: pointer"
+                                                        (click)="i.access_expirydate=null"></i>
+                                <i class="far fa-calendar-alt calendericon123 expiry0" aria-hidden="true"
+                                        [owlDateTimeTrigger]="dt1"></i>
+                        </div>
+                </div>
+        </div>
+</div>
+<div class="col-md-12 m0bcntr">
+                <button type="button"  [disabled] = 'i.pin && PINDisable[j]' (click)="savechanges(i)" class="btn btnstylecss">Update
+                Settings</button>
+</div>
+ </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+ </div>
+</form>
+</div>
+</div>
+    </div>
+        <!-- ------------------------------------------------------Already Shared With Ends----------------------------------------------------------------- -->

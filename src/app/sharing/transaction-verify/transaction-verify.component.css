@@ -1,0 +1,154 @@
+.signature-container {
+    max-width: 990px;
+}
+
+.verfiy-sign-transaction {
+    padding-top: 30px;
+}
+
+.transaction-form {
+    padding: 15px 0px 15px 0px;
+}
+
+.verify-sign-button {
+    background: linear-gradient(217deg, #427eac, #0d243b);
+    box-shadow: none;
+    color: #fff!important;
+    border-radius: 4px;
+    width: 100px;
+    height: 37px;
+    box-shadow: none;
+    padding: 0;
+    font-size: 18px;
+    margin-left: 38px;
+}
+
+.valid-signature {
+    background-color: #fff;
+    border-radius: 14px;
+    text-align: center;
+    line-height: 12;
+}
+
+.transaction-bold {
+    font-weight: 500;
+}
+
+.listitems {
+    padding-left: 0;
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.signature-field {
+    float: left;
+    width: 50%;
+}
+
+.signature-background {
+    background-color: #427EAC;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 30px 30px 30px 30px;
+}
+
+.btnforshare {
+    background: linear-gradient(217deg, rgb(66, 126, 172), rgb(13, 36, 59));
+    color: #fff !important;
+    border-radius: 5px;
+    width: 100px;
+    height: 37px;
+    box-shadow: none;
+    margin: 0px auto;
+    font-size: 18px;
+    border: 1px solid #214462;
+    float: right;
+}
+
+.tblbg thead {
+    color: #fff;
+    background-color: #2579d0;
+}
+
+.tblbg thead th {
+    font-weight: bold !important;
+}
+
+.tblbg tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.tblbg tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.txt12 {
+    text-decoration: underline !important;
+    color: #3799de !important;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.pl-0 {
+    padding-left: 0;
+}
+
+.spntxt {
+    font-weight: bold;
+    color: #3798de;
+}
+
+.txt-cntr {
+    text-align: center;
+}
+
+.backgrnd11 {
+    background-color: #f3f3f3;
+    border: 1px solid #E5E5E5;
+    padding: 15px 0px 30px 0px;
+    font-family: orkney !important;
+    color: #000;
+    height: 100vh;
+}
+
+.font111 {
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.top1211 {
+    margin-top: 60px;
+}
+
+.cap11 {
+    text-transform: capitalize;
+}
+
+@media(max-width:800px) {
+    .m0bsty {
+        text-align: inherit !important;
+    }
+    .m0bsty1 {
+        width: inherit !important;
+    }
+}
+
+.wrdbrk {
+    word-break: break-all;
+}
+.text_center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: inherit;
+}
+.text_center div div span{
+   word-break: break-word;
+}

@@ -1,0 +1,95 @@
+<div class="row no-gutter mem-list">
+  <h5>Members List</h5>
+  <div class="scrollbar" id="style-1">
+    <div class="mem-bg">
+      <ul class="ulpic-m mem-list-space">
+        <li class="dot dot-bg1" *ngFor="let chatUsers of onlineusers">
+          <span *ngIf="chatUsers.uid">
+            <ngx-avatar [name]="chatUsers.uid.name" value="" size="40" [round]="true" matTooltip={{chatUsers.uid.name}}>
+            </ngx-avatar>
+          </span>
+          <span *ngIf="!chatUsers.uid">
+            <ngx-avatar [name]="chatUsers.email" value="" size="40" [round]="true" matTooltip={{chatUsers.email}}>
+            </ngx-avatar>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-2 headfont m-0">
+  <div class="col-lg-12">
+    <p class="align prev"><span class="col-56 fon-14">Chat History</span></p>
+  </div>
+</div>
+
+<div class="chat-hstry scrollbar" #scrollMe id="style-1" [style.height.px]="messageDivHeight">
+  <div>
+    <div *ngFor="let msgs of chatHistory">
+
+      <div class="row mt-4 headfont" *ngIf=" msgs.email!=emailData">
+
+        <div class="col-lg-3 col-md-3 col-sm-12 m-auto mrgn01 mediawidth01">
+          <div *ngIf="msgs.from" class="chat-avatar" style="text-align: right">
+            <ngx-avatar [name]="msgs.from.name" value="" size="40" [round]="true" matTooltip={{msgs.from.name}}
+              class="ngx-avatar">
+            </ngx-avatar>
+          </div>
+          <div *ngIf="!msgs.from" class="chat-avatar">
+            <ngx-avatar [name]="msgs.email" value="" size="40" [round]="true" matTooltip={{msgs.email}}
+              class="ngx-avatar001">
+            </ngx-avatar>
+          </div>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12 mediawidth" *ngIf="msgs.email!=emailData">
+          <div div ngx-auto-scroll lock-y-offset="10" observe-attributes class="callout left bg-col-56">
+            <span>{{msgs.message}}</span>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-7 fon-8 " *ngIf="msgs.email!=emailData">{{msgs.created_at | date:'d-MMM, h:mm a'}}
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4 txt2font Lap-HDPI" *ngIf="msgs.email==emailData">
+        <div class="col-lg-9 col-md-9 col-sm-12 mediawidth">
+          <div class="callout1 right bg-col-57">
+            <span>{{msgs.message}}</span>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-12 fon-8 p-0 text-right" *ngIf="msgs.email==emailData">
+            {{msgs.created_at | date:'d-MMM, h:mm a'}}</div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 m-auto mediawidth01" *ngIf="msgs.email==emailData">
+          <div *ngIf="msgs.from">
+            <ngx-avatar [name]="msgs.from.name" value="" size="40" [round]="true" matTooltip={{msgs.from.name}}
+              class="ngx-avatar001">
+            </ngx-avatar>
+          </div>
+          <div *ngIf="!msgs.from">
+            <ngx-avatar [name]="msgs.email" value="" size="40" [round]="true" matTooltip={{msgs.email}}>
+            </ngx-avatar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="chat-send">
+  <form #chatForm="ngForm" (ngSubmit)="sendChat(chatForm)" (keydown)="chat($event,chatForm)">
+    <div class="col-lg-12 col-md-12 m-auto type-md">
+      <div class="row m-0">
+        <div class="col-lg-9 col-md-9 col-sm-12 txtwidth">
+          <textarea class="form-control txt-area resize-property" id="exampleFormControlTextarea3"
+            placeholder="Enter message" pattern="^[a-zA-Z0-9 ]*$" rows="2" [(ngModel)]="message" name="message"
+            #messageControl="ngModel" minlength="1" autocomplete="off"></textarea>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 m-auto p-0 txtwidth01">
+          <button type="submit" class="btn btn-sm btn-primary send-mg sh-none">Send</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

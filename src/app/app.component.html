@@ -1,0 +1,4 @@
+<div (contextmenu)="rightclickDisable($event)" *ngIf="!isloading">
+    <router-outlet></router-outlet>
+</div>
+<div class="loader" *ngIf="isloading"></div>

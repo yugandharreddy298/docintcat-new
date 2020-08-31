@@ -1,0 +1,65 @@
+<div *ngIf='data.name!="delete"'>
+  <form #updateForm="ngForm" (ngSubmit)="updateDetails(updateForm)" name="addForm">
+    <div class="modal-content">
+      <div class="modal-header mod-head-bg">
+        <h4 class="modal-title w-100 add-new-emp-pop" id="myModalLabel">Edit Department</h4>
+        <button type="button" class="close " mat-dialog-close aria-label="Close">
+          <span aria-hidden="true" class="white-colr">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row min-error-space">
+          <div class="col-lg-4">
+            <!-- Default input -->
+            <label for="exampleForm2">Department Name </label>
+            <input type="text" id="exampleForm2" name="deptname" class="form-control"
+              placeholder="Enter Department Name" required [(ngModel)]="deptname" #dept13="ngModel"
+              (ngModelChange)="onKeyDown(deptname)">
+
+            <div class="text-danger"
+              *ngIf="dept13.invalid && (dept13.dirty || dept13.touched)|| formSubmitted&&dept13.errors">
+              <div class="text-danger" *ngIf="dept13.errors.required">Enter Department Name </div>
+            </div>
+            <div *ngIf="check &&  dept13.dirty && dept13.touched">Department already existed </div>
+          </div>
+
+          <div class="col-lg-6">
+            <label for="exampleForm2">Department Lead</label>
+            <select class="browser-default custom-select bgclr" #fontSize value="Select" name="parentdepartmentid"
+              [(ngModel)]="parentdepartmentid" #dept1="ngModel">
+              <option *ngIf="profiledata" [(value)]="profiledata._id">{{profiledata.email}}</option>
+              <option *ngFor="let i of getemployeedata" [(value)]="i._id">{{i.email}} </option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm but-close" id="sample14" mat-dialog-close>Cancel</button>
+        <button type="submit" class="add-btn side_bg" (click)="formSubmitted=true" [disabled]="check">Submit</button>
+      </div>
+
+    </div>
+
+  </form>
+</div>
+<div *ngIf='data.name=="delete"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p>You want to delete this department.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <button type="button" class="Cancelbutton" [mat-dialog-close]=false>Cancel</button>
+        <button mat-raised-button class=" btndel" mat-raised-button [mat-dialog-close]=true>Delete</button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>

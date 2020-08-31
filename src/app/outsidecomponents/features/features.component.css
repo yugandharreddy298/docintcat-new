@@ -1,0 +1,348 @@
+.featuresbg {
+    background-image: url(/../../assets/images/featuresbg.png);
+    background-repeat: no-repeat;
+    background-position-y: 5rem;
+}
+
+.fon-48 {
+    font-size: 48px;
+    font-weight: 500;
+}
+
+.cont-pad {
+    padding-top: 12rem;
+    padding-bottom: 1rem;
+}
+
+.start-file-share-but {
+    background: linear-gradient(200deg, rgb(231, 83, 84), rgb(242, 124, 110));
+    border: none;
+    color: #fff;
+    padding: 0.4rem 2rem 0.3rem 1rem;
+    border-radius: 4px;
+    margin: 4rem 0 0 0rem;
+}
+
+.insertsbg {
+    background-image: url(/../../assets/images/insert-bg.png);
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-color: #fff;
+}
+
+.paragraph-head {
+    color: #000;
+    font-weight: 500;
+}
+
+.sign-fields {
+    font-size: 18px;
+    color: #000;
+    font-weight: 500;
+    margin: 0;
+}
+
+.sign-under-fields {
+    font-size: 16px;
+    color: #000;
+    font-weight: 400;
+    margin: 5px 0 0 0;
+}
+
+.icons-cs {
+    margin: 0 9px 5px 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+}
+
+.pad-t-3 {
+    padding: 3rem 0 0 0;
+}
+
+.lap-top-pad {
+    padding: 3rem 15px 8rem 15px;
+}
+
+.keep-data-bg {
+    background-color: #243949;
+}
+
+.keep-data-para {
+    padding-top: 6rem;
+}
+
+.sync-files-bg {
+    background: #F7F9FB;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.pad-tb-16 {
+    padding: 16px 0;
+}
+
+.syn-head {
+    font-size: 36px;
+    color: #000;
+    font-weight: 500;
+}
+
+.goog-driv {
+    font-size: 22px;
+    color: #000;
+    font-weight: 400;
+}
+
+.drive-ptag-pad {
+    margin: 0 !important;
+    padding: 1rem 0 0 0;
+}
+
+.onedrive-pos {
+    padding-top: 9rem;
+}
+
+.box-sh {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+}
+
+.pad-t-8 {
+    padding-top: 8rem;
+}
+
+.aln-cen {
+    display: flex;
+    justify-content: center;
+}
+
+.access-files {
+    background: linear-gradient(181deg, rgb(217, 224, 33), rgb(251, 135, 43));
+    box-shadow: 0 1px 1px 0 rgba(217, 224, 1), 0 1px 5px 0 rgba(217, 224, 1);
+    width: 120px;
+    padding: 2rem 0 0 0;
+    height: 120px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.endtoend {
+    background: linear-gradient(0deg, rgb(50, 204, 188), rgb(144, 247, 236));
+    box-shadow: 0 1px 1px 0 rgba(50, 204, 188), 0 6px 10px 0 rgba(144, 247, 236);
+    width: 120px;
+    padding: 2rem 0 0 0;
+    height: 120px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.easyfiles {
+    background: linear-gradient(217deg, rgb(72, 198, 239), rgb(111, 134, 214));
+    box-shadow: 0 1px 1px 0 rgba(72, 198, 239), 0 3px 3px 0 rgba(111, 134, 214);
+    width: 120px;
+    padding: 2rem 0 0 0;
+    height: 120px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.realible {
+    background: linear-gradient(40deg, rgb(27, 74, 121), rgb(255, 255, 255));
+    box-shadow: 0 1px 1px 0 rgba(27, 74, 121), 0 6px 10px 0 rgba(255, 255, 255);
+    width: 120px;
+    padding: 2rem 0 0 0;
+    height: 120px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.fileversion {
+    background: linear-gradient(40deg, rgb(153, 118, 231), rgb(255, 255, 255));
+    box-shadow: 0 1px 1px 0 rgba(153, 118, 231), 0 6px 10px 0 rgba(255, 255, 255);
+    width: 120px;
+    padding: 2rem 0 0 0;
+    height: 120px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.unlimited {
+    background: linear-gradient(40deg, rgb(248, 142, 84), rgb(255, 255, 255));
+    box-shadow: 0 1px 1px 0 rgba(248, 142, 84), 0 6px 10px 0 rgba(255, 255, 255);
+    width: 120px;
+    padding: 2rem 0 0 0;
+    height: 120px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.why-doc {
+    font-size: 36px;
+    color: #000000;
+    font-weight: 500;
+    padding: 0 0 3rem 0;
+}
+
+.blk-clr {
+    color: #000;
+    font-weight: 400;
+    padding: 1.5rem 0 0 0;
+}
+
+.why-doc-bg {
+    background: #fff;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.get-doc-bg {
+    background: linear-gradient(40deg, rgb(53, 99, 150), rgb(200, 222, 245));
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.pad-t-1e {
+    padding-top: 1em;
+}
+
+.cards-bg {
+    padding-bottom: 3rem;
+    padding-top: 3rem;
+}
+
+.card-mrg {
+    margin: 0 2rem;
+    padding: 2rem 1.6rem;
+    border-radius: 40px;
+}
+
+.unlimted-uploads-pad {
+    padding: 2.6rem 1.6rem;
+}
+
+.pad-t-7 {
+    padding: 7rem 0 0 0;
+}
+
+.pad-t15 {
+    padding: 15rem 0 0 0;
+}
+
+.unlim {
+    color: #49B792;
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+.share-doc {
+    color: #F7861E;
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+.doc-acc {
+    color: #99CA3B;
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+.share-revok {
+    color: #3AC1C5;
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+.eye-tr {
+    color: #6220A3;
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+.best-secure-bg {
+    background: linear-gradient(174deg, rgb(59, 90, 133), rgb(7, 11, 15));
+    border-radius: 30px;
+}
+
+.try-now {
+    background: linear-gradient(200deg, rgb(231, 83, 84), rgb(242, 124, 110));
+    border: none;
+    color: #fff;
+    padding: 0.5rem 3.5rem;
+    border-radius: 6px;
+    margin: 1.5rem 0 0 0;
+}
+
+.pad-l-5 {
+    padding-left: 5rem;
+}
+
+.pad-tb-5 {
+    padding: 4rem 0;
+}
+
+@media (min-width: 768px) and (max-width:800px) {
+    .pad-for-i {
+        padding: 7rem 0 0 0;
+    }
+}
+
+@media (max-width:600px) {
+    .flx {
+        display: flex;
+    }
+    .pad-t-1 {
+        padding: 1rem 0 0 0;
+    }
+    .pad-t-3 {
+        padding: 0 0 1rem 3rem;
+    }
+}
+
+@media (max-width:800px) {
+    .onedrive-pos {
+        padding-top: 0rem;
+    }
+    .pad-t15 {
+        padding: 5rem 0 5rem 0;
+    }
+}
+
+.subtext {
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+.sync-file-text {
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+.insert-text-field {
+    font-weight: 400;
+    font-family: 'OrkneyRegular' !important;
+}
+
+@media(max-width:900px) {
+    .padd1ng {
+        padding-top: 1rem;
+    }
+    .padd11ng {
+        padding: 1rem 0 0rem 0;
+    }
+    .padd1ing {
+        padding-top: 0rem;
+    }
+}
+
+@media(max-width:950px) {
+    .padd1ing {
+        padding-top: 0rem;
+    }
+}
+
+@media(max-width:900px) {
+    .m0bbutn {
+        margin: 0rem 0 0 0rem;
+    }
+    .m0bcont {
+        padding-top: 7rem;
+    }
+}

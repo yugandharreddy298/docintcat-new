@@ -1,0 +1,158 @@
+.com-col {
+  color: #81FF8E;
+}
+
+.com-col1 {
+  color: #FF9100;
+}
+
+.com-col2 {
+  color: #32ADDB;
+}
+
+.mwi-drop {
+  min-width: 23rem !important;
+}
+
+@media (max-width: 468px) {
+  .mwi-drop {
+    min-width: 15rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .prem-center {
+    text-align: center;
+  }
+}
+
+.doc-col {
+  color: #828385;
+}
+
+.dot4 {
+  height: 23px;
+  width: 23px;
+  background-color: #FFCD00;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+}
+
+/* 9-4-2019 */
+
+/* start */
+
+/* ==end== */
+
+/* lakshmi 19/04/2019 */
+
+@media (min-width: 992px) {
+  .colwdth {
+    min-width: 20% !important;
+  }
+}
+
+.noborder:hover {
+  border: 0px solid #fff !important;
+}
+
+.imagecss {
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50% 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8px 40px;
+}
+
+.txtwdth {
+  white-space: nowrap;
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* .txtwdth:hover {
+
+  word-break: break-word;
+  overflow: initial;
+  white-space: pre-line;
+} */
+
+.centeralign td {
+  vertical-align: middle !important;
+}
+
+.tblwdth {
+  width: 30%;
+}
+
+/* lakshmi 19/04/2019 end*/
+
+/* Quick access alignment CSS:Start */
+
+.fntwgt {
+  font-size: 15px;
+  color: #2d363c;
+}
+
+.link-quick112 {
+  margin-top: -16px
+}
+
+/* Quick access alignment CSS:End */
+
+.caret-down-pos {
+  position: relative;
+  top: 5px;
+  right: 6px;
+}
+
+.caret-up-pos {
+  position: relative;
+  bottom: 3px;
+  left: 3px;
+}
+
+.totalfield {
+  text-align: center;
+  transform: translate(0%, -17%);
+}
+
+.search-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  max-height: 500px;
+}
+
+.nosearch {
+  font-size: 26px;
+  font-weight: 600;
+  color: #353535;
+  margin-top: 9em;
+}
+
+.nosearchimage {
+  margin-top: 5em;
+}
+
+.pdfname {
+  text-decoration: underline;
+  text-decoration-color: #58FF30;
+}
+
+.convertimg {
+  height: 145px;
+  object-fit: contain;
+}

@@ -1,0 +1,724 @@
+<div *ngIf='!makecopy && delete && dialogdata.name=="delete"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p>You want to delete this File.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div> <button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+          <div> <button mat-raised-button class="b0utnstyle btndel"
+              *ngIf="!makecopy && delete && dialogdata.name=='delete'" mat-raised-button
+              [mat-dialog-close]=true cdkFocusInitial>Delete</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!makecopy && delete && dialogdata.name=="DeleteTemplate"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p>{{dialogdata.content}}</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div> <button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+          <div> <button mat-raised-button class=" btndel"
+              *ngIf="!makecopy && delete && dialogdata.name=='DeleteTemplate'" mat-raised-button
+              (click)="closeTemplateDialogue()" cdkFocusInitial>Delete</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!makecopy && !delete && dialogdata.name=="delete1"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p>You want to delete this email.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+          <div> <button mat-raised-button class=" btndel" *ngIf="!makecopy && !delete && dialogdata.name=='delete1'"
+              mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Delete</button></div>
+        </div>
+      </mat-dialog-actions>
+
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!makecopy && !delete && dialogdata.name=="deletedepartment"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p>You want to delete this department.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+          <div> <button mat-raised-button class=" btndel"
+              *ngIf="!makecopy && !delete && dialogdata.name=='deletedepartment'" mat-raised-button
+              [mat-dialog-close]=true cdkFocusInitial>Delete</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!makecopy && !delete && dialogdata.name=="notregister"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/Group4351.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 text-center ensureemail">
+      <span *ngFor='let  i of dialogdata.userarray' class="pr-4">{{i}} </span>
+      <p>Ensure the user is registered with DocIntact !
+      </p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+          <div> <button mat-raised-button class=" btncopy"
+              *ngIf="!makecopy && !delete && dialogdata.name=='notregister'" mat-raised-button
+              [mat-dialog-close]=true cdkFocusInitial>Ok</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!makecopy && !delete && dialogdata.name=="exitdialog"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/Group4351.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p>You want to save this Changes.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" [mat-dialog-close]=false>No</button></div>
+          <div> <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Yes</button>
+          </div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!makecopy && !delete && !delete1 && dialogdata.name=="deletefolder"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p>You want to delete this Folder.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+          <div> <button mat-raised-button class=" btndel"
+              *ngIf="!makecopy && !delete && dialogdata.name=='deletefolder'" [mat-dialog-close]=true
+              cdkFocusInitial>Delete</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<!-- delete-->
+<div *ngIf='!makecopy && !delete && !delete1 && dialogdata.name=="deleteMultiFilesandFolders"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p *ngIf='!dialogdata.content'>You want to delete selected Items.</p>
+      <p *ngIf='dialogdata.content'>{{dialogdata.content}}</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+          <div> <button mat-raised-button class=" btndel"
+              *ngIf="!makecopy && !delete && dialogdata.name=='deleteMultiFilesandFolders'" mat-raised-button
+              [mat-dialog-close]=true cdkFocusInitial>Delete</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!makecopy && !delete && !delete1 && dialogdata.name=="deleteMultiFiles"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p> You want to delete selected File.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" [mat-dialog-close]=false>Cancel</button></div>
+          <div> <button mat-raised-button class=" btndel"
+              *ngIf="!makecopy && !delete && dialogdata.name=='deleteMultiFiles'" mat-raised-button
+              [mat-dialog-close]=true cdkFocusInitial>Delete</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!makecopy && !delete && !delete1 && dialogdata.name=="deleteMultiFolders"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/img/trash.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p> You want to delete selected Folder.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" [mat-dialog-close]=false>Cancel</button></div>
+          <div> <button mat-raised-button class=" btndel"
+              *ngIf="!makecopy && !delete && dialogdata.name=='deleteMultiFolders'" mat-raised-button
+              [mat-dialog-close]=true cdkFocusInitial>Delete</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<!-- make copy -->
+<div *ngIf='makecopy && !delete && dialogdata.name=="makecopy"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="./assets/images/makecopy.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>Are you sure?</h4>
+      <p>You want copy this.</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" [mat-dialog-close]=false>Cancel</button></div>
+          <div> <button mat-raised-button class=" btncopy b0utnstyle"
+              *ngIf="makecopy && !delete && dialogdata.name=='makecopy'" mat-raised-button
+              [mat-dialog-close]=true cdkFocusInitial>Copy</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+<!-- make copy-->
+
+<!-- New folder dailogue box -->
+<div
+  *ngIf='!makecopy && !delete &&!delete1 &&!deletedepartment &&!sharetonew  &&!newfilename &&!exitdialog && !deletefolder &&!dependency &&!expired &&!fields && !videorecord && !trashdelete &&!protection &&!mobilelinkexpire && !restore && !restore1  && !sharesubmit && !header  &&!aiauthenticate && !needToBlockAccount &&!notregister && !leavepage &&  dialogdata.name!="fileupload"'
+  class="divisioncontainer">
+  <div class="modal-header header">
+    <h1 mat-dialog-title class="newflder">New Folder</h1>
+    <button type="button" class="close dismissbutton" [mat-dialog-close]=false aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="body newfolder-bodyinput">
+    <input type="text" class="bodyinput" placeholder="Folder Name" name='folderName' [(ngModel)]="folderName"
+      pattern="(?=.*[a-zA-Z\d !'#$%&()+,-.;=@[\]^_`{}~])[A-Za-z\d !'#$%&()+,-.;=@[\]^_`{}~]{1,100}" #folder1="ngModel"
+      maxlength="100" id="CreateNewFolder" (keyup)="CreateFolder(folder1,$event)" required>
+    <div *ngIf="folder1.invalid && (folder1.dirty || folder1.touched)|| errorshow &&folder1.errors">
+      <p class="text-danger sml-danger-txt nunito-font pos-danger" *ngIf="foldererror && folder1.errors.required">Please
+        Enter Folder
+        Name</p>
+    </div>
+    <div class="text-danger sml-danger-txt nunito-font pos-danger fon-14"
+      *ngIf="!foldererror && errorshow || folder1.invalid && (folder1.dirty || folder1.touched) && folder1.errors.pattern ">
+      Name can't contain the any of the following characters \ : / ? * " < |>
+    </div>
+  </div>
+  <div class="footer">
+    <mat-dialog-actions class="finalbuttons">
+      <button mat-raised-button [mat-dialog-close]=false class="cancelbtn">Cancel</button>
+      <button mat-raised-button class="savebtn b0utnstyle" (click)="createFolderDialogClose(folder1)"
+        color="primary">Create</button>
+    </mat-dialog-actions>
+  </div>
+</div>
+<!-- New folder dailogue box -->
+
+<!-- Rename dailogue box -->
+<div
+  *ngIf="show1 && !makecopy && !delete && !videorecord &&!sharetonew  &&!dependency &&!notregister && !newfilename  &&!aiauthenticate && !needToBlockAccount &&!mobilelinkexpire && !expired && !leavepage && dialogdata.name!='fileupload'"
+  class="divisioncontainer">
+  <div class="modal-header header">
+    <h1 mat-dialog-title class="newflder">Rename</h1>
+    <button type="button" class="close dismissbutton" [mat-dialog-close]=false aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #renameform="ngForm">
+  <div class="body newfolder-bodyinput">
+    <input type="text" class="bodyinput"  placeholder="Folder Name" [(ngModel)]="folderName" id='renamefield' name="folderName"
+      pattern="(?=.*[a-zA-Z\d !'#$%&()+,-.;=@[\]^_`{}~])[A-Za-z\d !'#$%&()+,-.;=@[\]^_`{}~]{1,100}"
+      #foldernamecheck="ngModel" required maxlength="100">
+    <div
+      *ngIf="foldernamecheck.invalid && (foldernamecheck.dirty || foldernamecheck.touched)|| errorshow1 &&foldernamecheck.errors">
+      <p class="text-danger sml-danger-txt nunito-font pos-danger"
+        *ngIf="invaliderror && foldernamecheck.errors.required">Please Enter
+        Name</p>
+    </div>
+    <div class="text-danger sml-danger-txt nunito-font pos-danger fon-14"
+      *ngIf=" errorshow1 || foldernamecheck.invalid && (foldernamecheck.dirty || foldernamecheck.touched) && foldernamecheck.errors.pattern ">
+      Name can't contain the any of the following characters \ : / ? * " < |>
+    </div>
+  </div>
+  <div class="footer">
+    <mat-dialog-actions class="finalbuttons">
+      <button mat-raised-button [mat-dialog-close]=false class="cancelbtn">Cancel</button>
+      <button mat-raised-button type="submit" class="savebtn b0utnstyle" *ngIf="!makecopy && !delete && dialogdata.name!='fileupload'"
+        mat-raised-button (click)="renameFolderDialogClose(foldernamecheck)" color="primary">Submit</button>
+    </mat-dialog-actions>
+  </div>
+  </form>
+</div>
+
+<!-- share popup:dispalys field msg and error msg -->
+<div *ngIf='fields'>
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="fields"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12 aligntxt">
+        <h4>{{dialogdata.content}}</h4>
+        <p *ngIf='dialogdata.data'>{{dialogdata.data}}</p>
+      </div>
+      <div class="col-12" class="dltcancl">
+        <mat-dialog-actions>
+          <button type="button" *ngIf="dialogdata.cancel" [mat-dialog-close]=false class="Cancelbutton">Cancel</button>
+          <button mat-raised-button class=" btnstaylogin" *ngIf="!makecopy && !delete && !dialogdata.showretry && dialogdata.name=='fields'"
+            mat-raised-button [mat-dialog-close]=true>Ok</button>
+            <button mat-raised-button class=" btnstaylogin" *ngIf="!makecopy && !delete &&dialogdata.showretry && dialogdata.name=='fields'"
+            mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Retry</button>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>
+  <div *ngIf='requestlogin'>
+    <div *ngIf='!makecopy && delete && dialogdata.name=="delete"' class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="outercircle">
+            <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+          </div>
+        </div>
+        <div class="col-12">
+          <p class="aligntxt">Request To Login</p>
+          <p class="aligntxt">Login into the website to view the shared file.</p>
+        </div>
+        <div class="col-12" class="dltcancl">
+          <mat-dialog-actions>
+            <button type="button" class="Cancelbutton" mat-dialog-close (click)="rqstlogin()">Login</button>
+            <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true>Cancel</button>
+          </mat-dialog-actions>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- camera popup-->
+<div *ngIf='!makecopy && !delete && dialogdata.name=="restore1"' class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="outercircle">
+        <div class="halfcircle"> <img src="assets/images/Path16944.png" class="imgtrash"></div>
+      </div>
+    </div>
+    <div class="col-12 aligntxt">
+      <h4>{{dialogdata.content}}</h4>
+      <p>{{dialogdata.data}}</p>
+    </div>
+    <div class="col-12" class="dltcancl">
+      <mat-dialog-actions>
+        <div class="flx">
+          <div><button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+          <div> <button mat-raised-button class="btndel restore-but-clr"
+              *ngIf="!makecopy && !delete && dialogdata.name=='restore1'" mat-raised-button [mat-dialog-close]=true
+              (click)="onNoClick()" cdkFocusInitial>Restore</button></div>
+        </div>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='restore'>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Path16944.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12">
+        <p class="aligntxt">Document Restored Sucessfully</p>
+      </div>
+      <div class="col-12" class="dltcancl">
+        <mat-dialog-actions>
+          <div class="flx">
+            <div> <button type="button" class="Cancelbutton" mat-dialog-close
+                routerLink="/home/myfiles/">Locate</button></div>
+            <div> <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true cdkFocusInitial>OK</button>
+            </div>
+          </div>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='trashdelete'>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircleemptybin">
+          <div class="halfcircle"> <img src="assets/images/Group4395.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12 content">
+        <p class="aligntxtemptybin">Empty Bin ?</p>
+        <p class="aligntxtcontentbin">All files and folders in your bin are about to be permanently deleted.</p>
+        <p class="aligntxtfinalmsg">Warning: You can't undo this action.</p>
+      </div>
+      <div class="col-12" class="dltcancl">
+        <mat-dialog-actions>
+          <div class="flx">
+            <div><button type="button" class="Cancelbutton" mat-dialog-close>Cancel</button></div>
+            <div> <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Empty
+                Bin</button></div>
+          </div>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='sharesubmit'>
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="sharesubmit"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+
+      <div class="col-12 aligntxt">
+        <!-- <p class="">No Fields are Found</p> -->
+        <h4>{{dialogdata.content}}</h4>
+        <p class="aligntxt">{{dialogdata.data}}</p>
+
+      </div>
+      <div class="col-12" class="dltcancl">
+        <mat-dialog-actions>
+          <button type="button" *ngIf="dialogdata.cancel" [mat-dialog-close]=false class="Cancelbutton">No</button>
+          <button mat-raised-button class=" btnstaylogin" *ngIf="!makecopy && !delete && dialogdata.name=='sharesubmit'"
+            mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Yes</button>
+        </mat-dialog-actions>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='expired'>
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="expired"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <p class="aligntxt">{{dialogdata.content}}</p>
+
+      </div>
+      <div class="col-12" class="dltcancl">
+        <mat-dialog-actions>
+          <button type="button" *ngIf="dialogdata.cancel" [mat-dialog-close]=false class="Cancelbutton">Cancel</button>
+          <button mat-raised-button class=" btnstaylogin" *ngIf="!makecopy && !delete && dialogdata.name=='expired'"
+            mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Ok</button>
+        </mat-dialog-actions>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="videorecord">
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="videorecord"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12 aligntxt">
+        <h4>{{dialogdata.content | titlecase}}</h4>
+      </div>
+      <div class="col-12" class="dltcancl">
+        <mat-dialog-actions>
+          <button type="button" *ngIf="dialogdata.cancel" [mat-dialog-close]=false class="Cancelbutton">Cancel</button>
+          <button mat-raised-button class=" btnstaylogin" *ngIf="!makecopy  &&!dialogdata.cancel && !delete && dialogdata.name=='videorecord'"
+            mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Retry</button>
+            <!-- <button mat-raised-button class=" btnstaylogin" *ngIf="!makecopy && !delete && dialogdata.name=='videorecord' && dialogdata.cancel"
+            mat-raised-button [mat-dialog-close]=true>Ok</button> -->
+        </mat-dialog-actions>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='protection'>
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="protection"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group8321.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12">
+        <p class="aligntxt fon-400" *ngIf="dialogdata.content.Message && dialogdata.content.files"
+          style="padding-top: 26px;">This Document
+          "{{dialogdata.content.files.uploads[0].name}}" Is Password Protected Please Enter Correct Password</p>
+        <p class="aligntxt fon-400" *ngIf="dialogdata.content.file && dialogdata.content.responsedata"
+          style="padding-top: 26px;"> This Document
+          "{{dialogdata.content.file.name}}" Is Password Protected Please Enter Password</p>
+        <form #Passwordform="ngForm">
+          <mat-form-field appearance="outline" class="otp-popup delfooter flx">
+            <input type="password" matInput [(ngModel)]="Password" #Password1="ngModel" name="Password"
+              [class.has-error]="Password1.invalid && Password1.touched" [class.has-success]="Password1.valid" required
+              style="margin: 0;padding: 0;">
+          </mat-form-field>
+          <div class="dltcancl delfooter flx">
+            <mat-dialog-actions>
+              <button type="button" [mat-dialog-close]=false class="Cancelbutton">Cancel</button>
+              <button mat-raised-button class=" btnstaylogin"
+                *ngIf="!makecopy && !delete && dialogdata.name=='protection'"
+                (click)="formSubmitted=true; Passwordsubmit(Passwordform)" mat-raised-button>submit</button>
+            </mat-dialog-actions>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='dependency'>
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="dependency"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12 depency-aligntxt">
+        <p>{{dialogdata.content}}</p>
+        <div class="dltcancl delfooter flx">
+          <mat-dialog-actions *ngIf='dialogdata.folder'>
+              <div><button type="button" class="Cancelbutton" mat-dialog-close>No</button></div>
+              <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Yes</button>
+          </mat-dialog-actions>
+          <mat-dialog-actions *ngIf='!dialogdata.folder'>
+              <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true cdkFocusInitial>OK</button>
+          </mat-dialog-actions>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="sharetonew">
+  <div *ngIf='!makecopy && !delete && dialogdata.name=="sharetonew"' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12 aligntxt">
+        <h4>Do you want to save this file as new Document?</h4>
+      </div>
+      <div class="col-12" class="dltcancl">
+        <mat-dialog-actions>
+          <div class="flx">
+            <div><button type="button" class="Cancelbutton" mat-dialog-close>No</button></div>
+            <div> <button mat-raised-button class=" btnstaylogin"
+                *ngIf="!makecopy && !delete && dialogdata.name=='sharetonew'" mat-raised-button
+                [mat-dialog-close]=true cdkFocusInitial>Yes</button></div>
+          </div>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div *ngIf='newfilename'>
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="newfilename"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/newdoc1.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12">
+        <p class="aligntxt fon-400 mt-5 text-center">Please Enter Filename</p>
+        <form #Filenameform="ngForm">
+          <mat-form-field appearance="outline" class="otp-popup delfooter flx">
+            <input type="text" matInput [(ngModel)]="Filename" #Filename1="ngModel" name="Filename"
+              [class.has-error]="Filename1.invalid && Filename1.touched" [class.has-success]="Filename1.valid" required
+              style="margin: 0;padding: 0;">
+          </mat-form-field>
+          <div class="dltcancl delfooter flx">
+            <mat-dialog-actions>
+              <button type="button" [mat-dialog-close]=false class="Cancelbutton">Cancel</button>
+              <button mat-raised-button class=" btnstaylogin"
+                *ngIf="!makecopy && !delete && dialogdata.name=='newfilename'"
+                (click)="formSubmitted=true; filenamesubmit(Filenameform)" mat-raised-button>submit</button>
+            </mat-dialog-actions>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="aiauthenticate || needToBlockAccount">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12 aligntxt">
+        <h4>{{DisplayContent}}</h4>
+        <p *ngIf='NameContent'>{{NameContent}}</p>
+      </div>
+      <div class="col-12" class="dltcancl">
+        <mat-dialog-actions>
+          <div class="flx">
+            <div><button type="button" class="Cancelbutton" mat-dialog-close>No</button></div>
+            <div> <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Yes</button>
+            </div>
+          </div>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='mobilelinkexpire'>
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="mobilelinkexpire"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12">
+        <p class="aligntxt">Link is Expired</p>
+        <div class="dltcancl delfooter flx">
+          <mat-dialog-actions>
+            <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Ok</button>
+          </mat-dialog-actions>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='leavepage'>
+  <div *ngIf='!makecopy && !delete  && dialogdata.name=="leavepage"  ' class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="outercircle">
+          <div class="halfcircle"> <img src="assets/images/Group4394.png" class="imgtrash"></div>
+        </div>
+      </div>
+      <div class="col-12 aligntxt">
+        <h4>Are You Sure To </h4>
+        <p >Leave This Page?</p>
+      </div>
+      <div class="col-12">
+    
+        <div class="dltcancl delfooter flx">
+          <mat-dialog-actions>
+            <div><button type="button" class="Cancelbutton" mat-dialog-close>No</button></div>
+            <div> <button mat-raised-button class=" btnstaylogin" mat-raised-button [mat-dialog-close]=true cdkFocusInitial>Leave Now</button>
+            </div>
+          </mat-dialog-actions>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

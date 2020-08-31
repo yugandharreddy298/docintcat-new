@@ -1,0 +1,25 @@
+ video {
+     resize: both;
+     top: 0;
+     left: 0;
+     z-index: -1;
+     /* Mirror the local video */
+     transform: scale(-1, 1);
+     /*For Firefox (& IE) */
+     -webkit-transform: scale(-1, 1);
+     /*for Chrome & Opera (& Safari) */
+ }
+
+ canvas {
+     position: absolute;
+     top: 0;
+     left: 0;
+     z-index: 1
+ }
+
+ .athunticate {
+     width: 100%;
+ }
+ .progress-bar{
+     background-color: #90c990;
+ }

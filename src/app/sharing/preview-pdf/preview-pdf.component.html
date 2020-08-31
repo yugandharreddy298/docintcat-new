@@ -1,0 +1,256 @@
+<div (scroll)="onPdfScroll($event);" id="doc-view" mat-dialog-content class="pdf_height">
+  <div *ngFor="let field of fields;let i = index">
+    <div>
+      <div class="disableDiv">
+        <div class="field" *ngIf="field.type == 'text'" id="{{field.id}}" [style.top.px]='getFieldTop(field)'
+          [style.left.px]='getFieldLeft(field)'>
+          <span class="drag-icon-span">&nbsp;</span>
+          <input [ngClass]="{'disableDiv  ' : field.insertedemail ,'contentnoselect':field.insertedemail }"
+            id="{{field.id}}-input" type="{{field.fieldtype}}" name="field.{{field.id}}" [(ngModel)]="field.value"
+            placeholder='{{field.placeholder | titlecase}}' required={{field.required}} readonly={{field.readonly}}
+            [style.text-align]='field.align' #{{field.test}}="ngModel" autocomplete="off"
+            [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'
+            maxlength="{{field.maxlength}}" minlength="{{field.minlength}}" class="drag-box label"
+            [disabled]='field.class == "disableDiv"'>
+        </div>
+        <div class=" field" *ngIf="field.type == 'name'" id="{{field.id}}" [style.top.px]='getFieldTop(field)'
+          [style.left.px]='getFieldLeft(field)'>
+          <span class="drag-icon-span">&nbsp;</span>
+          <input [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail  }"
+            id="{{field.id}}-input" type="{{field.fieldtype}}" name="field.{{field.id}}" [(ngModel)]="field.value"
+            placeholder='{{field.placeholder | titlecase}}' required={{field.required}} [style.text-align]='field.align'
+            #{{field.test}}="ngModel" autocomplete="off" [style.width.px]='getFieldWidth(field)'
+            [style.height.px]='getFieldHeight(field)' maxlength="{{field.maxlength}}" minlength="{{field.minlength}}"
+            class="drag-box label vvvvv" readonly={{field.readonly}} [disabled]='field.class == "disableDiv"' />
+        </div>
+        <div class=" field" *ngIf="field.type == 'email'" id="{{field.id}}" [style.top.px]='getFieldTop(field)'
+          [style.left.px]='getFieldLeft(field)'>
+          <span class="drag-icon-span">&nbsp;</span>
+          <input [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail}"
+            id="{{field.id}}-input" type="{{field.fieldtype}}" name="field.{{field.id}}" [(ngModel)]="field.value"
+            placeholder='{{field.placeholder | titlecase}}' required={{field.required}} readonly={{field.readonly}}
+            [style.text-align]='field.align' #{{field.test}}="ngModel" autocomplete="off"
+            [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'
+            maxlength="{{field.maxlength}}" minlength="{{field.minlength}}" class="drag-box label"
+            [disabled]='field.class == "disableDiv"' />
+        </div>
+        <div class=" field" *ngIf="field.type == 'mobilenumber'" id="{{field.id}}" [style.top.px]='getFieldTop(field)'
+          [style.left.px]='getFieldLeft(field)'>
+          <span class="drag-icon-span">&nbsp;</span>
+          <input [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail}"
+            id="{{field.id}}-input" type="{{field.fieldtype}}" name="field.{{field.id}}" [(ngModel)]="field.value"
+            placeholder='{{field.placeholder | titlecase}}' required={{field.required}} readonly={{field.readonly}}
+            [style.text-align]='field.align' #{{field.test}}="ngModel" autocomplete="off"
+            [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'
+            maxlength="{{field.maxlength}}" minlength="{{field.minlength}}" class="drag-box label"
+            [disabled]='field.class == "disableDiv"' />
+
+        </div>
+      </div>
+      <div class=" field" *ngIf="field.type == 'company'" id="{{field.id}}" [style.top.px]='getFieldTop(field)'
+        [style.left.px]='getFieldLeft(field)'>
+        <span class="drag-icon-span">&nbsp;</span>
+        <input [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail }"
+          id="{{field.id}}-input" type="{{field.fieldtype}}" name="field.{{field.id}}" [(ngModel)]="field.value"
+          placeholder='{{field.placeholder | titlecase}}' required={{field.required}} readonly={{field.readonly}}
+          [style.text-align]='field.align' #{{field.test}}="ngModel" autocomplete="off"
+          [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'
+          maxlength="{{field.maxlength}}" minlength="{{field.minlength}}" class="drag-box label"
+          [disabled]='field.class == "disableDiv"' />
+
+      </div>
+      <div class=" field noEditMode" *ngIf="field.type == 'label'" id="{{field.id}}" [style.top.px]='getFieldTop(field)'
+        [style.left.px]='getFieldLeft(field)' [ngClass]="{'filledData': field.value ,'contentnoselect':field.value}">
+        <span class="drag-icon-span">&nbsp;</span>
+        <textarea id="{{field.id}}-input" name="field.{{field.id}}" [(ngModel)]="field.value"
+          placeholder='{{field.placeholder | titlecase}}' readonly=true [style.text-align]='field.align'
+          #{{field.test}}="ngModel" autocomplete="off" class="drag-box label noEditMode disableresize"
+          maxlength="{{field.maxvalue}}" [style.height.px]='getFieldHeight(field)'
+          [style.width.px]='getFieldWidth(field)' [disabled]='field.class == "disableDiv"'
+          [ngClass]="{'labelplaceholder':windowwidth < 750}">
+              </textarea>
+
+
+      </div>
+      <div [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'
+        [ngClass]="{'disableDiv' : field.dateacess=='Default'}" class=" field" id="{{field.id}}"
+        *ngIf="field.type == 'date'" [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)'>
+        <span class="drag-icon-span">&nbsp;</span>
+        <input name="field.{{field.id}}" [(ngModel)]="field.value" [owlDateTime]="dt1" class="shadow-input"
+          (ngModelChange)="UpdateDateFormat(field)">
+        <input [ngClass]="{'disableDiv  ' : field.insertedemail ,'dateopacity': field.class == 'disableDiv'}"
+          required={{field.required}}
+          readonly='{{field.readonly}} || {{field.insertedemail}} || (field.people!=sharedRecord.toemail)'
+          [disabled]="field.dateacess=='Default' || field.class == 'disableDiv' || field.readonly" type="text"
+          placeholder="{{field.pickerT=='both'?(field.dateTimeformats| uppercase):field.pickerT=='timer'?(field.timeformats| uppercase):field.dateformats | uppercase}}"
+          [value]="field.value | date:field.pickerT=='both'?(field.dateTimeformats):field.pickerT=='timer'?(field.timeformats):field.dateformats"
+          [owlDateTimeTrigger]="dt1" class="drag-box label mr-auto ml-auto dropdown-container dateAlign"
+          [style.text-align]='field.align' id="{{field.id}}-input" [style.width.px]='getFieldWidth(field)'
+          [style.height.px]='getFieldHeight(field)' (ngModelChange)="UpdateDateFormat(field)">
+        <owl-date-time #dt1 [hour12Timer]="true" [pickerType]="field.pickerT"
+          [disabled]='field.class == "disableDiv" || field.readonly'></owl-date-time>
+        <i class="fa fa-times-circle close-but-in-calender dateclear" *ngIf="!field.insertedemail  && field.value"
+          style="cursor: pointer" (click)="clearDateValue(field)"></i>
+
+
+      </div>
+      <div class=" field signature tooltip-main " id="{{field.id}}" *ngIf="field.type == 'signature'"
+        [style.height.px]='getFieldHeight(field)' [style.width.px]='getFieldWidth(field)'
+        [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' style="text-align: center"
+        [ngClass]="{'filledData':  field.signatureType}">
+        <div>
+          <div [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail }"
+            (dblclick)="field.class!='disableDiv' && openModel('signatureModalBtn',field)"
+            (touchend)="openmodels($event,'signatureModalBtn',field)" class="drag-box label" data-text="Signature"
+            [style.text-align]='field.align' id="{{field.id}}-input" [style.height.px]='getFieldHeight(field)'
+            [style.width.px]='getFieldWidth(field)'>
+            <span *ngIf="!field.signatureId">Signature</span>
+            <img *ngIf="field.signatureType=='fileupload'" src="{{field.path}}" alt="signature" width="100%"
+              height="100%" class="imagereset" draggable="false">
+            <img *ngIf="field.signatureType=='signaturepad'" [src]="field.signaturebaseData" alt="signature"
+              draggable="false" width="100%" height="100%" class="imagereset" />
+            <div *ngIf="field.signatureType=='font'">
+              <span [ngClass]="{'active':  fontstyle==field.fontStyle}" style="color:black;"
+                [style.font-family]="field.fontStyle">
+                {{field.fontText}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" field signature" id="{{field.id}}" *ngIf="field.type == 'initial'"
+        [style.top.px]='getFieldTop(field)' [style.height.px]='getFieldHeight(field)'
+        [style.width.px]='getFieldWidth(field)' [style.left.px]='getFieldLeft(field)' style="text-align: center">
+        <div>
+          <div [ngClass]="{'disableDiv  ' : field.insertedemail ,'contentnoselect':field.insertedemail }"
+            (dblclick)="field.class != 'disableDiv' && openModel('initialModalBtn',field)"
+            (touchend)="openmodels($event,'initialModalBtn',field)" class="drag-box label" data-text="Initial"
+            [style.text-align]='field.align' [style.height.px]='getFieldHeight(field)'
+            [style.width.px]='getFieldWidth(field)' id="{{field.id}}-input">
+            <span *ngIf="!field.signatureType">Initial</span>
+            <img *ngIf="field.signatureType=='fileupload'" src="{{field.path}}" alt="Initial" width="100%" height="100%"
+              class="imagereset" draggable="false">
+            <img *ngIf="field.signatureType=='signaturepad'" [src]="field.signaturebaseData" alt="Initial"
+              draggable="false" [src]="field.signaturebaseData" width="100%" height="100%" class="imagereset" />
+            <div *ngIf="field.signatureType=='font'">
+              <span [ngClass]="{'active':  fontstyle==field.fontStyle}" style="color:black;"
+                [style.font-family]="field.fontStyle">
+                {{field.fontText}}</span>
+            </div>
+          </div>
+        </div>
+
+        <span class="text-danger" *ngIf="field.req && !field.people ">filed is required</span>
+      </div>
+      <div class=" field signature" id="{{field.id}}" *ngIf="field.type == 'Photo'" [style.top.px]='getFieldTop(field)'
+        [style.left.px]='getFieldLeft(field)' [style.height.px]='getFieldHeight(field)'
+        [style.width.px]='getFieldWidth(field)' style="text-align: center">
+        <div [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail }"
+          [style.height.px]='getFieldHeight(field)' [style.width.px]='getFieldWidth(field)' class="drag-box label"
+          data-text="Photo" [style.text-align]='field.align' id="{{field.id}}-input">
+          <span *ngIf="!field.photoId">Photo</span>
+          <img *ngIf="field.photoId" src="{{field.path}}" alt="Photo" width="100%" height="100%" class="imagereset"
+            draggable="false">
+        </div>
+      </div>
+      <div class=" field signature" id="{{field.id}}" *ngIf="field.type == 'Stamp'" [style.top.px]='getFieldTop(field)'
+        [style.left.px]='getFieldLeft(field)' style="text-align: center">
+        <div [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail }"
+          [style.height.px]='getFieldHeight(field)' [style.width.px]='getFieldWidth(field)'
+          (touchend)="openmodels($event,'stampModalBtn',field)" class="drag-box label" data-text="Stamp"
+          [style.text-align]='field.align' id="{{field.id}}-input">
+          <span *ngIf="!field.stampId">Stamp</span>
+          <img *ngIf="field.stampId" src="{{field.path}}" alt="Stamp" width="100%" height="100%" class="imagereset"
+            draggable="false">
+        </div>
+        <span class="text-danger" *ngIf="field.req && field.people && field.people==sharedRecord.toemail">filed
+          is
+          required</span>
+        <span class="text-danger" *ngIf="field.req && !field.people ">filed is required</span>
+      </div>
+      <div class=" field" id="{{field.id}}" *ngIf="field.type == 'checkbox'" [style.top.px]='getFieldTop(field)'
+        [style.left.px]='getFieldLeft(field)' [style.height.px]='getFieldHeight(field)'
+        [style.width.px]='getFieldWidth(field)' [ngClass]="{'filledData': field.value,'contentnoselect':field.value}">
+        <div class="drag-box label" [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'>
+          <input id="{{field.id}}-input" [ngClass]="{'disableDiv  ' : field.insertedemail }" type="checkbox"
+            name="field.{{field.id}}" [(ngModel)]="field.value" [style.text-align]='field.align'
+            required={{field.required}}
+            readonly='{{field.readonly}} || {{field.insertedemail}} || (field.people!=sharedRecord.toemail)'
+            #{{field.test}}="ngModel" autocomplete="off" [style.height.px]='getFieldHeight(field) - 4'
+            [style.width.px]='getFieldWidth(field) - 4' [disabled]='field.class == "disableDiv" || field.readonly' />
+        </div>
+
+      </div>
+      <div class=" field" id="{{field.id}}" *ngIf="field.type == 'dropdown'" [style.top.px]='getFieldTop(field)'
+        [style.left.px]='getFieldLeft(field)' data-toggle="tooltip" title={{field.people}}>
+        <mat-select [ngClass]="{'disableDiv  ' : field.insertedemail,'filledData': field.value }"
+          [style.height.px]='getFieldHeight(field)' class="drag-box label" name="field.{{field.id}}"
+          [(ngModel)]="field.value" [style.text-align]='field.align' id="{{field.id}}-input"
+          [style.width.px]='getFieldWidth(field)' required={{field.required}} #{{field.test}}="ngModel"
+          autocomplete="off" (blur)="validateFieldtouch($event, field)"
+          [disabled]='field.class == "disableDiv" || field.readonly'>
+          <mat-option *ngFor='let opt of field.optionvalue;let i = index' [(value)]='opt'>{{opt}}
+          </mat-option>
+        </mat-select>
+
+      </div>
+      <div class=" field" id="{{field.id}}" *ngIf="field.type == 'radiobutton'" [style.top.px]='getFieldTop(field)'
+        [style.left.px]='getFieldLeft(field)' data-toggle="tooltip" title={{field.people}}
+        [ngClass]="{'filledData': field.value,'contentnoselect':field.value}">
+        <div id="{{field.id}}-input" class="drag-box label" [style.width.px]='getFieldWidth(field)'
+          [style.height.px]='getFieldHeight(field)'>
+          <span *ngFor='let opt of field.optionvalue'>
+            <span *ngIf="opt !=''" class="form-check form-check-inline">
+              <input [ngClass]="{'disableDiv  ' : field.insertedemail || field.readonly }" class="form-check-input"
+                type='radio' name="field.{{field.id}}" [(ngModel)]="field.value" required={{field.required}}
+                #{{field.test}}="ngModel"
+                readonly='{{field.readonly}} || {{field.insertedemail}} || (field.people!=sharedRecord.toemail)'
+                autocomplete="off" [(value)]='opt' [disabled]='field.class == "disableDiv"  '><label
+                class="form-check-label">{{opt}}</label>
+            </span></span>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <pdf-viewer id="blog-post" class="blog-post example-boundary viewer" [src]="dialogData.path" [zoom]="zoomVal"
+    [render-text]="true" (after-load-complete)="afterLoadComplete($event)">
+  </pdf-viewer>
+</div>
+<div class="modal-header">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-6">
+        <ul class="pdfheader_butons">
+          <li><i class="fa fa-arrow-left" (click)="close()"></i></li>
+          <li>{{dialogData.name}}</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <ul class="restore_delete">
+          <li><button class="btn btn-restore" id="filesList" (click)="actions('Restore')">Restore</button></li>
+          <li><button class="btn btn-delete" id="filesList" (click)="actions('Delete')">Delete</button></li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+  </div> -->
+<section>
+  <div class="container-fluid footer-bg1 contentnoselect ">
+    <div class="col-12 text-center">
+      <ul class="pagelist">
+        <li><label class="l9bel">Pages</label></li>
+        <li *ngIf="pdfdata"><label class="l9bel">{{pageNo}}/{{pdfdata.numPages}}</label></li>
+        <li> <i class="material-icons z00mout materia1font" aria-hidden="true" (click)="pdfZoomOut()">remove</i> </li>
+        <li *ngIf="zoomVal > 1; "> <i class="material-icons materia1font" (click)="pdfZoomreset()">zoom_out</i> </li>
+        <li *ngIf="(zoomVal == 1)"> <i class="material-icons materia1font" (click)="pdfZoomMax()">zoom_in</i></li>
+        <li> <i class="material-icons z00min materia1font" aria-hidden="true" (click)="pdfZoomIn()">add</i></li>
+      </ul>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,71 @@
+.document-verification {
+    padding: 150px 0 43px 0;
+}
+
+.strat-free-trail-but {
+    border: none;
+    background: linear-gradient(200deg, #e75354, #f27c6e);
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.strat-free-trail-inpt-gap {
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.web-portal h2 {
+    margin: 0 auto;
+    padding: 0 0 39px 0;
+    font-weight: 500;
+}
+
+.web-portal p {
+    padding: 0 40px 50px 40px;
+}
+
+.web-portal {
+    background-image: url("../../../assets/images/webportal.png");
+    color: #fff;
+    font-weight: 500;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: 500px;
+}
+
+.document_result {
+    border-bottom: 2px solid #707070;
+    padding: 20px 0 15px 0;
+}
+
+.pdf_result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pdf_result img {
+    object-fit: contain;
+}
+
+.pdf_result h3 {
+    font-weight: 500;
+    padding: 0px 0 10px 0;
+}
+
+.pdf_result p {
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.pdf_result p span {
+    font-weight: 500;
+    font-size: 18px;
+}

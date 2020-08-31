@@ -1,0 +1,26 @@
+<button hidden type="button" id="authbtn" class="btn btn-primary" data-keyboard="false"
+  data-toggle="modal" data-target="#authenticationModal">Authentication Modal</button>
+<div class="modal fade" id="authenticationModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom: none;">
+        <h4 class="modal-title">Authentication</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="closemodal()">&times;</button>
+        <button hidden type="button" id="closebtn" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" style="z-index: 1;">
+        <div class="row align-items-center " style="text-align: center;">
+          <div style="width:100%; ">Please blink your <b>Eyes</b> when your face is on authentication process. After
+            120sec camera will be automatically closed.</div>
+        </div>
+        <div class="progress">
+          <div id="progressdynamic" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+            style="width: 0%;white-space: nowrap;color :#000">{{time}}sec out of {{maxTime}}sec</div>
+        </div>
+        <div>
+          <video id="myVideo" class="athunticate" autoplay></video>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

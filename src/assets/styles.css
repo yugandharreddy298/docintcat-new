@@ -1,0 +1,106 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~animate.css/animate.css";
+@media (min-width: 1200px)
+{
+.container {
+    max-width: 1170px !important;
+}
+}
+.cdk-overlay-container, .cdk-overlay-pane {
+    z-index: 9999 !important;
+}
+.gap-bw-cads
+{
+    margin: 15px 0;
+}
+.tex-cen
+{text-align: center}
+.today-fon
+{
+  font-size: 24px;
+  color:#4CA2D1;
+  font-weight: 500
+}
+.footer-bg
+{
+  background-image: url(/../../assets/images/foot.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: auto;
+  
+}
+.white-colr
+{
+color:#fff
+}
+.zero-marg
+{
+  margin: 0;
+}
+.mat-list-item-content {
+  justify-content: center !important;
+}
+
+
+.pad-tb-20
+{
+  padding: 20px 0px
+}
+
+
+
+
+
+
+
+/* .grid__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    align-items: center;
+    justify-items: center;
+    overflow: hidden;
+    padding: 4rem 1.5rem;
+    height: 100vw;
+    width: 100vw;
+    background: var(--color-item-bg);
+  } */
+
+
+
+
+  .theme-2 {
+    --color-item-bg: linear-gradient(120deg, #7f54e6, #3f51b5);
+    --color-action: #f3f3f3;
+    --color-button-bg: #f3f3f3;
+    --color-button-text: #3c2e9e;
+    --button-padding: 1.8rem 4rem;
+    --radius-button: 5px;
+    --border-button: 0;
+  }
+
+  .action {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: skyblue;
+    margin: 2rem;
+    color: var(--color-action);
+    border: 0;
+    padding: 10px;
+    opacity: 1;
+    border-radius: 4px;
+    z-index: 100;
+  }
+  
+  .action:focus {
+    outline: none;
+  }
+
+
+
+

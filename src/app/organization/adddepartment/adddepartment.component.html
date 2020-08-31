@@ -1,0 +1,243 @@
+<div class="row">
+    <div class="col-lg-10 col-md-12 col-sm-12">
+        <section class="department-height">
+
+            <div class="content-nav ietop1 pt-3">
+                <div class="row headfont fon-16 fw-4 col1-f pt-3 bc-icons-2 pl-1 fileselection">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 p-0 bg-none1">
+
+
+                            <!-- <li class="breadcrumb-item"><a class="bc-ic-tx" routerLink="/organization/home/">Home</a><i
+                                    class="fas fa-angle-double-right mx-2 fon-12" aria-hidden="true"></i></li> -->
+
+
+                            <li class="breadcrumb-item"><a class="bc-ic-tx shwtxtclr">Departments</a>
+                                
+                                <!-- <i class="fas fa-angle-double-right mx-2  fon-12" aria-hidden="true"></i> -->
+                                
+                                </li>
+                        </ol>
+                    </nav>
+                    <hr class="mt-0 hr-w hr1_bg">
+                </div>
+
+                <div class="row place-nav-c link-quick link-quick3 headfont fon-16 fw-5"
+                    style="background-color: #fafafa">
+                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+
+                        <p class="pt-3 mb-0 fntweight">Department list</p>
+                    </div>
+
+                    <hr class="mt-0 hr-w">
+                </div>
+            </div>
+            <div class="row" *ngIf="searchresult" [ngClass]="{'main-nav-position-employee ': !iebrowser}">
+                <div class="col-lg-8 col-md-8">
+                    <div class="input-group mb-3 row mar-t-11">
+                        <label for="inputPassword" class="col-form-label">Department Search :</label>
+                        <form autocomplete="off" class="search-form ml-2" #searchForm="ngForm"
+                            (ngSubmit)="searchBackend(searchForm)" name="searchForm">
+                            <div class="d-flex justify-content-center h-100">
+                                <div class="mobile-searchbar">
+                                    <input aria-describedby="basic-addon2" aria-label="Recipient's username"
+                                        class="mobile_search_input ng-untouched ng-pristine ng-invalid"
+                                        name="SearchValue" placeholder="Search" required="" style="border-left:none;"
+                                        type="text" ng-reflect-klass="mobile_search_input"
+                                        ng-reflect-ng-class="[object Object]" ng-reflect-required=""
+                                        ng-reflect-name="SearchValue" [(ngModel)]="search"
+                                        (keyup)="searchBackend(search)">
+                                    <mat-autocomplete class="mat-autocomplete">
+                                        <!---->
+                                    </mat-autocomplete>
+                                    <a class="mobile_search_icon" (click)="searchdepartments(search)"><i
+                                            class="fas fa-search"></i></a>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 Add-department-flex">
+                    <button class="add-emp-but mar-t-11" data-toggle="modal" data-target=".bd-example-modal-xl"> <img
+                            src="assets/images/Group23.png" class="add-emp-pad">Add Department</button>
+                </div>
+
+            </div>
+            <div class="loader1" *ngIf="isloading"></div>
+            <div class="row mt-2" *ngIf=" Departmentdata && Departmentdata.length!=0">
+
+                <div class="col-lg-12" *ngIf="true">
+                    <div class="table-responsive mrgt0p scrolstyle">
+                        <table class="table table_space table-fixed cntraln w-100 d-block d-md-table table-responsive tblpad tblstyle tblmrgn">
+                            <thead class="thcolor tab-bg">
+                                <tr>
+                                    <th class="table_td_pad tblwdth">
+                                        Department Name
+
+                                        <i class="fa fa-caret-up pl-point caret-up-pos" aria-hidden="true"
+                                            (click)="sortDeptAsc();uparrow=true;dateSort=false;nameSort=true;"
+                                            [ngClass]="{'caret-up-pos-active' :uparrow && nameSort }"></i>
+                                        <i class="fa fa-caret-down caret-down-pos pl-point" aria-hidden="true"
+                                            (click)="sortDeptDsc();uparrow=false;dateSort=false;nameSort=true;"
+                                            [ngClass]="{'caret-down-pos-active' :  !uparrow && nameSort}"></i>
+                                    </th>
+
+                                    <th class="table_td_pad">
+                                        Companyname
+
+                                        <i class="fa fa-caret-up pl-point caret-up-pos" aria-hidden="true"
+                                            (click)=" sortCompAsc();dateuparrow=true;dateSort=true;nameSort=false;"
+                                            [ngClass]="{'caret-up-pos-active' :dateuparrow && dateSort }"></i>
+                                        <i class="fa fa-caret-down caret-down-pos pl-point" aria-hidden="true"
+                                            (click)="sortCompDsc();dateuparrow=false;dateSort=true;nameSort=false;"
+                                            [ngClass]="{'caret-down-pos-active' : !dateuparrow && dateSort}"></i>
+                                    </th>
+
+                                    <th class="table_td_pad">
+                                        Department Lead
+
+                                    </th>
+                                    <th class="table_td_pad">
+                                            Actions
+    
+                                        </th>
+                                </tr>
+                            </thead>
+                            <tbody class="tdatacol headfont fon-14 fw-4 pl-point">
+                                <tr class="highlightrow" *ngFor="let element of Departmentdata"
+                                    [ngClass]="{'highlight' : element._id == selectedName}">
+                                    <td>
+                                            <p class="tex-over employee-email mb-0" matTooltip="{{element.deptname}}"
+                                            matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                            aria-label="Button that displays a tooltip when focused or hovered over">
+                                        
+                                        {{element.deptname}}
+</p>
+
+
+                                    </td>
+                                    <td *ngIf="element.organizationid && element.organizationid.companyname">
+
+                                            <p class="tex-over employee-email mb-0" matTooltip="{{element.organizationid.companyname}}"
+                                            matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                            aria-label="Button that displays a tooltip when focused or hovered over">
+                                        {{element.organizationid.companyname}}
+</p>
+                                    </td>
+                                    <td *ngIf="element.organizationid && !element.organizationid.companyname">----
+
+                                    </td>
+                                    <td *ngIf="element.parentdepartmentid">
+                                            <p class="tex-over employee-email mb-0" matTooltip=" {{element.parentdepartmentid.email}}"
+                                            matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                            aria-label="Button that displays a tooltip when focused or hovered over">
+                                        {{element.parentdepartmentid.email}}
+</p>
+                                    </td>
+                                    <td>
+                                            <ul class="li_place add-employee-table dis-play pl-0 mb-0">
+                                                    <li (click)="editData(element)">
+                                                            <a  class="dot dot-bg1">
+                                                        <i class="fas fa-pen penicn department-pen ic0n"
+                                                            matTooltipClass="example-tooltip-red"
+                                                            matTooltip="Update"
+                                                            aria-label="Button that displays a red tooltip when focused or hovered over"></i>
+</a>
+
+                                                    </li>
+                                                    <li (click)="deleteData(element)">
+                                                            <a  class="dot dot-bg">
+                                                        <i class="fas fa-trash-alt department-trash  ic0n"
+                                                            matTooltipClass="example-tooltip-red" matTooltip="Delete"
+                                                            aria-label="Button that displays a red tooltip when focused or hovered over"></i>
+
+</a>
+
+                                                    </li>
+                                                </ul>
+                                        </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ==============================no departments found start ====================== -->
+
+            <div *ngIf="Departmentdata==0 && !isloading" class="nodepart-imag">
+                <div>
+                    <img src="assets/images/Group7430.png">
+                </div>
+                <p class="nodepart-content">No Departments Found</p>
+                <div>
+                    <button class="add-dep-but" data-toggle="modal" data-target=".bd-example-modal-xl">Add New
+                        Department</button>
+                </div>
+            </div>
+            <!-- ==============================no departments found end ====================== -->
+
+        </section>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-xl" id="centralModallg" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header mod-head-bg">
+                <h4 class="modal-title w-100 add-new-emp-pop" id="myModalLabel">Add New Department</h4>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"
+                    (click)="closeModel1(addForm)">
+                    <span aria-hidden="true" class="white-colr">&times;</span>
+                </button>
+                <button type="button" id="sample" class="close " data-dismiss="modal" hidden aria-label="Close">
+
+                </button>
+            </div>
+            <form #addForm="ngForm" (ngSubmit)="adddepartment(addForm)" name="addForm">
+                <div class="modal-body">
+                    <div class="row add-new-department-popup">
+                        <div class="col-lg-4">
+                            <label>Department</label>
+                            <input type="text" name="deptname" placeholder="Enter Department Name"
+                                [(ngModel)]="deptname" (ngModelChange)="onKeyDown(deptname)" (keyup)="disp()"
+                                [class.has-error]="dept1.invalid &&dept1.touched" [class.has-success]="dept1.valid"
+                                #dept1="ngModel" required pattern="([A-Za-z]{15})" class="form-control">
+                            <div class="department-pop-errormsg-height">
+                                <mat-error class="text-danger sml-danger-txt" *ngIf="errorshow && !deptname">Enter
+                                    Department</mat-error>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="exampleForm2">Department Lead</label>
+
+                            <select class="custom-select inclen bgclr d-block" #fontSize name="parentdepartmentid"
+                                [(ngModel)]="parentdepartmentid">
+                                <option value="" disabled selected>Select Departmentlead</option>
+                                <option *ngIf="profiledata" [(value)]="profiledata._id">{{profiledata.email}} </option>
+                                <option *ngFor="let i of getemployeedata" [(value)]="i._id">{{i.email}} </option>
+                            </select>
+                            <div class="department-pop-errormsg-height">
+                                <mat-error class="text-danger sml-danger-txt" *ngIf="errorshow1 && !parentdepartmentid">
+                                    Enter Departmentlead</mat-error>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm but-close" (click)="closeModel1(addForm)"
+                        data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="add-btn side_bg"
+                        (click)=" formSubmitted=true; errorshow=true; errorshow1=true">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

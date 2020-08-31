@@ -1,0 +1,335 @@
+<div class="row">
+    <div class="col-lg-10 col-md-12 col-sm-12">
+        <div class="content-nav ietop pt-3">
+            <div class="row place-nav-c link-quick  headfont fon-16 fw-5"
+                [ngClass]="{'showdelte-breadcrumb': !iebrowser && folderElements.length==0 && fileElements.length==0}"
+                style="background-color: #fafafa">
+                <div class="col-lg-4 col-md-4 col-9 p-0 headfont fon-16 fw-4 col1-f pt-3 bc-icons-2 pl-1 fileselection"
+                   >
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 p-0 bg-none1">
+                            <li class="breadcrumb-item"><a class="bc-ic-tx shwtxtclr">Show Deleted Files</a></li>
+                            <!-- <li class="breadcrumb-item mx-1"><i class="fas fa-angle-double-right i_col fon-12"
+                                    aria-hidden="true"></i></li> -->
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-8 col-md-8 col-3 p-0" >
+                    <ul class="li_place1 ul-t float-right mb-0 pt-3 p-0 d-none d-sm-none d-md-block">
+                        <li class="del-col fon-16 fw-5 headfont mr-4 pl-point" (click)="deleteAllFiles()"
+                            *ngIf="(filearr && filearr.length==0 && folderarr && folderarr.length==0)  && (folderElements!=0 || fileElements!=0)">
+                            Delete All Files
+                        </li>
+                        <li *ngIf="showGridView" class="p-0 pl-point">
+                            <img src="assets/images/menu.png" (click)="changeView(title='list');sample22=true;">
+                        </li>
+                        <li *ngIf="TableView" class="pl-point">
+                            <img src="assets/images/Group2302.png" (click)="changeView(title='grid');sample22=true;">
+                        </li>
+                    </ul>
+                    <ul class="li_place1 ul-t float-right mb-0 pt-3 p-0 d-sm-block d-md-none">
+                        <li class="del-col1 fon-16 fw-5 headfont mr-4" (click)="deleteAllFiles()"
+                            *ngIf="sample22 && (folderElements!=0 || fileElements!=0)">
+                            <i class="fas fa-trash-alt  pl-point"></i>
+                        </li>
+                        <li *ngIf="showGridView" class="p-0">
+                            <img src="assets/images/menu.png" (click)="changeView(title='list');sample22=true;">
+                        </li>
+                        <li *ngIf="TableView">
+                            <img src="assets/images/Group2302.png" (click)="changeView(title='grid');sample22=true;">
+                        </li>
+                    </ul>
+                    <ul *ngIf="ButtonsDisable &&  (filearr.length>1 || folderarr.length>1||filearr.length==1 || folderarr.length==1)"      class="li_place ul-t float-right  d-none d-sm-none d-md-block martp"
+                       >
+                        <li  *ngIf="(element && element.isFile)&& ((filearr && filearr.length==1) && (folderarr && folderarr.length==0))">
+                            <i class="fas fa-eye  pl-point" (click)="preview(element);"
+                                matTooltipClass="example-tooltip-red" matTooltip="preview"
+                                aria-label="Button that displays a red tooltip when focused or hovered over"  id="foldersList"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-history  pl-point ic0n"
+                                (click)="restoreElement(element,'Are you sure?,Restore the selected Files/folders to view .');"
+                                matTooltipClass="example-tooltip-red" matTooltip="Restore"
+                                aria-label="Button that displays a red tooltip when focused or hovered over" id="foldersList"></i>
+                        </li>
+                        <li >
+                            <i class="fas fa-trash-alt  pl-point" (click)="deleteFF(element);"
+                                matTooltipClass="example-tooltip-red" matTooltip="Delete"
+                                aria-label="Button that displays a red tooltip when focused or hovered over" id="foldersList"></i>
+                        </li>
+                      
+                    </ul>
+                </div>
+                <hr class="mt-0 hr-w">
+            </div>
+            <form #search="ngForm" name="search" id="foldersList">
+                <div class="row  pt-4 txt2font folder-s">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row">
+                            <p class="mb-0 fon-18 fw-5 p-0 col-md-12">Select Date</p>
+                            <div class="bg-fff1 pddng  date-select col-md-12">
+                                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12  col-xs-12 testing_date display-from">
+                                    <label class="nunito-font  fw-5 fw-bold">From:</label>
+                                    <span class="pl23">
+                                        <mat-form-field class="date-place">
+                                            <input matInput name="fromdate" [(ngModel)]="search.fromdate"
+                                                [matDatepicker]="picker" [min]="minDate" (focus)="picker.open()"
+                                                [max]="frommaxdate" placeholder="{{myplaceHolder1}}"
+                                                #fromdate1="ngModel" (dateInput)="toMinDateEvent($event);seldate();"
+                                                readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"
+                                                class="high-light-non1 high-light-non out-no d9te">
+                                                <mat-icon matDatepickerToggleIcon
+                                                    class="date-icon out-no high-light-non1" style="top:10px">
+                                                    date_range</mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                        <div class="mobsty001">
+                                            <mat-error class="text-danger sml-danger-txt" *ngIf="errorshow">Please Enter
+                                                From Date and To Date
+                                            </mat-error>
+                                        </div>
+                                    </span>
+                                </div>
+                                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12  col-xs-12 testing_date display-from">
+                                    <label class="nunito-font fon-18 fw-5 fw-bold lblwdth">To:</label>
+                                    <span class="pl23 pl-m24 moblft">
+                                        <mat-form-field class="date-place">
+                                            <input matInput [matDatepicker]="picker1" placeholder="{{myplaceHolder2}}"
+                                                (focus)="picker1.open()" name="todate" [(ngModel)]="todate"
+                                                #todate1="ngModel" [min]="toMinDate" [max]="maxDate"
+                                                (dateInput)="seledate()" class="widthoffield" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"
+                                                class="high-light-non1 high-light-non out-no d9te">
+                                                <mat-icon matDatepickerToggleIcon
+                                                    class="date-icon out-no high-light-non1">date_range</mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </span>
+                                </div>
+                                <div
+                                    class="col-xl-2 col-md-2 col-lg-2  col-sm-12 col-xs-12 p-0 display-search top11 m0bsty">
+                                    <button class="btn btn-sm button_border side_bg btn-rounded search-bt1 btnstylee"
+                                        (click)="filterdate(search)">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row pt1-8" *ngIf="!isloading && folderElements.length==0 && fileElements.length==0">
+                <div class="col-lg-3 col-md-12 col-sm-12 m-auto">
+                    <img src="assets/images/noitems.png" width="100%"></div>
+            </div>
+        </div>
+        <div class="loader1" *ngIf="isloading && folderElements.length == 0 && fileElements.length ==0"></div>
+        <div class="row m-0" *ngIf="TableView" [ngClass]="{'main-nav-position': !iebrowser}">
+            <div class="table-responsive mrgnt0p scrolstyle" style="margin-top: 120px;height: 600px;">
+                <table class="table table_space table-fixed cntraln w-100 d-block d-md-table table-responsive tblstyle tblmrgn"
+                    *ngIf="folderElements.length!=0 || fileElements.length!=0">
+                    <thead class="thcolor" (click)="show4()">
+                        <tr>
+                            <th class="table_td_pad tblwdth">
+                                Name
+                                <i class="fa fa-caret-up pl-point caret-up-pos" aria-hidden="true"
+                                    (click)="sortByNameAsc();uparrow=true;dateSort=false;nameSort=true;"
+                                    [ngClass]="{'caret-up-pos-active' :uparrow && nameSort }"></i>
+                                <i class="fa fa-caret-down caret-down-pos pl-point" aria-hidden="true"
+                                    (click)="sortByNameDsc();uparrow=false;dateSort=false;nameSort=true;"
+                                    [ngClass]="{'caret-down-pos-active' :  !uparrow && nameSort}"></i>
+                            </th>
+                            <th scope="col" class="table_td_pad tblwdth">Members</th>
+                            <th class="table_td_pad tblwdth">
+                                Modified
+                                <i class="fa fa-caret-up pl-point caret-up-pos" aria-hidden="true"
+                                    (click)="sortByModifiedAsc();dateuparrow=true;dateSort=true;nameSort=false;"
+                                    [ngClass]="{'caret-up-pos-active' :dateuparrow && dateSort }"></i>
+                                <i class="fa fa-caret-down caret-down-pos pl-point" aria-hidden="true"
+                                    (click)="sortByModifiedDsc();dateuparrow=false;dateSort=true;nameSort=false;"
+                                    [ngClass]="{'caret-down-pos-active' : !dateuparrow && dateSort}"></i>
+                            </th>
+                            <th scope="col" class="table_td_pad" [ngClass]="{'actionColor' :ButtonsDisable }">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tdatacol headfont fon-14 fw-4 pl-point tb0dy" cdkDropList #todoList="cdkDropList"
+                        [cdkDropListData]="fileElements" [cdkDropListConnectedTo]="[doneList]"
+                        (cdkDropListDropped)="drop($event)">
+                        <tr class="showbutton" *ngFor="let element of folderElements" (click)="show4()"
+                            (contextmenu)="openMenufolder($event,element);multiselectpdf(element,$event)"
+                            (click)="multiselectpdf(element,$event);highlightRow(element)"
+                            [ngClass]="{'highlight' : getHighlight(element)}" id="foldersList" (touchend)="openMenufolder1($event,element,'list'); $event.preventDefault()">
+                            <th scope="row" class="th-left full-tab txt-ellip00 w0rdbre9k pad-18" id="foldersList" matTooltip={{element.name}}
+                            matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                            aria-label="Button that displays a tooltip when focused or hovered over">
+                                <img src="assets/images/Group3389.png" id="foldersList"> {{element.name}}
+                            </th>
+                            <td class=" full-tab table-mr pad-18" id="foldersList">me
+                            </td>
+                            <td class=" full-tab pad-18" id="foldersList">{{element.updatedAt|date:'MMM d, y, h:mm a'}}
+                                <div id="foldersList" style="position: fixed" [style.left]="contextMenuPosition.x"
+                                    [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu"
+                                    [matMenuTriggerData]="{element: element}">
+                                </div>
+                            </td>
+                            <td class="td-right full-tab pad-4-15" id="foldersList">
+                                <ul class="li-action p-0" id="foldersList">
+                                    <li id="foldersList"  matTooltip="Restore"
+                                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                        <a class="dot dot-bg1" id="foldersList"
+                                            (click)="restoreElement(element,'Are you sure?, Restore the Files/folders to view .');"><i
+                                                class="fas fa-history ic0n"></i></a>
+                                    </li>
+                                    <li id="foldersList"  matTooltip="Delete"
+                                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                        <a id="foldersList" class="dot dot-bg  ml-3 ml-42"
+                                            (click)="deleteFF(element);"><i class="fas fa-trash-alt ic0n"></i></a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="showbutton" *ngFor="let element of fileElements"
+                            (contextmenu)="openMenufolder($event,element);multiselectpdf(element,$event)"
+                            (click)="multiselectpdf(element,$event);highlightRow(element)"
+                            [ngClass]="{'highlight' : getHighlight(element)}" (touchend)="openMenufolder1($event,element,'list'); $event.preventDefault()">
+                            <th scope="row" class="th-left full-tab txt-ellip00 w0rdbre9k pad-18" id="filesList" matTooltip={{element.name}}
+                            matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                            aria-label="Button that displays a tooltip when focused or hovered over">
+                                <img src="assets/images/Group2332.png" id="filesList"> {{element.name}}
+                            </th>
+                            <td class="full-tab table-mr pad-18 " id="filesList">me
+                            </td>
+                            <td class="full-tab table-mr pad-18" id="filesList">
+                                {{element.updatedAt|date:'MMM d, y, h:mm a'}}
+                                <div id="filesList" style="position: fixed" [style.left]="contextMenuPosition.x"
+                                    [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu"
+                                    [matMenuTriggerData]="{element: element}">
+                                </div>
+                            </td>
+                            <td id="filesList" class="table_td_pad td-right full-tab" *ngIf="ButtonsDisable">
+                                <ul id="filesList" class="li-action p-0">
+                                    <li id="filesList"  matTooltip="Restore"
+                                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                        <a id="filesList" class="dot dot-bg1"><i class="fas fa-history ic0n"></i></a>
+                                    </li>
+                                    <li id="filesList"  matTooltip="Delete"
+                                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                        <a id="filesList" class="dot dot-bg  ml-3 ml-42"><i
+                                                class="fas fa-trash-alt ic0n"></i></a>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td id="filesList" class="td-right full-tab pad-4-15" *ngIf="!ButtonsDisable">
+                                <ul id="filesList" class="li-action p-0">
+                                    <li id="filesList"  matTooltip="Restore"
+                                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                        <a id="filesList" class="dot dot-bg1"
+                                            (click)="restoreElement(element,'Are you sure?, Restore the Files/folders to view. ')"><i
+                                                class="fas fa-history ic0n"></i></a>
+                                    </li>
+                                    <li id="filesList"  matTooltip="Delete"
+                                    matTooltipClass="example-tooltip-red" matTooltipPosition="below"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                        <a id="filesList" class="dot dot-bg  ml-3 ml-42" (click)="deleteFF(element)"><i
+                                                class="fas fa-trash-alt ic0n"></i></a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div *ngIf="showGridView && !isloading">
+            <div class="row headfont fon-16 fw-5 col1-f link-quick mt-5 pdlft-15 "
+                [ngClass]="{'main-nav-position': !iebrowser}" *ngIf="folderElements.length!=0">
+                <p class="mb-0 col-6 col-md-6 col-sm-6 col-xs-6">Folders</p>
+                <p class="col-6 col-md-6 col-sm-6 col-xs-6 text-right mb-0 fntwgt select_checkbox" *ngIf="chechBoxenable">Select All
+                    <mat-checkbox  class="mat_checkbox select_all" [checked]="folderElements && fileElements && filearr && folderarr && (folderElements.length==folderarr.length) && (fileElements.length==filearr.length) "  (change)="selectAllelements($event)"></mat-checkbox>
+                 </p>
+                <hr class="mt-0 hr-w hr2_bg">
+            </div>
+            <div class="row mt-2 quick-row1 headfont fon-14 fw-7 col2-f" >
+                <div class="col-lg-2 col-md-6 col-xs-12 col-sm-6 pl-point shw-border colwdth"
+                    *ngFor="let element of folderElements">
+                    <mat-checkbox id="{{element._id}}" class="mat_checkbox" *ngIf="chechBoxenable" [checked]="getHighlight(element)"  (change)="selectTouchDevices(element,$event)"></mat-checkbox>
+                    <div class="foldrstruct bg-fff"
+                        (dblclick)="restoreElement(element,'Are you sure?,Restore the Files/folders to view ')"
+                        (contextmenu)="openMenufolder($event,element); $event.preventDefault()"
+                        (touchend)="openMenufolder1($event,element,'grid'); $event.preventDefault()"
+                        (click)="multiselectpdf(element,$event);highlightRow(element)"
+                        [ngClass]="{'highlight' : getHighlight(element)}" id="foldersList" (touchstart)="contextMenuStart($event)">
+                        <img src="assets/images/Group3389.png" id="foldersList" class="folderimg noborder">
+                        <span id="foldersList" class="pl-3 noborder txtwdth" matTooltip="{{element.name}}"
+                            matTooltipPosition="below" matTooltipClass="example-tooltip-red"
+                            [matTooltipDisabled]="matttoltip"
+                            aria-tooltip="Button that displays and hides a tooltip triggered by other buttons">{{element.name}}</span>
+                    </div>
+                    <span style="position: fixed" [style.left]="contextMenuPosition.x"
+                        [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu"
+                        [matMenuTriggerData]="{element: element}">
+                    </span>
+                </div>
+            </div>
+            <div class="row headfont fon-16 fw-5 col1-f link-quick mt-5 pdlft-15 "
+                [ngClass]="{'main-nav-position': !iebrowser &&folderElements && folderElements.length==0}"
+                *ngIf="fileElements.length!=0">
+                <p class="mb-0 col-6 col-md-6 col-sm-6 col-xs-6">Files</p>
+                <p class="col-6 col-md-6 col-sm-6 col-xs-6 text-right mb-0 fntwgt select_checkbox" *ngIf="(chechBoxenable && folderElements.length==0)">Select All
+                    <mat-checkbox  class="mat_checkbox select_all" [checked]="fileElements && filearr && folderarr  && (fileElements.length==filearr.length) "  (change)="selectAllelements($event)"></mat-checkbox>
+                 </p>
+                <hr class="mt-0 hr-w hr2_bg">
+            </div>
+            <div class="row mt-2 quick-row1 headfont fon-16 fw-5 col3-f">
+                <div class="col-lg-2 col-md-3 col-6 latest-blog-thum-3 mb-5 pl-point col-mw-21 colwdth"
+                    *ngFor="let element of fileElements ">
+                    <mat-checkbox id="{{element._id}}" class="mat_checkbox" *ngIf="chechBoxenable" [checked]="getHighlight(element)"  (change)="selectTouchDevices(element,$event)"></mat-checkbox>
+                    <div class="bg-fff show-delete-flex pl-point imagecss fix-h"
+                        (dblclick)="preview(element)"
+                        (click)="multiselectpdf(element,$event); highlightRow(element)"
+                        [ngClass]="{'highlight' : getHighlight(element)}"
+                        (contextmenu)="openMenufolder($event,element); $event.preventDefault()" id="filesList"
+                        (touchend)="openMenufolder1($event,element,'grid'); $event.preventDefault()" (touchstart)="contextMenuStart($event)">
+                        <img src="{{element.thumbnail}}" onerror="this.src='assets/images/pdf-image.png' " width="100%"
+                            id="filesList" class="convertimg"  id="foldersList">
+                    </div>
+                    <p class="pt-2 txt-ellip1 th-space" id="filesList " matTooltip="{{element.name}}"
+                        matTooltipClass="home-example-tooltip-red" [matTooltipDisabled]="matttoltip"
+                        matTooltipPosition="above"
+                        aria-label="Button that displays a tooltip when focused or hovered over">{{element.name}}</p>
+                    <span style="position: fixed" [style.left]="contextMenuPosition.x"
+                        [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu"
+                        [matMenuTriggerData]="{element: element}">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <mat-menu #contextMenu="matMenu" class="contx-col" style="z-index:0;">
+            <ng-template matMenuContent let-element="matmenu">
+                <button mat-menu-item (click)="deleteFF(matmenu);" id="contextmenu">
+                    <mat-icon>delete</mat-icon>
+                    <span id="contextmenu">Delete</span>
+                </button>
+                <button mat-menu-item   (click)="preview(matmenu);" id="contextmenu" *ngIf="(matmenu && matmenu.isFile)">
+                    <mat-icon>remove_red_eye</mat-icon>                    
+                    <span id="contextmenu">preview</span>
+                    </button>
+                <button mat-menu-item
+                    (click)="restoreElement(matmenu,'Are you sure?, Restore the Files/folders to view .');"
+                    id="contextmenu">
+                    <mat-icon>restore</mat-icon>
+                    <span id="contextmenu">restore</span>
+                </button>
+            </ng-template>
+        </mat-menu>
+    </div>
+</div>
+<!-- grid view-->

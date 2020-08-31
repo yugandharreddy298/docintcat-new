@@ -1,0 +1,376 @@
+.box1_1 {
+    padding: 60px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.bgclr {
+    position: absolute;
+    height: 100%;
+    background-color: #c7c5c5;
+}
+
+.pstyle {
+    color: #353535;
+    font-size: 16px;
+    font-family: orkney;
+    padding-top: 15px;
+    cursor: pointer;
+}
+
+.mrgn {
+    margin: 0 auto;
+    top: 30%;
+}
+
+.mobile-image-link>img {
+    height: 200px;
+    object-fit: contain;
+}
+
+.error_button {
+    background: linear-gradient(#E75555, #F17A6D);
+    padding: 4px 3px;
+    margin: 4px 0;
+    display: inline-block;
+    border-radius: 14px;
+    margin: 0 auto;
+}
+
+a.error_border {
+    background: linear-gradient(#E75555, #F17A6D);
+    color: #fff !important;
+    border: 2px solid white;
+    padding: 4px 47px;
+    font-weight: bold;
+    font-size: 19px;
+    display: inline-block;
+    border-radius: 14px;
+}
+
+.error-text {
+    color: #E75555;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.errorimage {
+    margin: 0 auto;
+    text-align: center;
+    max-width: 100%;
+}
+
+.button-border {
+    border: 2px solid white;
+    height: 40px;
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    padding: 0px 132px 0px 0px;
+    border-radius: 7px;
+}
+
+.box1 {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.margin {
+    margin: 0 auto;
+}
+
+.p-txt-1 {
+    text-align: center;
+    font-family: Orkney;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    margin-left: 15px;
+    border: 0.1px solid #707070;
+}
+
+.listitems {
+    list-style-type: none;
+    display: flex;
+    float: right;
+}
+
+.box2-1 {
+    margin-top: 45px;
+    border: 1px solid #DADADA;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+    border-radius: 5px;
+    padding: 0px 0px 39px 0px;
+}
+
+.ulitems {
+    list-style-type: none;
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+.ulitems>li {
+    width: 50%;
+}
+
+.btnstyle {
+    box-shadow: none;
+    background-color: inherit !important;
+    color: #353535 !important;
+    text-transform: capitalize;
+    border: 1px solid #427EAC;
+    width: 90%;
+    padding: 5px !important;
+    border-radius: 5px;
+    font-family: orkney;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.btnstyle1 {
+    background: linear-gradient(217deg, #427eac, #0d243b);
+    padding: 8px 26px !important;
+    border-radius: 6px !important;
+    border: none;
+    color: #fff;
+    position: relative;
+    top: -49px;
+    float: right;
+    top: -17px;
+    float: right;
+}
+
+.btnstyle2 {
+    margin-left: 15px;
+    background: linear-gradient(217deg, #427eac, #0d243b);
+    padding: 8px 26px !important;
+    border-radius: 6px !important;
+    border: none;
+    color: #fff;
+    position: relative;
+    float: right;
+}
+
+.btnstyle3 {
+    margin-left: 0px;
+    box-shadow: none;
+    background-color: inherit !important;
+    color: #353535 !important;
+    text-transform: capitalize;
+    border: 1px solid #427EAC;
+    padding: 7px 26px !important;
+    border-radius: 5px;
+}
+
+.red {
+    background-color: #FF0000;
+}
+
+.green {
+    background-color: #09B13B;
+}
+
+.blue {
+    background-color: #0000FF;
+}
+
+.darkgreen {
+    background-color: #353535;
+}
+
+.imgstyle {
+    margin-top: 100px;
+}
+
+.imgmrgn {
+    margin-top: 0 !important;
+}
+
+@media only screen and (orientation: landscape) {
+    .box2-1 {
+        height: inherit !important;
+        text-align: center !important;
+        padding: 0px 0px 39px 0px;
+    }
+    .imgstyle {
+        width: 50% !important;
+        margin-top: 0px !important;
+    }
+    .ulitems>li {
+        width: 30% !important;
+    }
+    .ulitems {
+        justify-content: center !important;
+    }
+    .hrstyle {
+        display: none;
+    }
+    .div1 {
+        width: 50%;
+    }
+    .div2 {
+        width: 50%;
+    }
+    .box2-2 {
+        display: flex;
+    }
+    .vl {
+        border-left: 2px solid #70707070;
+        padding: 0px 5px 0 5px;
+        margin: 0px 0px 0px 10px;
+    }
+    .box2-3 {
+        margin-top: 0px;
+    }
+    .message {
+        margin-top: 0px;
+    }
+}
+
+/* ---------------*/
+
+.lft {
+    text-align: left !important;
+    padding: 0px !important;
+}
+
+.imgdiv {
+    border: 2px dashed #70707070;
+}
+
+.hrstyle {
+    border: 1px solid #70707070;
+}
+
+.align {
+    text-align: center;
+}
+
+.message {
+    background-color: #F5F5F5;
+    border: 1px solid #DADADA;
+    color: #6BB037;
+    border-radius: 3px;
+    padding: 10px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    font-family: orkney;
+    font-size: 16px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 0px 1px rgba(0, 0, 0, 0.24);
+}
+
+.p-txt-3 {
+    text-align: center;
+    font-family: Orkney;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.box2-2 {
+    border: 1px solid #DADADA;
+    padding: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+    border-radius: 5px;
+}
+
+.box2-3 {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* lakshmi 29-05 */
+
+.upldfile {
+    display: none;
+}
+
+/* lakshmi 29-05 */
+
+.pointer {
+    cursor: pointer;
+}
+
+.loaderinmobile {
+    left: 50%;
+    top: 50%;
+    right: 0;
+    position: fixed;
+    z-index: 9999 !important;
+    margin: 0 auto;
+}
+
+.video-button {
+    background: linear-gradient(217deg, #427eac, #0d243b);
+    padding: 8px 26px !important;
+    border-radius: 6px !important;
+    border: none;
+    color: #fff;
+    position: relative;
+    top: -17px;
+}
+
+.video-save-button {
+    background: linear-gradient(217deg, #427eac, #0d243b);
+    padding: 8px 26px !important;
+    border-radius: 6px !important;
+    border: none;
+    color: #fff;
+    position: relative;
+    top: -49px;
+    float: right;
+    top: 0px;
+}
+
+.video-back-button {
+    box-shadow: none;
+    background-color: inherit !important;
+    color: #353535 !important;
+    text-transform: capitalize;
+    border: 1px solid #427EAC;
+    width: 52%;
+    padding: 5px !important;
+    border-radius: 5px;
+    font-family: orkney;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.stamppad-back-button {
+    box-shadow: none;
+    background-color: inherit !important;
+    color: #353535 !important;
+    text-transform: capitalize;
+    border: 1px solid #427EAC;
+    width: 55%;
+    padding: 5px !important;
+    border-radius: 5px;
+    font-family: orkney;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.stamppad-save-button {
+    background: linear-gradient(217deg, #427eac, #0d243b);
+    background-color: rgba(0, 0, 0, 0);
+    padding: 8px 26px !important;
+    border-radius: 6px !important;
+    border: none;
+    color: #fff;
+    position: relative;
+    float: right;
+    top: 0;
+    float: right;
+}

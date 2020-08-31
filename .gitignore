@@ -1,0 +1,10 @@
+node_modules/
+backend/node_modules/
+backend/uploads/
+src/app/frontendConfig.ts
+backend/server/config/environment/development.js
+backend/convertimages/
+backend/convertedhtml/
+backend/photo/
+backend/signature/
+backend/stamp/

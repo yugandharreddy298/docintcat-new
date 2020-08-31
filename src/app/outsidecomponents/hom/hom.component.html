@@ -1,0 +1,1661 @@
+<!-- ===============================================login page modal opens=================================== -->
+<button hidden id="loginModalBtn" mat-raised-button data-toggle="modal" data-target="#loginModal"></button>
+<button hidden id="signatureModalBtn" mat-raised-button data-toggle="modal" data-target="#SignatureModal"></button>
+<button hidden id="emailmobileBtn" mat-raised-button data-toggle="modal" data-target="#EmailMobileModel"></button>
+<button hidden id="fbemailmobileBtn" mat-raised-button data-toggle="modal" data-target="#FbEmailMobileModel"></button>
+<!--  --------------------------------------------------  Signup with twitter   Start  ---------------------------------------------------------------->
+<div class="modal fade bd-example-modal-xl EmailMobileModel" id="EmailMobileModel" tabindex="-1" role="dialog"
+    aria-labelledby="myExtraLargeModalLabel" data-keyboard="false" aria-hidden="true">
+    <button type="button" class="close no-bor-outlin" data-toggle="modal" data-target=".bd-example-modal-xl"
+        style="display:none;">
+        <span aria-hidden="true" class="pad-all-20">&times;</span>
+    </button>
+
+    <div class="modal-dialog modal-xl fix-m-w">
+        <div class="modal-content mediaforlogin">
+
+            <div class="modal-body redbg fix-modal-h">
+
+                <div>
+                    <div class="row" *ngIf="!reset">
+                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-5 d-non pop-up-dis-non">
+                            <div class="welcome-creat-ac">
+                                <div class="pl-5">
+                                    <h5 class="white-colr txt2font">Welcome !</h5>
+                                </div>
+                                <div class="pl-5">
+                                    <img src="assets/img/signin1.svg" class="img-fluid" alt="Responsive image">
+                                </div>
+                                <div>
+                                    <p class="txt2font">Welcome to DocIntact, You can easily sign-in to view, upload and
+                                        share your documents securely.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-7" *ngIf="login">
+                            <button type="button" id='emailCloseBtn' class="close no-bor-outlin login-cls-btn"
+                                data-dismiss="modal" aria-label="Close" (click)="closeModelsocial(userForm)">
+                                <span aria-hidden="true" class="pad-all-20">&times;</span>
+                            </button>
+                            <div class="login-section">
+                                <form class="login-form" #userForm="ngForm" name="myForm"
+                                     autocomplete="off">
+
+                                    <p class="modal-title txt2font">Email for Twitter</p>
+                                    <mat-form-field class="ma-field-wid">
+                                        <input matInput type="email" placeholder="Email" [(ngModel)]="email"
+                                            (ngModelChange)="onKeyDownemail1(email)" #email1="ngModel" name="email"
+                                            pattern="([A-Za-z]|[0-9])[A-Za-z0-9.]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})"
+                                            required>
+                                        <span matPrefix><img src="assets/images/mail.png">&nbsp;&nbsp;</span>
+
+                                    </mat-form-field>
+                                    <div
+                                        *ngIf="email1.invalid && (email1.dirty || email1.touched)|| (check1 &&email1.errors)">
+
+                                        <div class="text-danger sml-danger-txt" *ngIf="email1.errors.required">Please
+                                            Enter
+                                            Email </div>
+                                        <div class="text-danger sml-danger-txt" *ngIf="(email1.errors.pattern)">Invalid
+                                            Email </div>
+
+
+                                    </div>
+                                    <div class="text-danger sml-danger-txt" *ngIf="check1 && email1.dirty">{{message}}
+                                    </div>
+                                    <div class="gap-bw-cads">
+                                        <button class="signin-but read-more-but1 red-but-bg txtun" type="button"
+                                            (click)="signinTwitter(userForm)">Submit</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!-- -------------------------Registation container--------------------------- -->
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ---------------------------------------------------------------   Signup with twitter   End  ---------------------------------------------------->
+<!-- ---------------------------------------------------------------   Signup with Facebook  Start  ---------------------------------------------------->
+<div class="modal fade bd-example-modal-xl EmailMobileModel"  data-keyboard="false"
+    id="FbEmailMobileModel" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <button type="button" class="close no-bor-outlin" data-toggle="modal" data-target=".bd-example-modal-xl"
+        style="display:none;">
+        <span aria-hidden="true" class="pad-all-20">&times;</span>
+    </button>
+
+    <div class="modal-dialog modal-xl fix-m-w">
+        <div class="modal-content mediaforlogin">
+
+            <div class="modal-body redbg fix-modal-h">
+
+                <div>
+                    <div class="row" *ngIf="!reset">
+                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-5 d-non pop-up-dis-non">
+                            <div class="welcome-creat-ac">
+                                <div class="pl-5">
+                                    <h5 class="white-colr txt2font">Welcome !</h5>
+                                </div>
+                                <div class="pl-5">
+                                    <img src="assets/img/signin1.svg" class="img-fluid" alt="Responsive image">
+                                </div>
+                                <div>
+                                    <p class="txt2font">Welcome to DocIntact, You can easily sign-in to view, upload and
+                                        share your documents securely.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-7" *ngIf="login">
+                            <button type="button" id='fbemailCloseBtn' class="close no-bor-outlin login-cls-btn"
+                                data-dismiss="modal" aria-label="Close" (click)="closeModelsocial(userForm)">
+                                <span aria-hidden="true" class="pad-all-20">&times;</span>
+                            </button>
+                            <div class="login-section">
+                                <form class="login-form" #userForm="ngForm" name="myForm"
+                                   autocomplete="off">
+
+                                    <p class="modal-title txt2font">Email for Facebook</p>
+                                    <mat-form-field class="ma-field-wid">
+                                        <input matInput type="email" placeholder="Email" [(ngModel)]="email"
+                                            (ngModelChange)="onKeyDownemail1(email)" #email1="ngModel" name="email"
+                                            pattern="([A-Za-z]|[0-9])[A-Za-z0-9.]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})"
+                                            required>
+                                        <span matPrefix><img src="assets/images/mail.png">&nbsp;&nbsp;</span>
+
+                                    </mat-form-field>
+                                    <div
+                                        *ngIf="email1.invalid && (email1.dirty || email1.touched)|| (check1 &&email1.errors)">
+
+                                        <div class="text-danger sml-danger-txt" *ngIf="email1.errors.required">Please
+                                            Enter
+                                            Email </div>
+                                        <div class="text-danger sml-danger-txt" *ngIf="(email1.errors.pattern)">Invalid
+                                            Email </div>
+
+
+                                    </div>
+                                    <div class="text-danger sml-danger-txt" *ngIf="check1">{{message}}</div>
+                                    <div class="gap-bw-cads">
+                                        <button class="signin-but read-more-but1 red-but-bg txtun" type="button"
+                                            (click)="signinFacebook(userForm)">Submit</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ---------------------------------------------------------------   Signup with Facebook   End  ---------------------------------------------------->
+
+
+<!-------------------------------------------------------login page modal OPen----------------------------------------------------------------->
+<div class="modal fade bd-example-modal-xl loginModal" id="loginModal" data-keyboard="false" tabindex="-1" role="dialog"
+    aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+   <button type="button" id='sample123' (click)="escaptdisable()" class="close no-bor-outlin" data-toggle="modal"
+        data-target=".bd-example-modal-xl" style="display:none;">
+        <span aria-hidden="true" class="pad-all-20">&times;</span>
+    </button>
+    <button type="button" style="display:none;" id='sample2' (click)="escaptdisable()" class="close no-bor-outlin"
+        data-dismiss="modal" aria-label="Close" (click)="closeModel(userForm);errors=false">
+        <span aria-hidden="true" class="pad-all-20">&times;</span>
+    </button>
+    <button type="button" style="display:none;" id='sample4' (click)="escaptdisable();closeModel(userForm)"
+        class="close no-bor-outlin" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true" class="pad-all-20">&times;</span>
+    </button>
+    <div class="modal-dialog modal-xl fix-m-w">
+        <div class="modal-content mediaforlogin">
+
+            <div class="modal-body redbg fix-modal-h">
+  <!---------------------------------------------------------------  LOGIN STARTS-------------------------------------------------------------------------- -->
+
+                    <div class="row" *ngIf="!reset">
+                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-5 d-non pop-up-dis-non">
+                            <div class="welcome-creat-ac">
+                                <div class="pl-5">
+                                    <h5 class="white-colr txt2font">Welcome !</h5>
+                                </div>
+                                <div class="pl-5">
+                                    <img src="assets/img/signin1.svg" class="img-fluid" alt="Responsive image">
+                                </div>
+                                <div>
+                                    <p class="txt2font">Welcome to DocIntact, You can easily sign-in to view, upload and
+                                        share your documents securely.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-7 login11" *ngIf="login">
+                            <button type="button" id='signInCloseBtn' class="close no-bor-outlin login-cls-btn"
+                                data-dismiss="modal" aria-label="Close"
+                                (click)="closeModel(userForm);errors=false;emailinvalid=false;passwoedinvalid=false" appPasswordshowhide>
+                                <span aria-hidden="true" class="pad-all-20">&times;</span>
+                            </button>
+                            <div class="login-section">
+                                <form class="login-form" #userForm="ngForm" name="myForm" autocomplete="off">
+
+                                    <p class="modal-title txt2font">Sign In</p>
+                                    <div>
+                                        <div class="md-form grey-text error-alert-msg x  ma-field-wid"
+                                            style="margin-bottom: 2px">
+                                            <i class="prefix " style="margin: -12px 0 0 0"><img
+                                                    src="assets/images/mail.png"></i>
+                                            <input placeholder="Enter Email" style="padding: 4px 24px; margin: 0;"
+                                                autofocus id="target" style="padding: 4px 24px; margin: 0;" type="text"
+                                                [(ngModel)]="username" #usernamecheck="ngModel" name="username"
+                                                (focusout)="checkUserdata(usernamecheck,'email')" (focus)="onFocus('email')" (blur)="onBlur('email')"
+                                                [ngClass]="{'errlogin-br':errors }" autobox
+                                                pattern="([A-Za-z]|[0-9])[A-Za-z0-9.-]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})"
+                                                required class="form-control login-br sh-none">
+
+                                            <div class="tooltipp t00l">
+                                                <img *ngIf="((usernamecheck.invalid && usernamecheck.dirty ) &&  usernamecheck.errors) && !iebrowser"
+                                                    src="assets/images/exclemetic.png" class="prefix error-icon">
+                                                <div class="tooltiptext tultip1"
+                                                    style="font-weight: 400;text-align: left;padding-left: 10px;">
+                                                    <div style="padding-left:3px;">
+                                                        Valid mail format
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+
+                                                            <div class="zero-pad special-char-clr text-left"
+                                                                [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                                <i class="fa fa-circle listicn"></i>abc@abc.com </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="tooltipp t00l">
+                                                <img *ngIf="emailinvalid && iebrowser"
+                                                    src="assets/images/exclemetic.png" class="prefix error-icon ieic0n">
+
+                                                <div class="tooltiptext pop-up-dis-non"
+                                                    style="font-weight: 400;text-align: left;padding-left: 10px;">
+                                                    <div style="padding-left:3px;">
+                                                        Valid mail format
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-2 lef-pad text-right">
+                                                            <i class="fa fa-circle listicn"></i>
+                                                        </div>
+                                                        <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                            [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                            abc@abc.com </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="homepage-popup-height">
+                                            <div
+                                                *ngIf="(usernamecheck.invalid && usernamecheck.dirty) || check  && usernamecheck.errors && !iebrowser">
+                                                <p class="text-danger sml-danger-txt nunito-font"
+                                                    *ngIf="usernamecheck.errors.required&& !iebrowser">Please
+                                                    Enter Email</p>
+                                                <p class="text-danger sml-danger-txt nunito-font"
+                                                    *ngIf="isInvalidEmailError && usernamecheck.errors.pattern">Invalid
+                                                    Email </p>
+
+                                            </div>
+                                            <div
+                                                *ngIf="(usernamecheck.invalid && usernamecheck.dirty)  || check  && usernamecheck.errors && iebrowser">
+                                                <p class="text-danger sml-danger-txt nunito-font" *ngIf="emailinvalid && iebrowser">
+                                                    Please
+                                                    Enter Email</p>
+                                                <p class="text-danger sml-danger-txt nunito-font"
+                                                    *ngIf="check1 && usernamecheck.errors.pattern">Invalid
+                                                    Email </p>
+
+                                            </div>
+                                        </div>
+                                    <div class="md-form grey-text  ma-field-wid" style="margin-bottom: 2px" id='input_old'>
+                                        <i class=" prefix" style="margin: -12px 0 0 0"><img src="assets/images/lock.png"></i>
+                                        <input type="password" [(ngModel)]="password" style="padding: 4px 24px; margin: 0;" placeholder="Password"
+                                            name="password" #password1="ngModel" id="PasswordTarget" required class="form-control login-br sh-none"
+                                            (keypress)="checkp(password,$event,userForm)" [ngClass]="{'errlogin-br':  errors }"
+                                            (focusout)="checkUserdata(password1,'password')" (keypress)="Restrictspacekey($event)" >
+                                            <div class="tooltipp t00l" appPasswordshowhide >
+                                                <i class="material-icons prefix error-icon" style="font-size: 24px;color: #000;">
+                                                  visibility_off
+                                                  </i>
+                                                <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;color: #000;">
+                                                  remove_red_eye
+                                                  </i>
+                        
+                                            </div>
+                                    </div>
+
+                                            <div class="homepage-popup-height">
+                                                <div
+                                                    *ngIf="(password1.invalid && (password1.dirty)|| check && password1.errors) && !iebrowser">
+
+                                                    <div class="text-danger sml-danger-txt nunito-font"
+                                                        *ngIf="password1.errors.required">Please
+                                                        Enter Password</div>
+                                                </div>
+                                                <div
+                                                    *ngIf="(password1.invalid && (password1.dirty)|| check && password1.errors) && iebrowser">
+
+                                                    <div class="text-danger sml-danger-txt nunito-font"
+                                                        *ngIf="passwoedinvalid">Please
+                                                        Enter Password</div>
+                                                </div>
+                                            </div>
+
+                                        
+                                        <p class="text-danger sml-danger-txt nunito-font"
+                                            *ngIf="iserror && userForm.value.password">{{errorres}}</p>
+                                    </div>
+                                    <div class="row tpad-10 txt2font">
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Remember"
+                                                    (keyup)="Checking($event);" [checked]="Remember"
+                                                    [(ngModel)]="Remember" name="Remember" id="defaultCheck1">
+                                                <label class="gen-txt no-gap" for="defaultCheck1">Remember me</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 text-right no-gap">
+                                            <a class="remem-clr gen-txt under-line"
+                                                (click)="forgetpassword();formSubmitted1=false;ForgetformSubmitted=false;formSubmitted=false;resetimg=true;show1=false;changepassword=false;closeModel(userForm);emailinvalid=false;passwoedinvalid=false">
+                                                <i>forgot
+                                                    password?</i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="row gap-bw-cads txt2font">
+                                        <div class="col-6 p-1">
+                                            <span><button class="btn btn-sm sign-in0li txtun" type="submit"
+                                                    (click)="signin(userForm)">Sign
+                                                    in</button></span>
+                                            <span class="float-right pt-2">(or)</span>
+                                        </div>
+
+                                        <div class="col-6 text-right p-0 no-gap">
+                                            <button type="button" class="btn btn-fb ico-fb" (click)="facebook();"><i
+                                                    class="fab fa-facebook-f"></i></button>
+                                            <button type="button" class="btn btn-tw ico-twtr" (click)="twitter()"><i
+                                                    class="fab fa-twitter"></i></button>
+                                            <button type="button" class="btn btn-gplus ico-gplus" (click)="google()"><i
+                                                    class="fab fa-google"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="new-user-pad text-center txt2font">
+                                        <p class="txt-nuser">New User? <span class="sign-up-now-clr"
+                                                (click)="signupnow();checkorg=false;errors=false;emailinvalid=false;passwoedinvalid=false;closeModel(userForm)"><i><u>Sign
+                                                        Up Now</u></i></span>
+                                        </p>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+        
+                    </div>
+  <!---------------------------------------------------------------  LOGIN ENDS-------------------------------------------------------------------------- -->
+
+<!---------------------------------------------------------------  FORGET PASSWORD STARTS-------------------------------------------------------------------------- -->
+                    <div class="row" *ngIf="reset">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-4 ml-auto d-non pop-up-dis-non">
+                            <div class="welcome-forpass txt2font">
+                                <div class="text-center">
+                                    <h5>Welcome !</h5>
+                                </div>
+                                <div class="text-center">
+                                    <img src="assets/images/Group1760.png" class="img-fluid" alt="Responsive image"
+                                        *ngIf="resetimg &&  !show1">
+                                    <img src="assets/img/signin1.svg" class="img-fluid" alt="Responsive image"
+                                        *ngIf="!changepassword && show1 && !reset1">
+                                    <img src="assets/images/Group4393.png" class="img-fluid" alt="Responsive image"
+                                        *ngIf="changepassword &&  !resetimg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-8 ml-auto login11">
+                            <button type="button" class="close no-bor-outlin login-cls-btn closebutn" data-dismiss="modal"
+                                aria-label="Close" appPasswordshowhide
+                                (click)="reset1=false;login=true;show1=false;closeforget(forgotForm);formCheck=false;displayerror=false;loadergif=false;emailinvalid=false">
+                                <span aria-hidden="true" class="pad-all-20">&times;</span>
+                            </button>
+                            <div>
+                                <div>
+
+                                    <div *ngIf="reset1" class="forgot-pass-section col-lg-6 col-md-12 col-sm-12">
+
+                                        <div *ngIf="!otpTextBox">
+                                            <h6 class="modal-title pb-2 headfont">Forgot Password</h6>
+                                            <p class="forgot-password-sub col-10 p-0 txt2font">Please enter your email
+                                                address to receive a verification code </p>
+                                            <div>
+                                                <div class="loader-pos" *ngIf="loadergif">
+                                                    <img src="assets/images/loader.gif">
+                                                </div>
+                                                <!-- EMAIL FORM -->
+                                                <form #userForm="ngForm" name="myForm" class="mt-25" autocomplete="off">
+                                                    <div class="md-form  ma-field-wid">
+                                                        <i class="prefix fas fa-envelope mail-icon"></i>
+                                                        <input matInput type="email" placeholder="abc@gmail.com"
+                                                            style="padding: 4px 24px; margin: 0;" [(ngModel)]="email"
+                                                            #changeEmail="ngModel"
+                                                            (ngModelChange)="checkuseremil(email)" name="email" (focus)="onFocus('email')" (blur)="onBlur('email')"
+                                                            pattern="([A-Za-z]|[0-9])[A-Za-z0-9.-]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})"
+                                                            required class="form-control login-br"
+                                                            id="ForgetPasswordemail" autocomplete="off"
+                                                            (focusout)="checkUserdata(changeEmail,'email')">
+
+
+                                                        <div class="tooltipp t00l">
+
+                                                            <img class="prefix error-icon"
+                                                                src="assets/images/exclemetic.png"
+                                                                *ngIf="(changeEmail.invalid && changeEmail.dirty ||ForgetformSubmitted&&changeEmail.errors) && !iebrowser">
+
+                                                            <img class="prefix error-icon"
+                                                                src="assets/images/exclemetic.png"
+                                                                *ngIf="emailinvalid  && iebrowser">
+
+
+                                                            <div class="tooltiptext pop-up-dis-non"
+                                                                style="font-weight: 400;text-align: left;padding-left: 10px;">
+                                                                <div style="padding-left:3px;">
+                                                                    Sample Email
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-2 lef-pad text-right">
+                                                                        <i class="fa fa-circle listicn"></i>
+                                                                    </div>
+                                                                    <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                                        [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                                        abc@abc.com </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <div
+                                                        *ngIf="(changeEmail.invalid && changeEmail.dirty ||ForgetformSubmitted&&changeEmail.errors) && !iebrowser">
+                                                        <div class="text-danger sml-danger-txt"
+                                                            *ngIf="changeEmail.errors.required">Please
+                                                            Enter Email </div>
+                                                        <div class="text-danger sml-danger-txt"
+                                                            *ngIf=" isInvalidEmailError && changeEmail.errors.pattern ">Invalid
+                                                            Email </div>
+                                                    </div>
+                                                    <div *ngIf="(changeEmail.invalid && changeEmail.dirty || ForgetformSubmitted && emailinvalid) && iebrowser"
+                                                        style="height:35px;">
+                                                        <div class="text-danger sml-danger-txt" *ngIf="emailinvalid">
+                                                            Please
+                                                            Enter Email </div>
+                                                        <div class="text-danger sml-danger-txt"
+                                                            *ngIf="changeEmail.errors.pattern">Invalid
+                                                            Email </div>
+                                                    </div>
+
+
+                                                    <div *ngIf="displayerror"><span
+                                                            class="text-danger sml-danger-txt">{{errorres}}</span>
+                                                    </div>
+                                                    <div class="text-danger sml-danger-txt"
+                                                        *ngIf="!changeEmail.errors && check1">
+                                                        Email Does Not existed
+
+                                                    </div>
+
+
+
+                                                    <div class="mt-25">
+                                                        <div class="col-12 forgot-top p-0">
+                                                            <div class="row txt2font">
+                                                                <div class="col-6 text-left">
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm sign-in0li txtun"
+                                                                        [disabled]="loadergif"
+                                                                        (click)="ForgetformSubmitted=true;sendOtp(userForm);num1=null;num2=null;num3=null;num4=null;num5=null;num6=null;show1=false">Submit</button>
+                                                                </div>
+                                                                <div class="col-6 text-right m-auto">
+                                                                    <u class="back-to-sign-fon"
+                                                                        [ngClass]="{'clickdsb':loadergif}"
+                                                                        (click)="login=true;reset=false;otpTextBox=false;changepassword=false;closeforget(userForm);loadergif=false">Back
+                                                                        to Sign In</u>
+                                                                </div>
+
+                                                                <div *ngIf="loader">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary button_border"><img
+                                                                            src="../assets/newloader.gif" />Send
+                                                                        OTP</button>
+                                                                    <button type="reset"
+                                                                        class="btn btn-danger button_border"
+                                                                        (click)="login=true;reset=false;otpTextBox=false;changepassword=false;">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+    <!---------------------------------------------------------------------- ----------OTP FORM-------------------------------------------------------------------------------------- -->
+                                    <div *ngIf="otpTextBox && !changepassword"
+                                        class="forgot-pass-section1 col-lg-11 col-md-12 col-sm-12">
+                                        <h6 class="modal-title pb-2 headfont">Forgot Password</h6>
+                                        <h6 class="forgot-password-sub pt-2 col-10 p-0">Please enter the verification
+                                            code we sent to your email address</h6>
+                                        <h6 class="forgot-password-sub pt-2" *ngIf='maxTime!=0'> The Code will Expires
+                                            in <span class="black-txt">{{showtime}} </span></h6>
+                                        <div class="loader-pos" *ngIf="loadergif2">
+                                            <img src="assets/images/loader.gif">
+                                        </div>
+                                        <form #otpform="ngForm" name="myForm" autocomplete="off"
+                                            (ngSubmit)="SubmitOTP(otpform)">
+
+                                            <div style="width:300px">
+                                                <input matInput type="text" placeholder="Enter OTP"
+                                                    style="padding: 8px 24px; margin: 0;" [(ngModel)]="otp" name="otp"
+                                                    required class="form-control login-br" maxlength="6" id="otpfield"
+                                                    autocomplete="off" (keypress)="Restrictcharacter($event)"
+                                                    (keydown)="next($event)">
+                                            </div>
+
+                                            <div class="text-danger mt-3" *ngIf="displayerror">{{errorres}}</div>
+
+                                            <div class="text-danger mt-3" *ngIf="formCheck">OTP is Required</div>
+
+
+                                            <div class="mt-4"><button class="btn btn-sm sign-in0li12 txtun"
+                                                    type="submit">Verify</button></div>
+                                            <div *ngIf='maxTime==0' class="mt-3"><label
+                                                    class="fon-14 col-81 fw-3">Didn't
+                                                    receive the code? <span class="sml-blu-txt pl-1"><a
+                                                            (click)='otpresend()'>Resend
+                                                        </a></span></label></div>
+
+                                        </form>
+                                    </div>
+
+    <!---------------------------------------------------------------------- ----------OTP FORM Ends-------------------------------------------------------------------------------------- -->
+
+
+    <!-------------------------------------------------------------------------------FORGOT PASSWORD FORM -------------------------------------------------------------------------------- -->
+                                    <div *ngIf="changepassword"
+                                        class="forgot-pass-section col-lg-6 col-md-12 col-sm-12">
+                                        <form #forgotForm="ngForm" (ngSubmit)="changePass(forgotForm)" name="forgotForm"
+                                            autocomplete="off">
+                                            <div class="repeat-pass">
+                                                <div class="md-form  ma-field-wid" style="margin-bottom: 2px"  id='input_new_cnf'>
+                                                    <i class=" prefix" style="margin: -15px 0 0 0"><img
+                                                            src="assets/images/lock.png"></i>
+                                                    <input type="password" [(ngModel)]="cPassword" name="cPassword"
+                                                        style="padding: 4px 25px; margin: 0;" class="fon-for-mob"
+                                                        placeholder="New Password"
+                                                        pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]{8,14}'
+                                                        #fcPassword="ngModel"
+                                                        [class.has-error]="fcPassword.invalid && fcPassword.touched"
+                                                        [class.has-success]="fcPassword.valid" required
+                                                        class="form-control" id="newPasswordemail"
+                                                        (keyup)="validate(cPassword); formSubmitted1=false; Password = false;"
+                                                        (keypress)="Restrictspacekey($event)" (focus)="focus=true"
+                                                        (focusout)="focus=false;checkUserdata(fcPassword,'password');">
+                                                        <div class="tooltipp t00l" appPasswordshowhide>
+                                                            <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                                                              visibility_off
+                                                              </i>
+                                                            <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                                                              remove_red_eye
+                                                              </i>
+                                    
+                                                        </div>
+
+                                                </div>
+                                                <div class="homepage-popup-height">
+                                                    <div
+                                                        *ngIf="(fcPassword.invalid&&(fcPassword.dirty||fcPassword.touched) && fcPassword.errors ) && !iebrowser">
+                                                        <div class="text-danger sml-danger-txt"
+                                                            *ngIf="fcPassword.errors.required  && !formSubmitted1 && !Password">
+                                                            Password
+                                                            is Required</div>
+                                                        <div class="text-danger sml-danger-txt"
+                                                            *ngIf="fcPassword.errors.pattern">Must
+                                                            be combination of atleast one uppercase,one lowercase,one
+                                                            digit
+                                                            and one special character with
+                                                            8 to 14 characters Range
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-danger sml-danger-txt"
+                                                        *ngIf="formSubmitted1 || Password">
+                                                        Password is Required</div>
+                                                    <div
+                                                        *ngIf="(fcPassword.invalid&&(fcPassword.dirty||fcPassword.touched) && fcPassword.errors ) && iebrowser">
+                                                        <div class="text-danger sml-danger-txt" *ngIf="passwoedinvalid">
+                                                            Password
+                                                            is Required</div>
+                                                        <div class="text-danger sml-danger-txt"
+                                                            *ngIf="fcPassword.errors.pattern">Must
+                                                            be combination of atleast one uppercase,one lowercase,one
+                                                            digit
+                                                            and one special character with
+                                                            8 to 14 characters Range
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <br />
+
+                                                <div class="md-form  " style="margin-bottom: 2px" id='input_new'>
+                                                    <i class=" prefix" style="margin: -15px 0 0 0"><img
+                                                            src="assets/images/lock.png"></i>
+                                                    <input type="password" [(ngModel)]="ConfirmPassword"
+                                                        appConfirmEqualValidator="newpass" name="ConfirmPassword"
+                                                        style="padding: 4px 25px; margin: 0;" class="fon-for-mob"
+                                                        placeholder="Confirm Password"
+                                                        pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]{8,14}'
+                                                        #fcverifypassword="ngModel"
+                                                        [class.has-error]="fcverifypassword.invalid && fcverifypassword.touched"
+                                                        [class.has-success]="fcverifypassword.valid" required
+                                                        class="form-control"
+                                                        (keyup)='formSubmitted1=false; confirmPassword = false;'
+                                                        (keypress)="Restrictspacekey($event);" (focus)="focusin=true"
+                                                        (focusout)="focusin=false;checkUserdata(fcverifypassword,'email');">
+                                                        <div class="tooltipp t00l" appPasswordshowhide>
+                                                            <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                                                              visibility_off
+                                                              </i>
+                                                            <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                                                              remove_red_eye
+                                                              </i>
+                                    
+                                                        </div>
+                                                  
+                                                </div>
+                                                <div class="homepage-popup-height">
+                                                    <div
+                                                        *ngIf="(fcverifypassword.invalid&&(fcverifypassword.dirty||fcverifypassword.touched) && fcverifypassword.errors) && !iebrowser">
+                                                        <div class="text-danger sml-danger-txt"
+                                                            *ngIf="fcverifypassword.errors.required && !formSubmitted1 && !confirmPassword">
+                                                            Confirm Password is Required</div>
+                                                    </div>
+                                                    <div class="text-danger sml-danger-txt"
+                                                        *ngIf="((forgotForm.value.cPassword!=forgotForm.value.ConfirmPassword) && fcverifypassword.dirty && fcverifypassword.touched) && forgotForm.value.cPassword && forgotForm.value.ConfirmPassword && !iebrowser">
+                                                        Password Mismatch
+                                                    </div>
+
+                                                    <div class="text-danger sml-danger-txt"
+                                                        *ngIf="formSubmitted1 || confirmPassword">
+                                                        Confirm Password is
+                                                        Required</div>
+                                                    <div
+                                                        *ngIf="(fcverifypassword.invalid&&(fcverifypassword.dirty||fcverifypassword.touched) && fcverifypassword.errors) && iebrowser">
+                                                        <div class="text-danger sml-danger-txt" *ngIf="emailinvalid">
+                                                            Confirm Password is Required</div>
+                                                    </div>
+                                                    <div class="text-danger sml-danger-txt"
+                                                        *ngIf="(((forgotForm.value.cPassword!=forgotForm.value.ConfirmPassword) && fcverifypassword.dirty && fcverifypassword.touched) && forgotForm.value.cPassword && !emailinvalid) && iebrowser">
+                                                        Password Mismatch
+                                                    </div>
+                                                </div>
+                                                <div class="form-row text-center tpad-20">
+                                                    <div class="col-12 text-left">
+                                                        <button class="submit-but tx-un" type="submit">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+    <!-------------------------------------------------------------------------------FORGOT PASSWORD FORM ENDS -------------------------------------------------------------------------------->
+                                    </div>
+                                    <div *ngIf="show1" class="forgot-pass-section2 col-lg-9 col-md-12 col-sm-12">
+                                        <div class="success-img">
+                                            <img src="assets/images/success-guy.png" class="img-fluid" alt="success">
+                                        </div>
+                                        <h5 class="success-title mb-0">Success!</h5>
+                                        <h6 class="success-msg">Password has been changed successfully </h6>
+                                        <div class="mt-093">
+                                            <button
+                                                (click)="login=true;reset=false;otpTextBox=false;changepassword=false;show1=false"
+                                                class="btn btn-lg back-log txtun">Login</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+ <!---------------------------------------------------------------  FORGET PASSWORD ENDS-------------------------------------------------------------------------- -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------------login page modal closes----------------------------------------------------------------->
+
+
+
+
+
+<button hidden id="test1" data-toggle="modal" data-target=".bed-example-modal-xl"></button>
+<!-------------------------------------------------------register page starts--------------------------------------------------------------------------->
+<div class="modal fade bed-example-modal-xl"  data-keyboard="false" tabindex="-1" role="dialog"
+    aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" data-backdrop = 'false'>
+    <button type="button" id="sample1" class="close no-bor-outlin" data-toggle="modal"
+        data-target=".bed-example-modal-xl">
+
+    </button>
+    <button type="button" class="close no-bor-outlin" style="display:none;" id="loginclose" data-dismiss="modal"
+        aria-label="Close">
+        <span aria-hidden="true" class="">&times;</span>
+    </button>
+
+    <div class="modal-dialog modal-xl fix-m-w">
+        <div class="modal-content ">
+ <!-----------------------------------------------------------Individual-sign-up Starts--------------------------------------------------- -->
+            <div *ngIf="individual">
+                <div class="modal-body  redbg ">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-5 d-non pop-up-dis-non">
+                            <div class="welcome-creat-ac">
+                                <div class="pl-5">
+                                    <h5 class="white-colr txt2font">Welcome !</h5>
+                                </div>
+                                <div class="pl-5">
+                                    <img src="assets/img/signin1.svg" class="img-fluid" alt="Responsive image">
+                                </div>
+                                <div>
+                                    <p class="txt2font">Welcome to DocIntact, You can easily sign-up to view, upload and
+                                        share your documents
+                                        securely.</p>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-7 login11">
+                            <button type="button" class="close no-bor-outlin login-cls-btn" id='signUpCloseBtn' data-dismiss="modal"
+                                aria-label="Close" appPasswordshowhide
+                                (click)="errors=false;closeModel1(individualregistrationForm);escaptdisable();check1=false; this.hidedata = false; organisation = false; individual = false; individualclick = false; organisationclick = false; passwoedinvalid=false;usernameinvalid=false;emailinvalid=false;invalidmobile=false">
+                                <span aria-hidden="true" class="pad-all-20">&times;</span>
+                            </button>
+                            <form class="create-ac-sec" #individualregistrationForm="ngForm"
+                                (ngSubmit)="signup(individualregistrationForm,'individual')" name="registrationForm"
+                                autocomplete="off">
+            
+                                <div class="text-center">
+                                    <p class="modal-title headfont">Create Account</p>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-fb ico-fb" (click)="facebook()"><i
+                                            class="fab fa-facebook-f"></i></button>
+                                    <button type="button" class="btn btn-tw ico-twtr" (click)="twitter()"><i
+                                            class="fab fa-twitter"></i></button>
+                                    <button type="button" class="btn btn-gplus ico-gplus" (click)="google()"><i
+                                            class="fab fa-google"></i></button>
+                                </div>
+            
+                                <div class="alternate-register text-center fon-14 col-80">or use your email for
+                                    registration</div>
+            
+            
+                                <div>
+                                    <div class="md-form txt2font form-mar-bot-2 field-wid-adjust  ma-field-wid">
+                                        <i class=" prefix" style="margin: -12px 0 0 0"><img src="assets/images/Group1748.png"></i>
+                                        <input type="text" [(ngModel)]="name" style="padding: 4px 24px; margin: 0;" maxlength="65"
+                                            minlength="1" placeholder="Enter your name" pattern="^[A-Za-z\s]{1,65}$"
+                                            #name1="ngModel" id="target1" name="name"
+                                            [class.has-error]="name1.invalid && name1.touched" [class.has-success]="name1.valid"
+                                            required class="form-control login-br sh-none" (blur)="checksignupdata(name)"
+                                            [ngClass]="{'errlogin-br': formSubmitted && errors}">
+            
+                                        <div class="homepage-popup-height">
+                                            <div
+                                                *ngIf="(name1.invalid && (name1.dirty || name1.touched)|| formSubmitted && name1.errors) && !iebrowser">
+            
+                                                <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="name1.errors.required">Please
+                                                    Enter Name</mat-error>
+                                                <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="name1.length>64 && !name1.errors.pattern">
+                                                    Username
+                                                    must be less than or equal to 64
+                                                    Characters Only</mat-error>
+                                                    <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="name1.errors.pattern"> Invalid Name
+                                                   </mat-error>
+            
+                                            </div>
+                                            <div
+                                                *ngIf="(name1.invalid && (name1.dirty || name1.touched)|| formSubmitted && name1.errors) && iebrowser">
+            
+                                                <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="usernameinvalid">
+                                                    Please
+                                                    Enter Name</mat-error>
+                                                <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="name1.length>64">
+                                                    Username
+                                                    must be less than or equal to 64
+                                                    Characters Only</mat-error>
+            
+                                            </div>
+                                        </div>
+            
+                                        <div class="tooltipp t00l">
+            
+                                            <img *ngIf="(name1.invalid && (name1.dirty ||  name1.touched) || formSubmitted&&name1.errors) && !iebrowser "
+                                                src="assets/images/exclemetic.png" class="prefix error-icon">
+            
+                                            <div class="tooltiptext tultip3"
+                                                style="font-weight: 400;text-align: left;padding-left: 10px;top: 35px;">
+                                                <div style="padding-left:3px;">
+                                                    Valid Username
+                                                </div>
+            
+                                                <div class="col-md-12">
+                                                    <div class="row" style="color:red;">
+            
+                                                        <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                            [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                            <i class="fa fa-circle listicn"></i> Alphabets & Space</div>
+                                                    </div>
+                                                </div>
+            
+                                            </div>
+                                        </div>
+                                        <div
+                                         class="tooltipp t00l">
+            
+                                            <img *ngIf="(name1.invalid && (name1.dirty ||  name1.touched) || formSubmitted&&name1.errors) && iebrowser && usernameinvalid"
+                                                src="assets/images/exclemetic.png" class="prefix error-icon ieic0n">
+            
+                                            <div class="tooltiptext pop-up-dis-non"
+                                                style="font-weight: 400;text-align: left;padding-left: 10px;">
+                                                <div style="padding-left:3px;">
+                                                    Valid Username
+                                                </div>
+                                                <div class="row" style="color:red;">
+                                                    <div class="col-lg-2 lef-pad text-right">
+                                                        <i class="fa fa-circle listicn"></i>
+                                                    </div>
+                                                    <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                        [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                        Alphabets & Space</div>
+                                                </div>
+            
+            
+                                            </div>
+                                        </div>
+            
+            
+            
+            
+                                    </div>
+            
+                                    <div class="md-form txt2font form-mar-bot-2 field-wid-adjust  ma-field-wid">
+                                        <i class="prefix" style="margin: -12px 0 0 0"><img
+                                                src="assets/images/mail.png">&nbsp;&nbsp;</i>
+                                        <input matInput type="email" placeholder="Email" [(ngModel)]="email"
+                                            style="padding: 4px 24px; margin: 0;" maxlength="100" (focus)="onFocus('email')" (blur)="onBlur('email')"
+                                            (ngModelChange)="onKeyDownSignupemail(email)" #email1="ngModel" name="email"
+                                            pattern="([A-Za-z]|[0-9])[A-Za-z0-9.-]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})"
+                                            required class="form-control login-br sh-none" (blur)="checksignupdata(email)"
+                                            [ngClass]="{'errlogin-br': formSubmitted && errors}"
+                                            (focusout)="checkUserdata(email1,'email')">
+            
+            
+                                        <div class="tooltipp t00l">
+                                            <img *ngIf="(email1.invalid && (email1.dirty || email1.touched)|| formSubmitted && email1.errors) && !iebrowser  "
+                                                src="assets/images/exclemetic.png" class="prefix error-icon">
+                                            <div class="tooltiptext tultip4"
+                                                style="font-weight: 400;text-align: left;padding-left: 10px;top: 35px;">
+                                                <div style="padding-left:3px;">
+                                                    Valid mail format
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="row">
+            
+                                                        <div class="zero-pad special-char-clr text-left"
+                                                            [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                            <i class="fa fa-circle listicn"></i> abc@abc.com </div>
+                                                    </div>
+                                                </div>
+            
+                                            </div>
+                                        </div>
+                                        <div class="tooltipp t00l">
+                                            <img *ngIf="(email1.invalid && (email1.dirty || email1.touched)|| formSubmitted&&email1.errors) && iebrowser && emailinvalid "
+                                                src="assets/images/exclemetic.png" class="prefix error-icon ieic0n">
+                                            <div class="tooltiptext pop-up-dis-non"
+                                                style="font-weight: 400;text-align: left;padding-left: 10px;">
+                                                <div style="padding-left:3px;">
+                                                    Valid mail format
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-2 lef-pad text-right">
+                                                        <i class="fa fa-circle listicn"></i>
+                                                    </div>
+                                                    <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                        [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                        abc@abc.com </div>
+                                                </div>
+            
+            
+                                            </div>
+                                        </div>
+            
+            
+            
+            
+                                        <div class="homepage-popup-height">
+                                            <mat-error class="text-danger sml-danger-txt error-message-in-mob" *ngIf="emailcheck">
+                                                Email
+                                                already exists waiting for Verification </mat-error>
+                                            <mat-error class="text-danger sml-danger-txt error-message-in-mob" *ngIf="check2">Email
+                                                id already
+                                                exists! </mat-error>
+            
+                                            <div
+                                                *ngIf="(email1.invalid  && (email1.dirty || email1.touched)|| formSubmitted && email1.errors) && !iebrowser ">
+                                                <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="email1.errors.required">Please
+                                                    Enter Email id</mat-error>
+                                                <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="isInvalidEmailError && (email1.errors.pattern)">Invalid
+                                                    Email id</mat-error>
+            
+                                            </div>
+                                            <div
+                                                *ngIf="(email1.invalid && (email1.dirty || email1.touched)|| formSubmitted && email1.errors) && iebrowser">
+                                                <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="emailinvalid">Please
+                                                    Enter Email id</mat-error>
+                                                <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                                    *ngIf="isInvalidEmailError && (email1.errors.pattern)">Invalid
+                                                    Email id</mat-error>
+            
+                                            </div>
+                                        </div>
+            
+                                        <!-- </div> -->
+                                        <!-- </div> -->
+            
+                                    </div>
+                                    <div class="md-form headfont form-mar-bot-2  ma-field-wid field-wid-adjust" id='input_old'>
+                                        <i class=" prefix" style="margin: -12px 0 0 0"><img src="assets/images/lock.png"></i>
+                                        <input (focus)="focus=true" (focusout)="focus=false;checkUserdata(name2,'password')"
+                                            type="password" [(ngModel)]="password" style="padding: 4px 24px; margin: 0;"
+                                            placeholder="Password"
+                                            pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]{8,14}'
+                                            #name2="ngModel" name="password" [class.has-error]="name2.invalid && name2.touched"
+                                            [class.has-success]="name1.valid" required class="form-control  login-br sh-none"
+                                            (blur)="checksignupdata(password)" [ngClass]="{'errlogin-br': formSubmitted && errors}"
+                                            (keyup)="validate(password)" (keypress)="Restrictspacekey($event)">
+            
+                                            <div class="tooltipp t00l" appPasswordshowhide>
+                                                <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                                                    visibility_off
+                                                    </i>
+                                                  <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                                                    remove_red_eye
+                                                    </i>
+                                            </div>
+
+            
+            
+            
+            
+                                        <div class="homepage-popup-height">
+                                            <div
+                                                *ngIf="(name2.invalid && (name2.dirty || name2.touched)|| formSubmitted&&name2.errors) &&!iebrowser">
+            
+                                                <div class="text-danger error-message-in-mob sml-danger-txt nunito-font"
+                                                    *ngIf="name2.errors.required">Please
+                                                    Enter Password</div>
+                                                <div class="text-danger sml-danger-txt nunito-font error-message-in-mob"
+                                                    *ngIf="name2.errors.pattern">Must
+                                                    be combination of atleast one uppercase,one lowercase,one digit
+                                                    and one special character with
+                                                    8 to 14 characters Range </div>
+            
+                                            </div>
+                                            <div
+                                                *ngIf="(name2.invalid && (name2.dirty || name2.touched)|| formSubmitted&&name2.errors) && iebrowser ">
+            
+                                                <div class="text-danger sml-danger-txt nunito-font" *ngIf="passwoedinvalid">Please
+                                                    Enter Password</div>
+                                                <div class="text-danger sml-danger-txt nunito-font error-message-in-mob"
+                                                    *ngIf="name2.errors.pattern">Must
+                                                    be combination of atleast one uppercase,one lowercase,one digit
+                                                    and one special character with
+                                                    8 to 14 characters Range </div>
+            
+                                            </div>
+                                        </div>
+            
+            
+                                    </div>
+                                </div>
+                                <div>
+            
+            
+            
+                                </div>
+                                <div>
+                                </div>
+                                <div class="row tpad-20 txt2font">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <button class="btn btn-sm sign-in1li txtun" type="submit">Sign Up</button>
+                                    </div>
+            
+                                </div>
+            
+                                <div class="row pt-1">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 m-auto p-05 txt2font">
+                                        <p class="al-mem-signup">Already a member? <span class="signin-clr"
+                                                (click)="escaptdisable();errors=false;loginmodel();closeModel1(individualregistrationForm); this.hidedata = false; organisation = false; individual = false; individualclick = false; organisationclick = false;usernameinvalid=false;passwoedinvalid=false;emailinvalid=false"><u>Sign
+                                                    In</u></span></p>
+                                    </div>
+                                </div>
+                            </form>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+ <!-----------------------------------------------------------Individual-sign-up Ends--------------------------------------------------- -->
+  <!-----------------------------------------------------------organisation-sign-up Starts--------------------------------------------------- -->
+
+ <div *ngIf="organisation">
+        <div class="modal-body  redbg ">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-5 d-non pop-up-dis-non">
+                    <div class="welcome-creat-ac">
+                        <div class="pl-5">
+                            <h5 class="white-colr txt2font">Welcome !</h5>
+                        </div>
+                        <div class="pl-5">
+                            <img src="assets/img/signin1.svg" class="img-fluid" alt="Responsive image">
+                        </div>
+                        <div>
+                            <p class="txt2font">Welcome to DocIntact, You can easily sign-up to view, upload and share
+                                your documents
+                                securely.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-7 login11">
+                    <button type="button" class="close no-bor-outlin login-cls-btn" id='signUpCloseBtn'
+                        data-dismiss="modal" aria-label="Close" appPasswordshowhide
+                        (click)="errors=false;closeModel1(organisationregistrationForm);escaptdisable(); this.hidedata = false; organisation = false; individual = false; individualclick = false; organisationclick = false;">
+                        <span aria-hidden="true" class="pad-all-20">&times;</span>
+                    </button>
+                    <form class="create-ac-sec" #organisationregistrationForm="ngForm"
+                        (ngSubmit)="signup(organisationregistrationForm,'organisation')" name="registrationForm"
+                        autocomplete="off">
+
+                        <div class="text-center">
+                            <p class="modal-title headfont">Create Account</p>
+                        </div>
+
+                        <div>
+                            <!-- UserName-->
+                            <div class="md-form headfont form-mar-bot-2 field-wid-adjust  ma-field-wid">
+                                <i class=" prefix" style="margin: -12px 0 0 0"><img
+                                        src="assets/images/Group1748.png"></i>
+                                <input type="text" [(ngModel)]="companyname" style="padding: 4px 24px; margin: 0;"
+                                    placeholder="Company Name" pattern="^[A-Za-z\s]{1,65}$" #cname="ngModel"
+                                    id="target1" name="companyname" maxlength="65" minlength="1"
+                                    [class.has-error]="cname.invalid && cname.touched" [class.has-success]="cname.valid"
+                                    required class="form-control login-br  sh-none" (blur)="checksignupdata(name)"
+                                    [ngClass]="{'errlogin-br':organisation_formSubmitted&&cname.errors}">
+
+                                <div class="tooltipp t00l">
+                                    <img *ngIf="(cname.invalid && (cname.dirty || cname.touched)|| organisation_formSubmitted&&cname.errors) && !iebrowser"
+                                        src="assets/images/exclemetic.png" class="prefix error-icon">
+                                    <div class="tooltiptext tultip51"
+                                        style="font-weight: 400;text-align: left;padding-left: 10px;top: 35px;">
+                                        <div style="padding: left 3px;">
+                                            Valid Companyname
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="row" style="color:red;">
+
+                                                <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                    [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                    <i class="fa fa-circle listicn"></i> Alphabets & space</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tooltipp t00l">
+                                    <img *ngIf="(cname.invalid && (cname.dirty || cname.touched)|| organisation_formSubmitted&&cname.errors) && iebrowser && usernameinvalid"
+                                        src="assets/images/exclemetic.png" class="prefix error-icon ieic0n">
+                                    <div class="tooltiptext pop-up-dis-non"
+                                        style="font-weight: 400;text-align: left;padding-left: 10px;">
+                                        <div style="padding: left 3px;">
+                                            Valid Companyname
+                                        </div>
+                                        <div class="row" style="color:red;">
+                                            <div class="col-lg-2 lef-pad text-right">
+                                                <i class="fa fa-circle listicn"></i>
+                                            </div>
+                                            <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                Alphabets & space</div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="homepage-popup-height">
+                                    <div
+                                        *ngIf="(cname.invalid && (cname.dirty || cname.touched)|| organisation_formSubmitted&&cname.errors) && !iebrowser">
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="cname.errors.required">Please
+                                            Enter Name</mat-error>
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="companyname && companyname.length>64 && !cname.errors.pattern">Username
+                                            must be less than or equal to
+                                            64 Characters Only</mat-error>
+                                            <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="cname.errors.pattern"> Invalid Name
+                                           </mat-error>
+
+                                    </div>
+                                    <div
+                                        *ngIf="(cname.invalid && (cname.dirty || cname.touched)|| organisation_formSubmitted&&cname.errors) && iebrowser">
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="usernameinvalid">
+                                            Please
+                                            Enter Name</mat-error>
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf=" companyname && companyname.length>64">Username
+                                            must be less than or equal to
+                                            64 Characters Only</mat-error>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+
+
+
+                            <!-- Email -->
+                            <div class="md-form headfont form-mar-bot-2 field-wid-adjust  ma-field-wid">
+                                <i class="prefix" style="margin: -12px 0 0 0"><img
+                                        src="assets/images/mail.png">&nbsp;&nbsp;</i>
+                                <input type="email" placeholder="Company Email ID" [(ngModel)]="email"
+                                    style="padding: 4px 24px; margin: 0;" (ngModelChange)="onKeyDownorgemail(email)"
+                                    (keyup)="orgemailcheck=false" #email2="ngModel" name="email" (focus)="onFocus('email')" (blur)="onBlur('email')"
+                                    pattern="([A-Za-z]|[0-9])[A-Za-z0-9.-]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})"
+                                    required class="form-control login-br  sh-none"
+                                    [ngClass]="{'errlogin-br':organisation_formSubmitted&&email2.errors}"
+                                    (focusout)="checkUserdata(email2,'email')">
+
+                                <div class="tooltipp t00l">
+                                    <img *ngIf="(email2.invalid && (email2.dirty || email2.touched)|| organisation_formSubmitted&&email2.errors) && !iebrowser"
+                                        src="assets/images/exclemetic.png" class="prefix error-icon">
+
+                                    <div class="tooltiptext tultip6"
+                                        style="font-weight: 400;text-align: left;padding-left: 10px;top: 35px;">
+                                        <div style="padding-left:3px;">
+                                            Valid mail format
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <div class="row">
+
+                                                <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                    [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                    <i class="fa fa-circle listicn"></i>abc@abc.com </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tooltipp t00l">
+                                    <img *ngIf="(email2.invalid && (email2.dirty || email2.touched)|| organisation_formSubmitted&&email2.errors) && iebrowser && emailinvalid"
+                                        src="assets/images/exclemetic.png" class="prefix error-icon ieic0n">
+
+                                    <div class="tooltiptext pop-up-dis-non"
+                                        style="font-weight: 400;text-align: left;padding-left: 10px;">
+                                        <div style="padding-left:3px;">
+                                            Valid mail format
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-2 lef-pad text-right">
+                                                <i class="fa fa-circle listicn"></i>
+                                            </div>
+                                            <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                abc@abc.com </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                                <div class="homepage-popup-height">
+                                    <div
+                                        *ngIf="(email2.invalid && (email2.dirty || email2.touched)|| organisation_formSubmitted && email2.errors) && !iebrowser">
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="email2.errors.required">Please
+                                            Enter Email</mat-error>
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="isInvalidEmailError &&  (email2.errors.pattern)">Invalid
+                                            Email</mat-error>
+                                    </div>
+                                    <div
+                                        *ngIf="(email2.invalid && (email2.dirty || email2.touched)|| organisation_formSubmitted && email2.errors ) && iebrowser">
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="emailinvalid">Please
+                                            Enter Email</mat-error>
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="(email2.errors.pattern)">Invalid
+                                            Email</mat-error>
+                                    </div>
+                                    <mat-error class="text-danger sml-danger-txt error-message-in-mob" *ngIf="check3">
+                                        Email
+                                        Already Exists Click Back to sign in </mat-error>
+                                    <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                        *ngIf="orgemailcheck">Email
+                                        Alredy Exists Wating for Verification </mat-error>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- MobileNumber -->
+                            <div class="md-form headfont form-mar-bot-2 field-wid-adjust  ma-field-wid">
+                                <i class=" prefix" style="margin: -12px 0 0 0"><img src="assets/images/phone.png"></i>
+                                <input type="text" [(ngModel)]="mobilenumber" pattern="[0-9]{10}"
+                                    style="padding: 4px 24px; margin: 0;" placeholder="Land line Number"
+                                    #mobilenumber2="ngModel" name="mobilenumber"
+                                    [class.has-error]="mobilenumber2.invalid && mobilenumber2.touched"
+                                    [class.has-success]="mobilenumber2.valid" required
+                                    class="form-control login-br sh-none" (blur)="checksignupdata(mobilenumber)"
+                                    [ngClass]="{'errlogin-br':organisation_formSubmitted&&mobilenumber2.errors}"
+                                    (focusout)="checkUserdata(mobilenumber2,'mobile')" (focus)="onFocus('mobilenumber')" (blur)="onBlur('mobilenumber')">
+
+                                <div class="tooltipp t00l">
+                                    <img *ngIf="(mobilenumber2.invalid && (mobilenumber2.dirty || mobilenumber2.touched)|| organisation_formSubmitted&&mobilenumber2.errors) && iebrowser && invalidmobile"
+                                        src="assets/images/exclemetic.png" class="prefix error-icon ieic0n">
+                                    <div class="tooltiptext tultip7"
+                                        style="font-weight: 400;text-align: left;padding-left: 10px;">
+                                        <div style="padding-left:3px;">
+                                            Valid Landline format
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="row" style="color:red;">
+
+                                                <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                    [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                    <i class="fa fa-circle listicn"></i> Only Numbers </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tooltipp t00l">
+                                    <img *ngIf="(mobilenumber2.invalid && (mobilenumber2.dirty || mobilenumber2.touched)|| organisation_formSubmitted&&mobilenumber2.errors) && !iebrowser"
+                                        src="assets/images/exclemetic.png" class="prefix error-icon">
+                                    <div class="tooltiptext"
+                                        style="font-weight: 400;text-align: left;padding-left: 10px;top: 35px;">
+                                        <div style="padding-left:3px;">
+                                            Valid Landline format
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="row" style="color:red;">
+
+                                                <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                    [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                    <i class="fa fa-circle listicn"></i> Only Numbers </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="homepage-popup-height">
+                                    <div
+                                        *ngIf="(mobilenumber2.invalid && (mobilenumber2.dirty || mobilenumber2.touched)|| organisation_formSubmitted&&mobilenumber2.errors) && !iebrowser">
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="mobilenumber2.errors.required">Please
+                                            Enter Land line number
+                                        </mat-error>
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="isInvalidMobileError && (mobilenumber2.errors.pattern)">Invalid
+                                            Land line number
+                                        </mat-error>
+                                    </div>
+                                    <div
+                                        *ngIf="(mobilenumber2.invalid && (mobilenumber2.dirty || mobilenumber2.touched)|| organisation_formSubmitted&&mobilenumber2.errors) && iebrowser">
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="invalidmobile">Please
+                                            Enter Land line number
+                                        </mat-error>
+                                        <mat-error class="text-danger sml-danger-txt error-message-in-mob"
+                                            *ngIf="(mobilenumber2.errors.pattern)">Invalid
+                                            Land line number
+                                        </mat-error>
+                                    </div>
+                                    <mat-error *ngIf="check && mobilenumber2.dirty && mobilenumber2.touched">Mobile
+                                        number already existed</mat-error>
+                                </div>
+
+                            </div>
+
+
+
+
+                            <!-- Password  -->
+                            <div class="md-form headfont form-mar-bot-2  ma-field-wid field-wid-adjust" id='input_new'>
+                                <i class=" prefix" style="margin: -12px 0 0 0"><img src="assets/images/lock.png"></i>
+                                <input type="password" (focus)="focus1=true"
+                                    (focusout)="focus1=false;checkUserdata(name4,'password')" [(ngModel)]="password"
+                                    style="padding: 4px 24px; margin: 0;" placeholder="Password"
+                                    pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]{8,14}'
+                                    #name4="ngModel" name="password" [class.has-error]="name4.invalid && name4.touched"
+                                    [class.has-success]="name4.valid" required class="form-control login-br sh-none"
+                                    (blur)="checksignupdata(password)"
+                                    [ngClass]="{'errlogin-br': organisation_formSubmitted&&name4.errors}"
+                                    (keyup)="validate(password)" (keypress)="Restrictspacekey($event)">
+
+                                    <div class="tooltipp t00l" appPasswordshowhide>
+                                        <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                                            visibility_off
+                                            </i>
+                                          <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                                            remove_red_eye
+                                            </i>
+                                    </div>
+
+
+
+
+                                <div class="homepage-popup-height">
+                                    <div
+                                        *ngIf="(name4.invalid && (name4.dirty || name4.touched)||  organisation_formSubmitted&&name4.errors) && !iebrowser">
+
+                                        <div class="text-danger sml-danger-txt nunito-font error-message-in-mob"
+                                            *ngIf="name4.errors.required">Please
+                                            Enter Password</div>
+                                        <div class="text-danger sml-danger-txt nunito-font error-message-in-mob"
+                                            *ngIf="name4.errors.pattern">Must
+                                            be combination of atleast one uppercase,one lowercase,one digit
+                                            and one special character with
+                                            8 to 14 characters Range </div>
+
+                                    </div>
+                                    <div
+                                        *ngIf="(name4.invalid && (name4.dirty || name4.touched)||  organisation_formSubmitted&&name4.errors ) && iebrowser">
+
+                                        <div class="text-danger sml-danger-txt nunito-font error-message-in-mob"
+                                            *ngIf="passwoedinvalid">Please
+                                            Enter Password</div>
+                                        <div class="text-danger sml-danger-txt nunito-font error-message-in-mob"
+                                            *ngIf="name4.errors.pattern">Must
+                                            be combination of atleast one uppercase,one lowercase,one digit
+                                            and one special character with
+                                            8 to 14 characters Range </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="row tpad-20 txt2font">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <button class="btn btn-sm sign-in1li txtun" type="submit">Sign Up</button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- <label *ngIf="capslockOn" class="text-danger sml-danger-txt nunito-font">Caps lock is
+                                    ON.</label> -->
+
+                        <div class="row pt-1">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 m-auto p-05 txt2font">
+                                <p class="al-mem-signup">Already a member? <span class="signin-clr"
+                                        (click)="escaptdisable();errors=false;loginmodel();closeModel1(organisationregistrationForm); this.hidedata = false; organisation = false; individual = false; individualclick = false; organisationclick = false;"><u>Sign
+                                            In</u></span></p>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+  <!-----------------------------------------------------------organisation-sign-up Ends--------------------------------------------------- -->
+
+    <!-- ----------------------------------------------------------Registation Select Individual or organisation  starts------------------------------------------------------------------------- -->
+    <div *ngIf='hidedata'>
+        <div class="modal-body  fix-modal-h modalbodypadding">
+            <button type="button" class="close no-bor-outlin login-cls-btn" data-dismiss="modal" aria-label="Close"
+                (click)=closeModel1();escaptdisable(); this.hidedata=false; organisation=false; individual=false;
+                individualclick=false; organisationclick=false;>
+                <span aria-hidden="true" class="pad-all-20">&times;</span>
+            </button>
+            <div class="modalheadbox">
+                <h4 class="selectionheading">Select Your Option</h4>
+            </div>
+            <div class="row bodycontent row-hei-pop-invidual">
+
+                <div class="col-md-6 col-lg-6 col-sm-6 ">
+                    <div class="individualbox" [ngClass]="{ 'individualbox-active': individualclick}"
+                        (click)="individualClick(title='inv');checkorg=false;individualclick=true;organisationclick=false"
+                        style="cursor: pointer">
+                        <div class="tick-mark" [ngClass]="{ 'tick-mark-active': individualclick}">
+                            <div class="individualbox1" [ngClass]="{ 'individualbox1-active': individualclick}">
+                                <h4 class="individualheading">Individual</h4>
+                                <p class="individualcontent pop-up-dis-non1">Doc Intact made easy to share your
+                                    signed documents with Unique and secure facial recognition authentication
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 ">
+                    <div class="organisationbox" [ngClass]="{ 'organisationbox-active': organisationclick}"
+                        (click)="individualClick(title='org');checkorg=false;individualclick=false;organisationclick=true;"
+                        style="cursor: pointer">
+                        <div class="tick-mark" [ngClass]="{ 'tick-mark-active': organisationclick}">
+                            <div class="organisationbox1" [ngClass]="{ 'organisationbox1-active': organisationclick}">
+                                <h4 class="organisationheading">Organization</h4>
+                                <p class="organisationcontent pop-up-dis-non1">Doc Intact- Organization login
+                                    helps to Share documents amongst a group, manage billing and subscriptions
+                                    for multiple users,
+                                    Send and manage Sign Requests and create Templates and Documents for your
+                                    organization.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="selectionheading1 text-danger"
+            [ngClass]="{'mobile-pop-myfiles' : windowWidth <  420 || (windowWidth  <= 800   && windowWidth  >= 720 )}">
+            <h6 class="mdq-wrong-msg" *ngIf='checkorg'>Please select Individual or Organization</h6>
+        </div>
+        <div class="modal-footer btnsright">
+            <div class="text-right lastbuttons">
+                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                    <span><button class="btn btn-sm sign-in0li txtun close-btn" (click)="escaptdisable()"
+                            data-dismiss="modal" aria-label="Close" type="submit">Cancel</button></span>
+                    <span><button class="btn btn-sm sign-in0li txtun" type="button"
+                            (click)="formOpen()">Next</button></span>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!-- ----------------------------------------------------------organization modal------------------------------------------------------------------------- -->
+
+    </div>
+    <!-- ----------------------------------------------------------Registation Select Individual or organisation Ends ------------------------------------------------------------------------- -->
+
+
+</div>
+</div>
+</div>
+
+<!-- ----------------------------------------------------register Page Ends-------------------------------------- -->
+<section class="first-section tophead-bg fixedheader">
+    <div class="container">
+        <div class="row no-gutter">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 mrgn navhead01">
+                <nav class="mb-1 navbar navbar-expand-lg navbar-dark main-nav">
+                    <a class="navbar-brand" href="#"><img class="wid-260" src="assets/images/logo.svg"
+                            width="200px"></a>
+                    <button class="navbar-toggler" style="background:#EF6D65" type="button" #buttonMobileMenu>
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse me-bg b0xshdw" *ngIf="mobileMenuShow">
+                        <ul class="navbar-nav ml-auto togg">
+                            <li class="tnav  nav-item  nav-pad" data-target="#navbarSupportedContent-333">
+                                <a class="nav-link list-items nv-clr  nav-l-ch fw-7" routerLink=""
+                                    [routerLinkActive]="['active1']" [routerLinkActiveOptions]="{exact: true}">Home<span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="tnav nav-item nav-pad" data-target="#navbarSupportedContent-333">
+                                <a class="list-items nav-link nv-clr nav-l-ch fw-3" routerLink="/features"
+                                    [routerLinkActive]="['active1']">Features</a>
+                            </li>
+                            <li class="tnav nav-item nav-pad " data-target="#navbarSupportedContent-333">
+                                <a class="list-items nav-link nv-clr nav-l-ch fw-3" routerLink="/about"
+                                    [routerLinkActive]="['active1']">About
+                                    Us</a>
+                            </li>
+                            <li class="tnav nav-item nav-pad" data-target="#navbarSupportedContent-333">
+                                <a class="list-items nav-link nv-clr nav-l-ch fw-3" routerLink="/verification"
+                                    [routerLinkActive]="['active1']">Verification</a>
+                            </li>
+                            <li class="tnav nav-item nav-pad" data-target="#navbarSupportedContent-333">
+                                <a class="list-items nav-link nv-clr nav-l-ch fw-3" routerLink="/contact"
+                                    [routerLinkActive]="['active1']">Contact Us</a>
+                            </li>
+
+                        </ul>
+                        <ul class="navbar-nav ml-auto nav-flex-icons togg">
+                            <li class="nav-item tr-but-gap" data-target="#navbarSupportedContent-333">
+                                <a class="nav-link"><button type="button" class="sign-in-but res-border"
+                                        (click)="loginmodel();individualclick=false;organisationclick=false;reset=false">Sign
+                                        In</button></a>
+                            </li>
+                            <li class="nav-item" data-target="#navbarSupportedContent-333">
+                                <a class="nav-link"><button class="sign-up-but res-border"
+                                        (click)="signupmodel();hidedata=true;organisation=false;individual=false;individualclick=false;organisationclick=false;checkorg=false">Sign
+                                        Up</button></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<router-outlet></router-outlet>
+
+
+
+
+
+
+
+
+
+<!-- <footer class="footer-bg d-show mt-60" [ngClass]="{'position':router.url === '/verification'}"> -->
+    <footer class="footer-bg d-show">
+
+        <div class="container headfont fon-16 fw-3">
+            <div class="row" style="padding: 6% 0 0 0;">
+                <div class="col-lg-3 col-sm-12 col-xs-12 col-md-12">
+                    <a href="#"><img src="assets/images/FLogo.svg"></a>
+                </div>
+                <!-- <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-4">
+                    <a >Verification</a>
+                </div> -->
+                <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-4">
+                    <a routerLink="/about">About Us</a>
+                </div>
+                <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-4">
+                    <a routerLink="/features" >Features</a>
+                </div>
+                <!-- <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-4">
+                    <a href="#">Pricing</a>
+                </div> -->
+                <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-4">
+                    <a routerLink="/faq" >FAQs</a>
+                </div>
+                <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12 mt-4 ps-0">
+                    <a routerLink="/contact">Contact us</a>
+                </div>
+                <div class="col-lg-2 col-sm-12 col-xs-12 col-md-12 mt-4">
+                    <a routerLink="/privacy">Privacy</a><span class="privacy">/</span> <a
+                    routerLink="/termsandconditions">Terms & Conditions</a>
+                </div>
+                <div class="col-lg-3 col-sm-12 col-xs-12 col-md-12 text-center fl-pt fon-18">
+                    <p class="white-colr ch-white">Follow us :</p>
+    
+                    <span class="dot1 dot-bg3" >
+                        <i class="fab fa-facebook-f"></i>
+    
+                    </span>
+                    <span class="dot1 dot-bg3 ml-3">
+    
+                        <i class="fas fa-envelope"></i>
+    
+    
+                    </span>
+                    <span class="dot1 dot-bg3 ml-3" >
+    
+                        <i class="fab fa-twitter"></i>
+    
+    
+                    </span>
+    
+                </div>
+    
+            </div>
+    
+            <hr class="mb-0 hr-wh">
+    
+            <div class="row headfont fon-14 fw-4 m-auto p-2">
+                <div class="col-12 white-colr ch-white pl-5 text-center">
+                    © <span id="year">2019</span> All Rights reserved to DOC INTACT
+                </div>
+                <!-- <div class="col-6" style="text-align: right">
+                    <span class="white-colr ch-white fon-14">Payment Modes Accepted:</span>
+                    <span class="pl-1"><img src="assets/images/paycards.png"></span>
+                </div> -->
+            </div>
+        </div>
+    
+    </footer>
+
+<!-- ipad footer starts -->
+
+<section class="ipad-home-footer i-show headfont">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                © <span id="year">2019</span> All Rights reserved to DOC INTACT
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
+
+                <span class="dot1 dot-bg3 ml-3"><i class="fab fa-facebook-f"></i></span>
+                <span class="dot1 dot-bg3 ml-3"><i class="fas fa-envelope"></i></span>
+                <span class="dot1 dot-bg3 ml-3"><i class="fab fa-twitter"></i></span>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12" *ngIf="data.type=='Password'">
+      <div _ngcontent-c24="" class="outercircle">
+        <div class="halfcircle">
+          <img _ngcontent-c24="" class="imgtrash" src="./assets/images/Group8321.png">
+        </div>
+      </div>
+      <h6 class="data-title text-center">{{data.title}}</h6>
+      <div *ngIf='data.otpflag  && !data.Docflag' class="data-title1 text-center">
+        <form #Passwordform="ngForm">
+          <div *ngIf="data.errorMsg" class="text-danger">{{data.errorMsg}}</div>
+          <div>
+            <label class="pr-2">Enter Password:</label>
+            <mat-form-field appearance="outline" class="otp-popup">
+              <input matInput type="{{passwordtype}}" [(ngModel)]="Password" #Password1="ngModel" name="Password" (onenter) = "Passwordsubmit(Passwordform)" (keydown) = "errores = '';"
+                [class.has-error]="Password1.invalid && Password1.touched" [class.has-success]="Password1.valid"
+                required style="margin: 0;padding: 0;">
+                <i class="{{passwordIcon}} eyeicon1"  (click)='hideShowPassword()'  aria-hidden="true"></i>
+
+            </mat-form-field>
+            <div style="height: 30px;margin-left: 15%" class="txtalgn">
+              <div
+                *ngIf="(Password1.invalid && (Password1.dirty || Password1.touched)|| formSubmitted&&Password1.errors) && !errores">
+                <div class="text-danger sml-danger-txt text-center m0btxtcs" *ngIf="Password1.errors.required"> Password is Required
+                </div>
+              </div>
+              <div *ngIf="error" class="text-danger sml-danger-txt">{{errores}}</div>
+            </div>
+          </div>
+          <div style="text-align: center">
+            <button mat-stroked-button class="btn button_border1 btnhov"
+              [mat-dialog-close]="false">Cancel</button>
+            <button mat-stroked-button (click)="formSubmitted=true; Passwordsubmit(Passwordform)" cdkFocusInitial
+              class="btn btn-primary button_border btnhov">Submit</button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf='!data.otpflag && !data.Docflag'>
+        <div style="text-align: center">
+          <button mat-stroked-button cdkFocusInitial class="btn btn-danger button_border"
+            [mat-dialog-close]="true">Yes</button> &nbsp;&nbsp;
+          <button mat-stroked-button class="btn btn-primary button_border" [mat-dialog-close]='false'
+            (click)="onNoClick()">NO</button>
+        </div>
+      </div>
+      <div *ngIf='data.Docflag'>
+        <button mat-stroked-button cdkFocusInitial class="btn btn-danger button_border"
+          [mat-dialog-close]="true">Ok</button> &nbsp;&nbsp;
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="data.type=='fileName'" class="divisioncontainer m0dal">
+  <div class="modal-header header">
+    <h1 mat-dialog-title class="newflder" *ngIf="data.method!='restore'">File Upload</h1>
+    <h1 mat-dialog-title class="newflder" *ngIf="data.method=='restore'">Restore</h1>
+    <button type="button" class="close dismissbutton cl0se" [mat-dialog-close]=false aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+ <div class="modal-content modalcnt">
+   <div *ngIf="data.method!='restore'">
+    <p class="txt00">File(s)  name already exists.</p>
+    <p class="txt00">Do you want to Keep seperate  File(s)!</p>
+   </div>
+   <div  *ngIf="data.method=='restore'">
+    <p class="txt00">File or Folder name already exists.</p>
+    <p class="txt00">Do you want to Keep seperate  File or Folders!</p>
+   </div>
+ </div>
+  <div class="footer f00t">
+    <mat-dialog-actions class="finalbuttons">
+      <button mat-raised-button [mat-dialog-close]=false class="cancelbtn cancbtn">Discard</button>
+      <button mat-raised-button class="savebtn b0utnstyle creeat"[mat-dialog-close]=true
+        color="primary">Keep it seperate</button>
+    </mat-dialog-actions>
+  </div>
+</div>
+  </div>
+</div>

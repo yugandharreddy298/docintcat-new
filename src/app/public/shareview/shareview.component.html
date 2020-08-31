@@ -1,0 +1,2349 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="loader" *ngIf="isloading"></div>
+<div #video>
+  <div *ngIf=" sharedRecord && ((!sharedRecord.pin || !sharedRecord.filepassword) || (sharedRecord.filepassword && sharedRecord.pin && passwordCheck)) && documentdependency && videorecordChecking && expiretimeCheck && !sharedRecord.revoke && sharedRecord.active && notAuthorized">
+    <div *ngIf="arrowShow && requiredFieldsCounts > 0 && !finished" class="upIndicator d-none d-sm-none d-md-block"
+      [ngClass]="arrowClass" (click)="nextField()" title="Go to top">Please Click here to fill required field</div>
+    <button type="button" class="btn btn-primary d-sm-block d-md-none m0bbtn" (click)="nextField()" *ngIf="arrowShow && requiredFieldsCounts > 0 && !finished">Please
+      Click here to fill required field</button>
+    <div *ngIf="sharedRecord " >
+      <header class="navbar navbar-expand head-bg flex-column flex-md-row head-stick pad-l-38 sharemobhd contentnoselect " id="docheader">
+        <a class="navbar-brand" *ngIf = 'profiledata.token' (click)="confirmationdialog()" [routerLinkActive]="['active']"><i class="fas fa-arrow-left t-col b-right pr-3"></i></a>
+        <a class="navbar-brand" *ngIf="sharedRecord.accesstype == 'public' && !profiledata.token" (click)="backToPage()" >
+          <img class="wid-260" src="assets/images/logo.svg" width="151px"></a>
+        <div class="navbar-collapse hed-12" (window:resize)="onWindowResize($event)">
+          <ul class="navbar-nav mr-auto weblist" >
+            <li class="nav-item active">
+              <a class="nav-link  t-col f-col txtstyle" *ngIf="documentRecord && profiledata.token">{{documentRecord.name}}<span class="sr-only">(current)</span>
+                <div style="font-size: 12px"></div>
+              </a>
+            </li>
+          </ul>
+          <div>
+            <span class="navbar-text">
+              <ul class="navbar-nav mr-auto">
+                <!--heatmaps-->
+                <li class="nav-item active d-md-block d-sm-none mobn0ne" *ngIf="sharedRecord.heatmaps">
+                  <button class="top-head-but homefont btn-sm bsha-none version" [ngClass]="{'top-head-button' : heatmapss }"
+                    (click)="heatMaps();heatmapss=!heatmapss;versions=false;showpages=true;openChat=false;" type="button">Heat
+                    maps&nbsp;
+                    <i *ngIf="heatmapLoading" class="fa fa-circle-o-notch fa-spin"></i>
+                  </button>
+                </li>
+                <!-- Finish button -->
+                <li class="nav-item active d-md-block d-sm-none mobn0ne">
+                  <button class="top-head-but btn-sm homefont bsha-none version" *ngIf='!sharedRecord.view && !sharedRecord.signed'
+                    [ngClass]="{'top-head-button' : watermarkbtn }" (click)="submit($event)" type="button">Submit</button>
+                </li>
+                <li class="nav-item active d-md-block d-sm-none mobn0ne">
+                  <button class="top-head-but btn-sm homefont bsha-none version" *ngIf='!sharedRecord.edit && !sharedRecord.reviewed'
+                    [ngClass]="{'top-head-button' : watermarkbtn }" (click)="review($event)" type="button">Review</button>
+                </li>
+                <!-- Required Feilds popup begins -->
+                <button hidden id="reqFieldModal" data-toggle="modal" data-target="#myModal12345" 
+                  type="button"></button>
+                <div class="modal fade " id="myModal12345" tabindex="-1" role="dialog" aria-labelledby="myModal12345"
+                  aria-hidden="true" data-keyboard="false" data-backdrop='false'>
+                  <div class="modal-dialog delmodaldialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header modalhdr bor-non">
+                        <button type="button" id="closeReqModal" class="close closecss p-0 m-0" data-dismiss="modal"
+                          aria-label="Close">
+                          <span aria-hidden="true" class="iconcss">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body imgcontent ">
+                        <span><img src="assets/images/Group3864.png" class="imgsize"></span>
+                        <span class="rq-fild-span-pad">
+                          <p class="aligntxt req-filds-para">Required Fields are not Completed. Please fill all
+                            required
+                            fields</p>
+                        </span>
+                      </div>
+                      <div class="footer final">
+                        <mat-dialog-actions class="finalbuttons">
+                          <button mat-raised-button class="savebtn ok-but-pad" (click)="createFolderDialogClose()"
+                            color="primary" type="button">OK</button>
+                        </mat-dialog-actions>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Required Feilds popup ends -->
+                <li class="nav-item active d-md-block d-sm-none mobn0ne">
+                  <button class="top-head-but btn-sm bsha-none version homefont" [ngClass]="{'top-head-button' : insertfield }"
+                    *ngIf="sharedRecord.orgfileviewstatus" type="submit" (click)="updateorgemps(profiledata)" type="button">Agree</button>
+                </li>
+                <li class="nav-item active d-md-block d-sm-none mobn0ne">
+                  <button class="top-head-but btn-sm bsha-none homefont version" *ngIf="sharedRecord.share" (click)="shareFile()"
+                    type="button">Share</button>
+                </li>
+                <!-- Version -->
+                <li class="nav-item active d-md-block d-sm-none mobn0ne">
+                  <button class="top-head-but btn-sm bsha-none version homefont" *ngIf="sharedRecord.VersionAccess"
+                    (click)="showversion();versions=!versions;openChat=false;heatmapss=false;" [ngClass]="{'top-head-button' : versions }"
+                    type="button">Versions</button>
+                </li>
+                <!-- Chat -->
+                <li class="nav-item pad-top-4" *ngIf=" sharedRecord.Chat">
+                  <i class="material-icons p-2 iconimg_nav chat-icon-left-border" [ngClass]="{'clickicon':openChat || newChat}" (click)="test()"> chat_bubble </i>
+                  <span *ngIf='chatnotificationlogsCount >0 ' class="badge  badge-sc2 chat_badge badge_count">{{chatnotificationlogsCount}}</span>
+                </li>
+                <li class="nav-item dropdown txt2font" >
+
+          
+                  <!-- <i _ngcontent-c15="" class="material-icons p-2 iconimg_nav chat-icon-left-border">chat</i> -->
+                  <i _ngcontent-c1="" _ngcontent-c28="" class="material-icons  p-2 iconimg_nav chat-icon-left-border brdr_lft icon_hover clickicon"
+                    (click)="commentshownotifitab = false" *ngIf="commentshownotifitab"> comment </i>
+                  <i _ngcontent-c1="" _ngcontent-c28="" class="material-icons  p-2 iconimg_nav chat-icon-left-border brdr_lft icon_hover"
+                    (click)="commentshownotifitab = true;shownoti= false" *ngIf="!commentshownotifitab"> comment </i>
+                    <div class="latest-notifications scroll-style comments_width" *ngIf='commentshownotifitab && !shownoti '>
+                      <div class="mwi-drop-pro">
+                        <div class="mwi-drop-pro ">
+                          <a class="text-center">
+        
+                            <div class="col-md-12 pading">
+                              <h5 class="comenthead">Comments</h5>
+                              <p *ngIf='parentcomment && parentcomment.length == 0'>No comments</p>
+
+                              <div class="row c0ntent m-0 mb-3"  (click)="commentBlockSelect(com)" [ngClass]="{'select_highlite':SelectedCom && SelectedCom._id==com._id}" *ngFor="let com of parentcomment">
+                                <div class="col-md-8 pl-0">
+                                  <div class="coment text-left">
+                                    <ngx-avatar *ngIf='com.name' [name]="com.name" value="D" size="35"  class="avatar_icon avtar">
+                                    </ngx-avatar>
+                                    <ngx-avatar *ngIf='!com.name' [name]="com.email" value="D" size="35"  class="avatar_icon avtar">
+                                    </ngx-avatar>
+                                    <p class="prof_name" matTooltip="{{com.name}}"
+                                    matTooltipClass="example-tooltip-red" [matTooltipDisabled]="matttoltip" matTooltipPosition="below"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">{{com.name}}</p>
+                                    <p class="mb-1 cmntdtxt" matTooltip="{{com.commentedlines}}"
+                                    matTooltipClass="example-tooltip-red" [matTooltipDisabled]="matttoltip" matTooltipPosition="below"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">{{com.commentedlines}}</p>
+
+                                    <p class="spectxt">Specifications</p>
+                                  </div>
+                                 
+                                </div>
+                                <div class="col-md-4">
+                                  <p class="coment_time">{{com.created_at | date:'d-MMM, h:mm a'}}
+                                    <span>
+                                      <div class="dropdown time_dropdown">
+                                        <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                          <i class="fa fa-caret-down caretdown"></i></button>
+                                        <ul class="dropdown-menu drop_down">
+                                          <li><a *ngIf="accessbutton" (click)="comment1(com)">Edit</a></li>
+                                          <li><a *ngIf="accessbutton" (click)="deletecomment(com,'delete')">Delete</a></li>
+                                          <li><a *ngIf="com.status=='pending'" (click)="deletecomment(com,'resolve')" >Resolve</a></li>
+                                          <li  *ngIf="com.uid"><a *ngIf="com.status=='resolve' && com.uid._id==profiledata._id" (click)="deletecomment(com,'resolve')" >Ok</a></li>
+                                          <li  *ngIf="!com.uid"><a *ngIf="com.status=='resolve' && profiledata.email == com.email"  (click)="deletecomment(com,'resolve')" >Ok</a></li>
+                                         
+                                          <li><a *ngIf="com.status=='ok'" (click)="deletecomment(com,'pending')" >Re-open</a></li>
+                                        </ul>
+                                      </div>
+        
+                                    </span></p>
+        
+                                </div>
+                                <div *ngIf="editlabel && com._id == documentid" class="col-md-12">
+                                  <form #fileData1Form="ngForm" (ngSubmit)="editcomment(fileData1Form)" name="fileData1Form" class="edit_form">
+                                    <input type="hidden" name="documentid" [(ngModel)]="documentid">
+                                    <!-- <input type="text" name="comment" #editcomment1="ngModel" [(ngModel)]="comment" class="comment-input"> -->
+                                    <textarea class="form-control comment-input" name="comment" #editcomment1="ngModel" [(ngModel)]="comment"></textarea>
+                                    <div class="chat-button" style="width:100%;">
+                                      <button type="submit" class="btn btn_reply  btn-save ml-0">Save</button>
+                                      <button type="reset" class="btn btn_cancel btnn_cancel" (click)="cancel()">Cancel</button>
+                                     
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="col-md-12">
+                                  
+                                  <p class="cmnttxt cmnttxt_font mb-2" style="word-break:break-all;">{{com.comment}}</p>
+                                  <p class="cmnttxt cmnttxt_font kolor"><a (click)="replycomment(com)" >Reply</a>
+                                    <a  *ngIf="com.status=='pending'"><i class="fa fa-circle doticon"></i></a>
+                                    <a *ngIf="com.status=='pending'" (click)="deletecomment(com,'resolve')">Resolve</a></p>
+                                    <div *ngFor="let chcom of childcomments">
+                                  <div class="outerbox mt-4"*ngIf="com._id == chcom.parentcommentid._id" >
+                                  <div *ngIf="com._id == chcom.parentcommentid._id">
+                                      <div class="coment text-left">
+                                          <ngx-avatar [name]="chcom.name" value="D" size="35" class="avatar_icon avtar">
+                                          </ngx-avatar>
+                                          <p class="prof_name" style="margin-top: -10px;">{{chcom.name}}</p>
+                                       
+                                          <p class="replytxt mb-2">{{chcom.comment}}</p>
+                                          <p class="cmnttxt cmnttxt_font kolor" *ngIf='editlabel && chcom.isreply && com._id == chcom.parentcommentid._id'> 
+                                              <a (click)="comment1(chcom)">Edit</a >
+                                                <a><i class="fa fa-circle doticon"></i></a>
+                                               <a (click)="deletecomment(chcom,'delete')">Delete</a ></p>
+                                       </div>
+                                    
+                                    <div *ngIf="com._id == chcom.parentcommentid._id">
+                                   
+                                 
+                                   
+                                    <div *ngIf="editlabel && chcom._id == documentid" class="reply_box" >
+                                      <form #fileData1Form="ngForm" (ngSubmit)="editcomment(fileData1Form)" name="fileData1Form">
+                                        <input type="hidden" name="documentid" [(ngModel)]="documentid">
+                                        <textarea class="form-control comment-input" name="comment" #editcomment1="ngModel" [(ngModel)]="comment"></textarea>
+                                        <!-- <input type="text" name="comment" #editcomment1="ngModel" [(ngModel)]="comment" class="comment-input"> -->
+                                        <div class="chat-button">
+                                            <button type="submit" class="btn btn-primary comment-button btn_reply">Edit</button>
+                                          <button type="reset" class="btn reset-button btn_cancel" (click)="cancel()">Cancel</button>
+                                         
+                                        </div>
+                                      </form>
+                                    </div>
+                                 
+                                  </div>
+                                </div>
+      
+                                        
+                                    </div>
+                                  </div>
+                                  <div class="outerbox mt-4" *ngIf="selectorid==com._id ">
+                                    <form #commentForm="ngForm" (ngSubmit)="replycommentdata(com,commentForm)" name="commentForm">
+                                    <div class="reply_box">
+                                    <div>
+                                      <ngx-avatar [name]="profiledata.name" value="D" size="35"  class="avatar_icon avtar">
+                                      </ngx-avatar>
+                                   </div>
+                                   <div>
+                                   <textarea class="form-control" [(ngModel)]="replyField" name="replyField" placeholder="Type here...." ></textarea>
+                                   </div>
+                                  </div>
+                                  <ul class="respond_btns">
+                                <li><button class="btn btn_reply" type="submit">Reply</button></li>
+                                <li><button class="btn btn_cancel" type="reset" (click)='selectorid=null'>Cancel</button></li>
+                                  </ul>
+                                  </form>
+                                    </div>
+      
+                                   
+        
+                                </div>
+        
+                              </div>
+                             
+                            </div>
+        
+        
+        
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                </li>
+               
+                <!-- -------------------------------------------NOTIFICATION START------------------------------------------------------ -->
+                <div class="notification-top">
+                
+                  <li class="nav-item dropdown txt2font notification-top" *ngIf="profiledata && profiledata.email && profiledata.token">
+                    <a class="nav-link" (click)="clearAllNotificationsactive(notificationlogs)">
+                      <i class="material-icons i_col fon-22 nav-link12" (click)="hidenot()" *ngIf="shownoti">
+                        notifications_none
+                      </i>
+                      <i class="material-icons i_col fon-22 nav-link12" (click)="shownot()" *ngIf="!shownoti">
+                        notifications_none
+                      </i>
+                      <span *ngIf='Notificationscount>0 ' class="badge  badge-sc12 notif_badge">{{Notificationscount}}</span>
+                    </a>
+                    <div class="latest-notifications scroll-style" *ngIf="shownoti && !commentshownotifitab">
+                      <div [ngClass]="{'mwi-drop' : notificationlogs && notificationlogs.length!=0 , 'mwi-drop-pro' :notificationlogs && notificationlogs.length==0 }">
+                        <div class="row" *ngIf='notificationlogs && notificationlogs.length>0' style="margin: 0;  background-color: rgba(127, 140, 141, 0.18);">
+                          <div class="col-6 ">Notifications</div>
+                          <div class="col-2"></div>
+                          <div class="col-4 f-right col-90 text-right">
+                            <span class="pl-point" (click)="clearAllNotifications(notificationlogs,'notification')">Clear All</span>
+                          </div>
+                        </div>
+                        <!-- notification -->
+                        <div *ngFor='let notification of notificationlogs'>
+                          <div class="row txt2font fon-14 m-auto" *ngIf='(notification.toid || notification.toemail) && ( (notification.toid && profiledata.email==notification.toid.email) ||  (notification.toemail && profiledata.email==notification.toemail))' >
+                            <div class="col-lg-2 col-md-2 col-sm-12 mt-1 notification-flex" *ngIf="notification.fromEmail">
+                              <span>
+                                <ngx-avatar [name]="notification.fromEmail" value="D" size="35" [round]="true">
+                                </ngx-avatar>
+                              </span>
+                            </div>
+                            <div (click)="NotificationNavigate(notification)" >
+                              <div class="col-lg-8 col-md-8 col-sm-12  mt-1 fw-3 txt-ellip" *ngIf="notification.documentid && notification.fromEmail">
+                                <div>{{notification.documentid.name}}</div> {{notification.type}} by
+                                {{notification.fromEmail}}
+                                <p class="fw-4 hr-tx">{{notification.diff.day}} days
+                                  {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                                  {{notification.diff.second}}sec
+                                </p>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-12  mt-1 fw-3 txt-ellip" *ngIf="notification.folderid && notification.fromEmail">
+                                <div>Folder {{notification.folderid.name}}</div> {{notification.type}} by
+                                {{notification.fromEmail}}
+                                <p class="fw-4 hr-tx">{{notification.diff.day}} days
+                                  {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                                  {{notification.diff.second}}sec
+                                </p>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-12  mt-1 fw-3" *ngIf="!notification.documentid && !notification.folderid && notification.fromEmail">
+                                Document {{notification.type}} by {{notification.fromEmail}} has been deleted.
+                                <p class="fw-4 hr-tx">{{notification.diff.day}} days
+                                  {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                                  {{notification.diff.second}}sec
+                                </p>
+                              </div>
+                             </div>
+                     
+                            <div class="col-lg-2 col-md-2 col-sm-12  fw-3 notification-flex" (click)='clearnotification(notification)'
+                              *ngIf="(notification.documentid && notification.fromEmail) || (notification.folderid && notification.fromEmail) ||(!notification.documentid && !notification.folderid && notification.fromEmail)">
+                              <p class="pt-3 col-90"> Clear</p>
+                            </div>
+                          </div>
+                          <hr class="m-0">
+                        </div>
+                        <div *ngIf="notificationlogs && notificationlogs.length==0" class="mwi-drop-pro">
+                          <a class="text-center">
+                            <div class="row">
+                              <div class="col-12 m-auto">
+                                <img src="assets/images/Group3630.png">
+                                <div class="fon-16 f-50 p-3 col-67">No notifications to show</div>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </div>
+                <!-- ----------------------------------------------NOTIFICATION END-------------------------------------------------- -->
+
+                <!-- ----------------------------------------------PROFILE START-------------------------------------------------- -->
+                <li class="nav-item dropdown" *ngIf="profiledata && profiledata.email">
+                  <a class="nav-link dropdown-toggle pt-0 " id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" (click)="hidenot()">
+                    <ngx-avatar [name]="profiledata.name" value="D" size="40" [round]="true">
+                    </ngx-avatar>
+                  </a>
+                  <div class="dropdown-menu txt2font dropdown-menu-right dropdown-default mwi-drop-pro p-0 menu-pad nav-main arrow_box13"
+                    aria-labelledby="navbarDropdownMenuLink-333" style="width:100%">
+
+                    <a class="dropdown-item">
+                      <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 mt-1 "><span>
+                            <ngx-avatar [name]="profiledata.name" value="D" size="40" [round]="true">
+                            </ngx-avatar>
+                          </span></div>
+                        <div class="col-lg-10 col-md-10 col-sm-12 pl-3 mt-1 fon-16 fw-3">
+                          <p class="th-space txt-ellip mb-0">{{profiledata.name}}</p>
+                          <p class="fon-14 fw-4 si-tx-col th-space txt-ellip">{{profiledata.email}}</p>
+                        </div>
+                      </div>
+                    </a>
+                    <hr class="m-0">
+                    <a class="dropdown-item fon-14 fw-4 si-tx-col" data-toggle="modal" data-target=".bed-example-modal-xl"
+                      *ngIf="profiledata.token">
+                      Change Password
+                    </a>
+                    <hr class="m-0">
+
+                    <a class="dropdown-item fon-14 fw-4 si-tx-col"  (click)='sessionsClear()'>
+                   Clear all other sessions
+                  </a>
+                    <hr class="m-0">
+                    <a class="dropdown-item fon-14 fw-4 si-tx-col" *ngIf="profiledata.token" routerLinkActive="active-link"
+                      (click)='logout()' [routerLinkActive]="['active']">
+                      Sign Out
+                    </a>
+                  </div>
+                </li>
+                <!-- ----------------------------------------------PROFILE END-------------------------------------------------- -->
+              </ul>
+            </span>
+          </div>
+        </div>
+
+        <i class="fa fa-ellipsis-v ellipseic0n d-md-none d-sm-block" (click)="showfinishbutton()" *ngIf="!finishbuttonmobile"></i>
+        <i class="fa fa-ellipsis-v ellipseic0n d-md-none d-sm-block" (click)="hidefinishbutton()" *ngIf="finishbuttonmobile"></i>
+        <div id="mobtogg" class="extdiv d-md-none" *ngIf="finishbuttonmobile">
+          <i class="fa fa-caret-up ar0wic0n"></i>
+          <ul class="mobul">
+            <li class="nav-item active" *ngIf="sharedRecord.heatmaps">
+              <button class="top-head-but homefont btn-sm bsha-none version mobbut" [ngClass]="{'top-head-button' : heatmapss }"
+                (click)="heatMaps();heatmapss=!heatmapss;versions=false;showpages=true;openChat=false;">Heat maps&nbsp;
+                <i *ngIf="heatmapLoading" class="fa fa-circle-o-notch fa-spin"></i>
+              </button>
+            </li>
+            <!-- Finish button -->
+            <li class="nav-item active">
+              <button class="top-head-but btn-sm homefont bsha-none version mobbut" *ngIf='!sharedRecord.view && !sharedRecord.signed'
+                [ngClass]="{'top-head-button' : watermarkbtn }" (click)="submit($event)">Submit</button>
+            </li>
+            <li class="nav-item active">
+              <button class="top-head-but btn-sm homefont bsha-none version mobbut" *ngIf='!sharedRecord.edit && !sharedRecord.reviewed'
+                [ngClass]="{'top-head-button' : watermarkbtn }" (click)="review($event)">Review</button>
+            </li>
+            <li class="nav-item active">
+              <button class="top-head-but btn-sm bsha-none version homefont mobbut" [ngClass]="{'top-head-button' : insertfield }"
+                *ngIf="sharedRecord.orgfileviewstatus" type="submit" (click)="updateorgemps(profiledata)">Agree</button>
+            </li>
+            <li class="nav-item active">
+              <button class="top-head-but btn-sm bsha-none homefont version mobbut" *ngIf="sharedRecord.share" (click)="shareFile()">Share</button>
+            </li>
+            <!-- Version -->
+            <li class="nav-item active">
+              <button class="top-head-but btn-sm bsha-none version homefont mobbut" *ngIf="sharedRecord.VersionAccess"
+                (click)="showversion();versions=!versions;openChat=false;heatmapss=false;" [ngClass]="{'top-head-button' : versions }">Versions</button>
+            </li>
+            <!-- Chat -->
+          </ul>
+        </div>
+      </header>
+
+      <div class="col-sm-2 sidebar contentnoselect" id="docsidebar">
+      </div>
+
+      <section id="docsubheader" (click)="hidenot();commentshownotifitab = false">
+        <div class="container-fluid footer-bg1 bg-wite-semi">
+         
+          <div class="col-12 text-center contentnoselect" [ngClass]="{'hideinmb': windowwidth  < 750 }">
+            <ul class="li-flex mb-0 m0bpd-0 filenm">
+              <!-- <li class="nav-item active">
+                <a class="t-col f-col txtstyle" *ngIf="documentRecord && sharedRecord.accesstype == 'public' && !profiledata.token">{{documentRecord.name}}<span class="sr-only">(current)</span>
+                  <div style="font-size: 12px"></div>
+                </a>
+              </li> -->
+              <span class="spantxt"> <a class="t-col f-col txtstyle" *ngIf="documentRecord && sharedRecord.accesstype == 'public' && !profiledata.token">{{documentRecord.name}}<span class="sr-only">(current)</span>
+                <div style="font-size: 12px"></div>
+              </a></span>
+              <li class="semi-clr">Pages</li>
+              <li class="semi-clr" *ngIf="pdf">{{pageNo}}/{{ pdf.numPages }}</li>
+              <li> <i class="material-icons z00mout materia1font"  aria-hidden="true" (click)="pdfZoomOut()">remove</i> </li>
+              <li *ngIf="zoomVal > 1; ">  <i class="material-icons materia1font" (click)="pdfZoomreset()">zoom_out</i> </li>
+              <li *ngIf="(zoomVal == 1)">  <i class="material-icons materia1font" (click)="pdfZoomMax()">zoom_in</i></li>
+              <li> <i class="material-icons z00min materia1font" aria-hidden="true" (click)="pdfZoomIn()" >add</i></li>
+              <li> <img src="assets/images/gGroup3152(2).png" class="printer-bor-semi pointer" (click)="printpdfDoc()">
+              </li>
+              <li>
+                <i class="fa fa-download pointer download-clr" aria-hidden="true" *ngIf='sharedRecord.Download'
+                  data-toggle="modal" data-target=".download-pdf" (click)="setDownload()"></i>
+              </li>
+              <div class="required-lists d-md-block d-sm-none">
+                <li *ngIf="requiredFieldsCounts && !finished">Required lists<span>{{requiredFieldsCounts}}</span></li>
+                <li><img class="d-none d-sm-none d-md-block" (click)="showpages=!showpages;openChat=false;versions=false;newChat = false"
+                    src="assets/images/Group3147.png">
+                </li>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section (click)="hidenot()">
+        <div class="container-fluid parentClass">
+          <div class="row m0bviewwdth">
+              <div class="col-lg-7 offset-lg-3 offset-md-3 col-md-7 col-xs-12 col-sm-12 share-scroll m0bviewwdth01 media01"
+              id="style-1" #bodyscroll (scroll)="onPdfScroll($event);hidenot()" [style.height.px]="windowScrollHeight">
+              <div id="style-112" *ngIf="documentRecord">
+                <!--Heat maps-->
+                <div *ngFor="let hm of heatmaps" class="heatmap1">
+                  <div *ngIf="hm.message =='selected'" class="tooltippheat">
+                    <div [style.top.px]='getFieldTop(hm)' [style.width.px]='getFieldWidth(hm)' [style.height.px]='getFieldHeight(hm)'
+                      [style.left.px]='getFieldLeft(hm)' class="heatmapscss" (click)=mouseentered(hm)>
+                      <div id='heatmap' *ngIf='hm.tooltip' class="tooltiptext"  [style.left.px]="hm.tooltipleft" [ngClass]="{tooltiptext1: selectedcount >=2,'heatmapsedge':heatmap_tooltip,'heatmap_DOWN':heatmap_tooltip1}">
+                        <!-- <div> Selected :&nbsp;{{selectedcount}}</div>
+                        <div *ngFor="let names of name"> {{names.name}} -->
+                           <!-- {{names.date | date:'dd-MM-yyyy hh:mm a'}} -->
+                        <!-- </div> --> 
+                        <table class="table trcount tooltable">
+                            <thead>
+                              <tr>
+                                <th colspan="3" class="textt">No.of times Viewed : ({{selectedcount}})</th>
+                              </tr>
+                              <tr>
+                                <th>Name</th>
+                                <th colspan="2">Viewing Date & Time</th>
+                              </tr>
+                            </thead>
+                            <tbody [ngClass]="{ hait: !(selectedcount < 4 )}">
+                              <tr *ngFor="let names of name">
+                                <td> {{names.name}}</td>
+                                <td>{{names.date | date:'dd-MM-yyyy hh:mm a'}}</td>
+                                <td *ngIf="names.diff"> {{names.diff.hour}} hours {{names.diff.minute}} min
+                                  {{names.diff.second}}sec </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--parent comments-->
+                <div *ngFor="let ac of activeComment;let i = index">
+                  <div [style.top.px]='getFieldTop(ac)' [style.width.px]='getFieldWidth(ac)' [style.height.px]='getFieldHeight(ac)'
+                    [style.left.px]='getFieldLeft(ac)' class="commenttext">
+                  </div>
+                </div>
+                <div *ngFor="let ac of parentcomment">
+                  <div [style.top.px]='getFieldTop(ac)' [style.width.px]='getFieldWidth(ac)' [style.height.px]='getFieldHeight(ac)'
+                    [style.left.px]='getFieldLeft(ac)' class="oldcommenttext" (click)="openSpecificComment(ac)">
+                  </div>
+                </div>
+                <div>
+                  <div *ngFor="let film of parentcomment">
+                    <mat-card (click)="replycomment(film)" class="addcommentfield example-card" [style.top.px]='film.coordinatex + film.height + 20'
+                      [style.left.px]='getFieldLeft(film)' *ngIf="profiledata && commentid == film._id && film.showComment">
+                      <div class="text-right"> <button (click)="commentid=comment=null" class="example-card-close" type="button"><i
+                            class="fa fa-times close-icon-pos" aria-hidden="true"></i></button></div>
+                      <ul _ngcontent-c1="" class="boxul m-0">
+                        <li _ngcontent-c1="">
+                          <ngx-avatar [name]="film.name" value="D" size="35">
+                          </ngx-avatar>
+                        </li>
+                        <li _ngcontent-c1="" class="li1"><span _ngcontent-c1="" class="profname fon-16 headfont fw-4">{{film.name}}
+                          </span>
+                        </li>
+                        <li _ngcontent-c1="" class="li1">
+                          <button *ngIf="film.status=='pending'" (click)="deletecomment(film,'resolve')" [disabled]='film.resolve'
+                            class="btn resolve-button" type="button">Resolve</button>
+                        </li>
+
+                        <li _ngcontent-c1="" class="li1">
+                          <button mat-button *ngIf="film.status=='resolve' && profiledata.email == film.email" class="btn reset-button"
+                            [disabled]='film.ok' (click)="deletecomment(film,'delete')" type="button">ok</button>
+                        </li>
+                        <li _ngcontent-c1="" *ngIf='film.isreply'><button mat-button [matMenuTriggerFor]="menu" class="btn reset-button1 text-left"
+                            type="button">
+                            <mat-icon>more_vert</mat-icon>
+                          </button></li>
+                      </ul>
+                      <p class="word-breaking">{{film.comment}}</p>
+                      <mat-menu #menu="matMenu">
+                        <button *ngIf="accessbutton" (click)="comment1(film)" mat-menu-item>Edit</button>
+                        <button *ngIf="accessbutton" (click)="deletecomment(film,'delete')" mat-menu-item>Delete</button>
+                      </mat-menu>
+                      <div *ngIf="editlabel && film._id == documentid">
+                        <form #fileData1Form="ngForm" (ngSubmit)="editcomment(fileData1Form)" name="fileData1Form">
+                          <input type="hidden" name="documentid" [(ngModel)]="documentid">
+                          <textarea class="form-control comment-input" name="comment" #editcomment1="ngModel" [(ngModel)]="comment"></textarea>
+                          <!-- <input type="text" name="comment" #editcomment1="ngModel" [(ngModel)]="comment" class="comment-input"> -->
+                          <div class="chat-button">
+                              <button type="submit" class="btn btn-primary comment-button btn_reply">Edit</button>
+                            <button type="reset" class="btn reset-button btn_cancel" (click)="cancel()">Cancel</button>
+                            
+                          </div>
+                        </form>
+                      </div>
+                      <div *ngFor="let film1 of childcomments" class="comment-clear">
+                        <div *ngIf="film._id == film1.parentcommentid._id">
+                          <ul class="boxul">
+                            <li>
+                              <ngx-avatar [name]="film1.name" value="D" size="35">
+                              </ngx-avatar>
+                            </li>
+                            <li _ngcontent-c1="" class="li1"><span class="profname fon-16 headfont fw-4">{{film1.name}}
+                              </span>
+                            </li>
+                            <div *ngIf='film1.isreply'>
+                              <li _ngcontent-c1="" class="li1"><button mat-button [matMenuTriggerFor]="menu2" class="btn reset-button text-left">
+                                  <mat-icon>more_vert</mat-icon>
+                                </button></li>
+                            </div>
+                          </ul>
+                          <div>
+                            <p class="word-breaking">{{film1.comment}}</p>
+                            <mat-menu #menu2="matMenu">
+                              <button (click)="comment1(film1)" mat-menu-item>Edit</button>
+                              <button (click)="deletecomment(film1,'delete')" mat-menu-item>Delete</button>
+                            </mat-menu>
+                          </div>
+                          <div *ngIf="editlabel && film1._id == documentid">
+                            <form #fileData2Form="ngForm" (ngSubmit)="editcomment(fileData2Form)" name="fileData2Form">
+                              <input type="text" name="comment" [(ngModel)]="comment" class="comment-input">
+                              <input type="hidden" name="documentid" [(ngModel)]="documentid">
+                              <div class="chat-button">
+                                  <button type="submit" class="btn btn-primary comment-button btn_reply">Edit</button>
+                                <button type="reset" class="btn reset-button btn_cancel" (click)="cancel()">Cancel</button>
+                                
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="selectorid==film._id">
+                        <form #commentForm="ngForm" (ngSubmit)="replycommentdata(film,commentForm)" name="commentForm">
+                          <mat-form-field class="comment-reply">
+                            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2"
+                              cdkAutosizeMaxRows="100" [(ngModel)]="replyField" name="replyField" placeholder="Reply"></textarea>
+                          </mat-form-field>
+                          <div class="chat-button">
+                            <button type="reset" class="btn reset-button">Reset</button>
+                            <button type="submit" class="btn btn-primary comment-button">Reply</button>
+                          </div>
+                        </form>
+                      </div>
+                    </mat-card>
+                  </div>
+                  <div>
+                    <div *ngFor="let ac of activeComment;let i = index">
+                      <div class="addcommentbox" [style.top.px]='getFieldTop(ac)' (click)="commentfield(ac)"><i class="material-icons">alarm_add</i></div>
+                      <div *ngIf="ac.commentbtn " class="addcommentfield" [style.top.px]='getFieldTop(ac) + getFieldHeight(ac) +20'
+                        [style.left.px]='getFieldLeft(ac)'>
+
+                        <form #commentForm="ngForm" (ngSubmit)="addComment(commentForm,ac)" name="commentForm">
+                          <div class="box1 sb6">
+                            <div class="text-right"> <button (click)="commentfield(ac);comment=null" class="example-card-close"
+                                type="button"><i class="fa fa-times close-icon-pos" aria-hidden="true"></i></button></div>
+                            <ul _ngcontent-c1="" class="boxul">
+                              <li _ngcontent-c1="">
+                                <ngx-avatar [name]="profiledata.name" value="" size="35">
+                                </ngx-avatar>
+                              </li>
+                              <li _ngcontent-c1="" class="li1"><span _ngcontent-c1="" class="profname fon-16 headfont fw-4">
+                                  {{profiledata.name}}</span>
+                              </li>
+                            </ul>
+                            <mat-form-field class="chat-textarea">
+                              <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2"
+                                cdkAutosizeMaxRows="100" class="ov-non" [(ngModel)]="comment" name="comment"></textarea>
+                            </mat-form-field>
+                            <div class="chat-button">
+                              <button type="reset" class="reset-button btn" (click)="commetClose(ac)">Reset</button>
+                              <button type="submit" class="comment-button btn" (click)="addComment(commentForm,ac)">Comment</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form #fileDataForm="ngForm" (ngSubmit)="save(fileDataForm.value)" name="fileDataForm">
+                  <div *ngFor="let field of fields;let i = index">
+                    <div>
+                      <div [ngClass]="{'disableDiv' : finished || ((field.people==undefined) ? ((field.insertedemail==undefined) ? false : (field.insertedemail!=sharedRecord.toemail)) : (field.people!=sharedRecord.toemail)), 'noEditMode': (field.readonly && (field.people == sharedRecord.toemail)) || finished || (field.finished ) || (field.people && field.people!=sharedRecord.toemail) || sharedRecord.view }">
+                        <div (click)='editField(field, i)' class="field" *ngIf="field.type == 'text'" id="{{field.id}}"
+                          [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' data-toggle="tooltip"
+                          title={{field.people}}>
+                          <span class="drag-icon-span">&nbsp;</span>
+                          <input [ngClass]="{'disableDiv  ' : field.insertedemail ,'contentnoselect':field.insertedemail }" id="{{field.id}}-input" type="{{field.fieldtype}}"
+                            name="field.{{field.id}}" [(ngModel)]="field.value" placeholder='{{field.placeholder | titlecase}}'
+                            required={{field.required}} readonly={{field.readonly}} [style.text-align]='field.align'
+                            #{{field.test}}="ngModel" autocomplete="off" (ngModelChange)="validateField($event, field)"
+                            (focus)='focusfield(field)' [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'
+                            (blur)="validateFieldtouch($event, field)" maxlength="{{field.maxlength}}" minlength="{{field.minlength}}"
+                            (click)='editField(field, i)' class="drag-box label" (keyup)='checkingMinvalue(field)'
+                            [disabled]='field.class == "disableDiv"'>
+                          <div *ngIf="field.minlengtherror" class="text-danger">minlength is {{field.minlength}} </div>
+                        </div>
+                        <div (click)='editField(field, i)' class=" field" *ngIf="field.type == 'name'" id="{{field.id}}"
+                          [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' data-toggle="tooltip"
+                          title={{field.people}}>
+                          <span class="drag-icon-span">&nbsp;</span>
+                          <input [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail  }" id="{{field.id}}-input" type="{{field.fieldtype}}"
+                            name="field.{{field.id}}" [(ngModel)]="field.value" placeholder='{{field.placeholder | titlecase}}'
+                            required={{field.required}} [style.text-align]='field.align' #{{field.test}}="ngModel"
+                            autocomplete="off" (ngModelChange)="validateField($event, field)" [style.width.px]='getFieldWidth(field)'
+                            [style.height.px]='getFieldHeight(field)' (blur)="validateFieldtouch($event, field)"
+                            (focus)='focusfield(field)' maxlength="{{field.maxlength}}" minlength="{{field.minlength}}"
+                            (click)='editField(field, i)' (keyup)='checkingMinvalue(field)' class="drag-box label vvvvv"
+                            readonly={{field.readonly}} [disabled]='field.class == "disableDiv"' />
+                          <div *ngIf="field.minlengtherror" class="text-danger">minlength is {{field.minlength}} </div>
+                        </div>
+                        <div (click)='editField(field, i)' class=" field" *ngIf="field.type == 'email'" id="{{field.id}}"
+                          [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' data-toggle="tooltip"
+                          title={{field.people}}>
+                          <span class="drag-icon-span">&nbsp;</span>
+                          <input [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail}" id="{{field.id}}-input" type="{{field.fieldtype}}"
+                            name="field.{{field.id}}" [(ngModel)]="field.value" placeholder='{{field.placeholder | titlecase}}'
+                            required={{field.required}} (focus)='focusfield(field)' readonly={{field.readonly}}
+                            [style.text-align]='field.align' #{{field.test}}="ngModel" autocomplete="off"
+                            (ngModelChange)="validateField($event, field)" [style.width.px]='getFieldWidth(field)'
+                            [style.height.px]='getFieldHeight(field)' (blur)="validateemail(field)" maxlength="{{field.maxlength}}"
+                            minlength="{{field.minlength}}" (click)='editField(field, i)' class="drag-box label"
+                            (keyup)='checkingMinvalue(field)' [disabled]='field.class == "disableDiv"' />
+                          <div *ngIf="field.minlengtherror" class="text-danger txtf0nt">minlength is
+                            {{field.minlength}}
+                          </div>
+                          <div class="text-danger txtf0nt" *ngIf='!field.fieldvalidationCheck'>Invalid email</div>
+                        </div>
+                        <div (click)='editField(field, i)' class=" field" *ngIf="field.type == 'mobilenumber'" id="{{field.id}}"
+                          [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' data-toggle="tooltip"
+                          title={{field.people}}>
+                          <span class="drag-icon-span">&nbsp;</span>
+                          <input [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail}" id="{{field.id}}-input" type="{{field.fieldtype}}"
+                            name="field.{{field.id}}" [(ngModel)]="field.value" placeholder='{{field.placeholder | titlecase}}'
+                            required={{field.required}} readonly={{field.readonly}} [style.text-align]='field.align'
+                            #{{field.test}}="ngModel" autocomplete="off" (ngModelChange)="validateField($event, field)"
+                            [style.width.px]='getFieldWidth(field)' (keypress)="numberOnly($event)" [style.height.px]='getFieldHeight(field)'
+                            (blur)="validateemail(field)" maxlength="{{field.maxlength}}" minlength="{{field.minlength}}"
+                            (click)='editField(field, i)' class="drag-box label" (focus)='focusfield(field)' (keyup)='checkingMinvalue(field)'
+                            [disabled]='field.class == "disableDiv"' />
+                          <div *ngIf="field.minlengtherror" class="text-danger txtf0nt">minlength is
+                            {{field.minlength}}
+                          </div>
+                          <div class="text-danger txtf0nt" *ngIf='!field.fieldvalidationCheck'>Invalid Mobile number
+                          </div>
+                        </div>
+                        <div (click)='editField(field, i)' class=" field" *ngIf="field.type == 'company'" id="{{field.id}}"
+                          [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' data-toggle="tooltip"
+                          title={{field.people}}>
+                          <span class="drag-icon-span">&nbsp;</span>
+                          <input [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail }" id="{{field.id}}-input" type="{{field.fieldtype}}"
+                            name="field.{{field.id}}" [(ngModel)]="field.value" placeholder='{{field.placeholder | titlecase}}'
+                            required={{field.required}} readonly={{field.readonly}} [style.text-align]='field.align'
+                            #{{field.test}}="ngModel" autocomplete="off" (ngModelChange)="validateField($event, field)"
+                            [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)' (blur)="validateFieldtouch($event, field)"
+                            maxlength="{{field.maxlength}}" minlength="{{field.minlength}}" (click)='editField(field, i)'
+                            class="drag-box label" (focus)='focusfield(field)' (keyup)='checkingMinvalue(field)'
+                            [disabled]='field.class == "disableDiv"' />
+                          <div *ngIf="field.minlengtherror" class="text-danger txtf0nt">minlength is
+                            {{field.minlength}}
+                          </div>
+                        </div>
+                        <div (click)='field.class!="disableDiv" && editField(field, i)' class=" field noEditMode" *ngIf="field.type == 'label'"
+                          id="{{field.id}}" [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)'
+                          data-toggle="tooltip" title={{field.people}} [ngClass]="{'filledData': field.value ,'contentnoselect':field.value}">
+                          <span class="drag-icon-span">&nbsp;</span>
+                          <textarea id="{{field.id}}-input" name="field.{{field.id}}" [(ngModel)]="field.value"
+                            placeholder='{{field.placeholder | titlecase}}' readonly=true [style.text-align]='field.align'
+                            #{{field.test}}="ngModel" autocomplete="off" (ngModelChange)="validateField($event, field)"
+                            class="drag-box label noEditMode " style='overflow: hidden;resize: none' (blur)="validateFieldtouch($event, field)"
+                            maxlength="{{field.maxvalue}}" (click)='editField(field, i)' [style.height.px]='getFieldHeight(field)'
+                            [style.width.px]='getFieldWidth(field)' [disabled]='field.class == "disableDiv"' [ngClass]="{'labelplaceholder':windowwidth < 750}">
+                          </textarea>
+                          <div *ngIf="field.error">
+                            <div class="text-danger">{{field.error}} </div>
+                          </div>
+                          <div *ngIf="field.toucherror">
+                            <div class="text-danger">{{field.toucherror}} </div>
+                          </div>
+                        </div>
+                        <div [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'
+                          [ngClass]="{'disableDiv' : field.dateacess=='Default'}" (click)='editField(field, i)' class=" field"
+                          id="{{field.id}}" *ngIf="field.type == 'date'" [style.top.px]='getFieldTop(field)'
+                          [style.left.px]='getFieldLeft(field)' data-toggle="tooltip" title={{field.people}}>
+                          <span class="drag-icon-span">&nbsp;</span>
+                          <input name="field.{{field.id}}" [(ngModel)]="field.value" [owlDateTime]="dt1" class="shadow-input"
+                            (ngModelChange)="UpdateDateFormat(field)">
+                          <input [ngClass]="{'disableDiv  ' : field.insertedemail ,'dateopacity': field.class == 'disableDiv'}"
+                            required={{field.required}} readonly='{{field.readonly}} || {{field.insertedemail}} || (field.people!=sharedRecord.toemail)'
+                            [disabled]="field.dateacess=='Default' || field.class == 'disableDiv' || field.readonly"
+                            (click)='editField(field, i)' type="text" placeholder="{{field.pickerT=='both'?(field.dateTimeformats| uppercase):field.pickerT=='timer'?(field.timeformats| uppercase):field.dateformats | uppercase}}"
+                            [value]="field.value | date:field.pickerT=='both'?(field.dateTimeformats):field.pickerT=='timer'?(field.timeformats):field.dateformats"
+                            [owlDateTimeTrigger]="dt1" class="drag-box label mr-auto ml-auto dropdown-container dateAlign"
+                            [style.text-align]='field.align' id="{{field.id}}-input" [style.width.px]='getFieldWidth(field)'
+                            [style.height.px]='getFieldHeight(field)' (ngModelChange)="UpdateDateFormat(field)" (focus)='focusfield(field)'>
+                          <owl-date-time #dt1 [hour12Timer]="true" [pickerType]="field.pickerT" [disabled]='field.class == "disableDiv" || field.readonly'></owl-date-time>
+                          <i class="fa fa-times-circle close-but-in-calender dateclear" *ngIf="!field.insertedemail  && field.value"
+                            style="cursor: pointer" (click)="clearDateValue(field)"></i>
+                          <div *ngIf="field.error">
+                            <div class="text-danger">{{field.error}} </div>
+                          </div>
+                          <div *ngIf="field.toucherror">
+                            <div class="text-danger">{{field.toucherror}} </div>
+                          </div>
+                        </div>
+                        <div (click)='field.class != "disableDiv" && editField(field, i)' class=" field signature tooltip-main "
+                          id="{{field.id}}" *ngIf="field.type == 'signature'" [style.height.px]='getFieldHeight(field)'
+                          [style.width.px]='getFieldWidth(field)' [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)'
+                          style="text-align: center" data-toggle="tooltip" title={{field.people}} [ngClass]="{'filledData':  field.signatureType}">
+                          <div>
+                            <div [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail }" (dblclick)="field.class!='disableDiv' && openModel('signatureModalBtn',field)"
+                              (touchend)="openmodels($event,'signatureModalBtn',field)" class="drag-box label"
+                              data-text="Signature" [style.text-align]='field.align' id="{{field.id}}-input"
+                              [style.height.px]='getFieldHeight(field)' [style.width.px]='getFieldWidth(field)'>
+                              <span *ngIf="!field.signatureId">Signature</span>
+                              <img *ngIf="field.signatureType=='fileupload'" src="{{field.path}}" alt="signature" width="100%"
+                                height="100%" class="imagereset" draggable="false">
+                              <img *ngIf="field.signatureType=='signaturepad'" [src]="field.signaturebaseData" alt="signature" draggable="false"
+                                width="100%" height="100%" class="imagereset" />
+                              <div *ngIf="field.signatureType=='font'">
+                                <span class = 'singleline' [ngClass]="{'active':  fontstyle==field.fontStyle}" style="color:black;"
+                                  [style.font-family]="field.fontStyle">
+                                  {{field.fontText}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div (click)='field.class != "disableDiv" && editField(field, i)' class=" field signature" id="{{field.id}}"
+                          *ngIf="field.type == 'initial'" [style.top.px]='getFieldTop(field)' [style.height.px]='getFieldHeight(field)'
+                          [style.width.px]='getFieldWidth(field)' [style.left.px]='getFieldLeft(field)' style="text-align: center"
+                          data-toggle="tooltip" title={{field.people}}>
+                          <div>
+                            <div [ngClass]="{'disableDiv  ' : field.insertedemail ,'contentnoselect':field.insertedemail }" (dblclick)="field.class != 'disableDiv' && openModel('initialModalBtn',field)"
+                              (touchend)="openmodels($event,'initialModalBtn',field)" class="drag-box label" data-text="Initial"
+                              [style.text-align]='field.align' [style.height.px]='getFieldHeight(field)'
+                              [style.width.px]='getFieldWidth(field)' id="{{field.id}}-input">
+                              <span *ngIf="!field.signatureType">Initial</span>
+                              <img *ngIf="field.signatureType=='fileupload'" src="{{field.path}}" alt="Initial" width="100%"
+                                height="100%" class="imagereset" draggable="false">
+                              <img *ngIf="field.signatureType=='signaturepad'" [src]="field.signaturebaseData" alt="Initial" draggable="false"
+                                [src]="field.signaturebaseData" width="100%" height="100%" class="imagereset" />
+                              <div *ngIf="field.signatureType=='font'">
+                                <span class = 'singleline' [ngClass]="{'active':  fontstyle==field.fontStyle}" style="color:black;"
+                                  [style.font-family]="field.fontStyle">
+                                  {{field.fontText}}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <span class="text-danger" *ngIf="field.req && field.people && field.people==sharedRecord.toemail">filed
+                            is
+                            required</span>
+                          <span class="text-danger" *ngIf="field.req && !field.people ">filed is required</span>
+                        </div>
+                        <div (click)=' field.class!="disableDiv"  && editField(field, i)' class=" field signature" id="{{field.id}}"
+                          *ngIf="field.type == 'Photo'" [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)'
+                          [style.height.px]='getFieldHeight(field)' [style.width.px]='getFieldWidth(field)' data-toggle="tooltip"
+                          title={{field.people}} style="text-align: center">
+                          <div [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail }" [style.height.px]='getFieldHeight(field)'
+                            [style.width.px]='getFieldWidth(field)' (dblclick)=" field.class!='disableDiv' && openModel('photoModalBtn',field)"
+                            (touchend)="openmodels($event,'photoModalBtn',field)" class="drag-box label" data-text="Photo"
+                            [style.text-align]='field.align' id="{{field.id}}-input">
+                            <span *ngIf="!field.photoId">Photo</span>
+                            <img *ngIf="field.photoId" src="{{field.path}}" alt="Photo" width="100%" height="100%"
+                              class="imagereset" draggable="false">
+                          </div>
+                          <span class="text-danger" *ngIf="field.req && field.people && field.people==sharedRecord.toemail">filed
+                            is
+                            required</span>
+                          <span class="text-danger" *ngIf="field.req && !field.people ">filed is required</span>
+                        </div>
+                        <div (click)='field.class!="disableDiv" && editField(field, i)' class=" field signature" id="{{field.id}}"
+                          *ngIf="field.type == 'Stamp'" [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)'
+                          data-toggle="tooltip" title={{field.people}} style="text-align: center">
+                          <div [ngClass]="{'disableDiv  ' : field.insertedemail,'contentnoselect':field.insertedemail }" [style.height.px]='getFieldHeight(field)'
+                            [style.width.px]='getFieldWidth(field)' (dblclick)="field.class!='disableDiv' && openModel('stampModalBtn',field)"
+                            (touchend)="openmodels($event,'stampModalBtn',field)" class="drag-box label" data-text="Stamp"
+                            [style.text-align]='field.align' id="{{field.id}}-input">
+                            <span *ngIf="!field.stampId">Stamp</span>
+                            <img *ngIf="field.stampId" src="{{field.path}}" alt="Stamp" width="100%" height="100%"
+                              class="imagereset" draggable="false">
+                          </div>
+                          <span class="text-danger" *ngIf="field.req && field.people && field.people==sharedRecord.toemail">filed
+                            is
+                            required</span>
+                          <span class="text-danger" *ngIf="field.req && !field.people ">filed is required</span>
+                        </div>
+                        
+                        <div (click)=' editField(field, i)' class=" field" id="{{field.id}}" *ngIf="field.type == 'checkbox'"
+                        [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' [style.height.px]='getFieldHeight(field)'
+                        [style.width.px]='getFieldWidth(field)' data-toggle="tooltip" title={{field.people}}
+                        [ngClass]="{'filledData': field.value,'contentnoselect':field.value}">
+                        
+
+                        <div  *ngIf="!macos" class="drag-box label" [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)'>
+                          <input id="{{field.id}}-input" [ngClass]="{'disableDiv  ' : field.insertedemail }" type="checkbox"
+                            name="field.{{field.id}}" [(ngModel)]="field.value" [style.text-align]='field.align'
+                            required={{field.required}} readonly='{{field.readonly}} || {{field.insertedemail}} || (field.people!=sharedRecord.toemail)'
+                            #{{field.test}}="ngModel" autocomplete="off" (ngModelChange)="validateField($event, field)"
+                            (change)="validateFieldtouch($event, field)" (click)='editField(field, i)'
+                            [style.height.px]='getFieldHeight(field) - 4' [style.width.px]='getFieldWidth(field) - 4'
+                            [disabled]='field.class == "disableDiv" || field.readonly' />
+                        </div>
+
+
+                        <div *ngIf="macos" id="{{field.id}}-input" 
+                        (focus)='focusfield(field)' [ngClass]="{'disableDiv' : field.class == 'disableDiv' || field.readonly || field.insertedemail}" class="drag-box label" [style.width.px]='getFieldWidth(field)' [style.height.px]='getFieldHeight(field)' (click)='field.value = !field.value'>
+                          <img *ngIf='field.value' src="assets/images/check.png" class="imagereset" 
+                           [style.text-align]='field.align' 
+                           width="100%" height="100%">
+                          <img src="assets/images/uncheck.png" *ngIf='!field.value' class="imagereset"  
+                          [style.text-align]='field.align' 
+                         width="100%" height="100%">
+                        </div>
+                       
+                      </div>
+                        <div (click)='editField(field, i)' class=" field" id="{{field.id}}" *ngIf="field.type == 'dropdown'"
+                          [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' data-toggle="tooltip"
+                          title={{field.people}}>
+                          <mat-select [ngClass]="{'disableDiv  ' : field.insertedemail,'filledData': field.value }"
+                            [style.height.px]='getFieldHeight(field)' class="drag-box label" name="field.{{field.id}}"
+                            [(ngModel)]="field.value" [style.text-align]='field.align' id="{{field.id}}-input"
+                            [style.width.px]='getFieldWidth(field)' required={{field.required}} #{{field.test}}="ngModel"
+                            autocomplete="off" (ngModelChange)="validateField($event, field)" (blur)="validateFieldtouch($event, field)"
+                            (click)='editField(field, i)' [disabled]='field.class == "disableDiv" || field.readonly'>
+                            <mat-option *ngFor='let opt of field.optionvalue;let i = index' [(value)]='opt'>{{opt}}
+                            </mat-option>
+                          </mat-select>
+                          <div *ngIf="field.error">
+                            <div class="text-danger">{{field.error}} </div>
+                          </div>
+                          <div *ngIf="field.toucherror">
+                            <div class="text-danger">{{field.toucherror}} </div>
+                          </div>
+                        </div>
+                        <div (click)='editField(field, i)' class=" field" id="{{field.id}}" *ngIf="field.type == 'radiobutton'"
+                          [style.top.px]='getFieldTop(field)' [style.left.px]='getFieldLeft(field)' data-toggle="tooltip"
+                          title={{field.people}} [ngClass]="{'filledData': field.value,'contentnoselect':field.value}">
+                          <div id="{{field.id}}-input" class="drag-box label" [style.width.px]='getFieldWidth(field)'
+                            [style.height.px]='getFieldHeight(field)'>
+                            <span *ngFor='let opt of field.optionvalue'>
+                              <span *ngIf="opt !=''" class="form-check form-check-inline">
+                                <input [ngClass]="{'disableDiv  ' : field.insertedemail || field.readonly }" class="form-check-input"
+                                  type='radio' name="field.{{field.id}}" [(ngModel)]="field.value" required={{field.required}}
+                                  #{{field.test}}="ngModel" readonly='{{field.readonly}} || {{field.insertedemail}} || (field.people!=sharedRecord.toemail)'
+                                  autocomplete="off" (ngModelChange)="validateField($event, field)" (change)="validateFieldtouch($event, field)"
+                                  (click)='editField(field, i)' [(value)]='opt' [disabled]='field.class == "disableDiv"  '><label
+                                  class="form-check-label">{{opt}}</label>
+                                <div *ngIf='field.radiobuttondisplay=="newline"'></div>
+                              </span></span>
+                          </div>
+                          <div *ngIf="field.error">
+                            <div class="text-danger">{{field.error}} </div>
+                          </div>
+                          <div *ngIf="field.toucherror">
+                            <div class="text-danger">{{field.toucherror}} </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <pdf-viewer [ngClass]="{ 'fieldLabelCursor': setF=='label', 'fieldTextCursor': setF == 'text', 'fieldDateCursor': setF=='date', 'fieldSignatureCursor': setF == 'signature', 'fieldPhotoCursor': setF == 'Photo', 'fieldStampCursor': setF == 'Stamp', 'fieldCheckBoxCursor' : setF == 'checkbox' }"
+                    (click)="handleClick($event)" id="blog-post" class="blog-post" [src]="documentRecord.path"
+                    [render-text]="true" style="display: block;" (page-rendered)="loadPDF($event)"
+                    (after-load-complete)="afterLoadComplete($event)" [zoom]="zoomVal">
+                  </pdf-viewer>
+                </form>
+              </div>
+            </div>
+
+
+            <div class="col-lg-2 col-md-2 bg-w leftnav d-none d-sm-none d-md-block media02 contentnoselect" *ngIf='documentRecord'
+              [ngClass]="openChat ? 'chat-open' : ''" [style.height.px]="windowScrollHeight">
+              <!-- =======================================================Versions Start======================================================== -->
+              <div *ngIf="versions">
+                <div class="versionnav no-gutter bg-wite" id="style-10">
+                  <!-- for scroller, use class = scroller -->
+                  <div class="row no-gutter ver-tpad vrheadrow bg-wite">
+                    <div class="col-md-8 col-lg-8">
+                      <span class="versiontitle">Versions</span>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                      <button type="button" class="close clsbtn m0btn" data-dismiss="modal" (click)="closeversion();versions=false"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="no-gutter scroller scrollbar force-overflow bg-wite" id="style-10" [style.height.px]="fieldDivHeight">
+                    <div class="versionNoData" *ngIf="allDocVersionsResult && allDocVersionsResult.length==0">No
+                      Versions
+                      Found</div>
+                    <div>
+                      <div class="modal-body tday bg-wite" *ngFor="let version of allDocVersionsResult">
+                        <div [ngClass]="{'highl-col': selectedversionid==version._id}" (click)="choosedversion(version._id)">
+                          <div class="row">
+                            <div class="tdaycontent" [ngClass]="{'tdaycontent-active': restoreVersionId==version._id}">
+                              <span class="editbutton" *ngIf="selectedversionid==version._id && hideedit" (click)="editVersionName(version)">
+                                <img src="assets/images/ico-but-edit.png" class="hoverimg"></span>
+                              <span class="editbutton" *ngIf="version._id==selectedVersion && selectedversionid==version._id && canedit && hidesave"
+                                (click)="saveversionfield(version)">
+                                <img src="assets/images/ico-but-save.png" class="hoverimg"></span>
+                              <span class="line2">
+                                <input *ngIf="version._id==selectedVersion && selectedversionid==version._id && canedit"
+                                  class="edit-input" type="text" name="versionname" [(ngModel)]="version.versionname"
+                                  required #versionname1=ngModel>
+                                <span *ngIf="versionNameRequired && version._id==selectedVersion && selectedversionid==version._id && canedit"
+                                  class="text-danger smedia-text-b error-msg-required">Required</span>
+                                <h3 class="smedia-text-b pad-for-date" *ngIf="!(version._id==selectedVersion && selectedversionid==version._id && canedit)">
+                                  {{version.versionname}}</h3>
+                                <p class="smedia-text-s date-pos">{{version.created_at}}</p>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row dt-tpad vrheadrow"></div>
+                <div class="row but-container">
+                  <button *ngIf='restorebtn' (click)="restoreVesrion(selectedVersion)" class="but-restore" type="button">Restore
+                    Version</button>
+                  <button class="but-restore" *ngIf='restorebtn' (click)="back()" type="button"> Back </button>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <!-- =======================================================Versions end============================================================= -->
+
+              <!-- =======================================================THUMBNAIL START============================================================= -->
+              <div *ngIf='showpages && !openChat && documentImages && !newChat'>
+                <div class="imageline" *ngFor="let element of documentImages;let i of index" (click)="gotoPage(element.pageNo)">
+                  <img src="{{element.path}}" class="img-responsive image1" draggable="false">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                      <h3 class="pagenumber">{{element.pageNo}}</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- =======================================================THUMBNAIL END============================================================= -->
+
+              <!-- =======================================================CHAT START============================================================= -->
+              <div class="bg-wite" >
+                <!--*********************************chat-notifications********************************* -->
+      <div class="chat_notif_outerdiv" id="chat_notif_scroll" [style.height.px]="scrollHeight" *ngIf="  !newchat && openChat">
+        <div class="" style='display: flex;'>
+          <div class="col-md-6"><p class='chatnot'>Chat Notifications</p></div>
+          <div class="col-md-6"  (click)="clearAllNotifications(chatnotificationlogs,'chat')"><p class="markasread">Mark all as read</p></div>
+          </div>
+          <a class="chat_notif1 notif_read"   *ngIf = 'chatnotificationlogs.length'>
+            <div class="file_name"  >
+              <button class="btn btn-css" (click)=" newChat = true;shareform = false;openChat = false">Start chat</button>
+            </div> 
+          </a>
+
+          <div class="chat-scrol">
+        <a class="chat_notif1" *ngFor='let notification of chatnotificationlogs;let i = index' [ngClass]="{'notif_read':notification.active}" (click)='clearnotification(notification)'>
+          <div class="prof_avtar" *ngIf='notification.type == "chat" && (notification.toid || notification.toemail) && ((notification.toid && profiledata.email==notification.toid.email) || profiledata.email==notification.toemail)'
+          >
+            <ngx-avatar [name]="notification.fromEmail" value="D"  [round]="true"
+            *ngIf="notification.fromEmail" size="35" class="avatar_icon avtar chat_notif_avtar">
+            </ngx-avatar>
+          </div>
+          <div class="file_name"  *ngIf="notification.documentid">
+           <p class="mb-0 file_head" matTooltipClass="example-tooltip-red" matTooltip={{notification.documentid.name}}>{{notification.documentid.name}}</p>
+            <span class="chat_by">{{notification.type}} by {{notification.fromEmail}} 12:</span>
+            <!-- <p  class="fw-4 hr-tx mb-0 font_size">12 days 18 hours 38 min 30sec</p> -->
+            <p class="fw-4 hr-tx mb-0 font_size" *ngIf="notification.diff">{{notification.diff.day}} days
+              {{notification.diff.hour}} hours {{notification.diff.minute}} min
+              {{notification.diff.second}}sec</p>
+              <a (click)="NotificationNavigate(notification)" class='navigation'>Go to</a>
+        <!-- <a (click)=" newChat = true;showpages = false;openChat = false" *ngIf='i==0' class='navigation'>chat history</a> -->
+
+          </div>
+      
+          <div class="file_name"  *ngIf="notification.folderid">
+           Folder {{notification.folderid.name}}
+            <span class="chat_by">{{notification.type}} by {{notification.fromEmail}}</span>
+          </div>
+      
+          <div class="file_name"  *ngIf="!notification.documentid && !notification.folderid && notification.fromEmail">
+           Folder {{notification.folderid.name}}
+            <span class="chat_by">Document {{notification.type}} by {{notification.fromEmail}} has been
+             deleted.</span>
+          </div>
+        </a>
+      </div>
+       </div>
+        
+        
+        
+       <!-- ************************************chat-notifications end********************************* -->
+       <app-chat *ngIf=" newChat && !openChat" [chatContent]="sharedRecord.fileid._id" [emailContent]="sharedRecord.toemail"
+       [profile]="profiledata" class="bg-wite"></app-chat>
+               
+              </div>
+              <!-- =======================================================CHAT END============================================================= -->
+            </div>
+
+            <!-- for mobile view -->
+            <div class="col-lg-2 col-md-2 bg-w  d-md-none d-sm-block  media02 m0brightsidemenu11 contentnoselect" 
+              [ngClass]="openChat ? 'chat-open' : ''" [style.height.px]="windowScrollHeight">
+<!--  version start-->
+<div *ngIf="versions">
+  <div class="versionnav no-gutter bg-wite" id="style-10">
+    <!-- for scroller, use class = scroller -->
+    <div class="row no-gutter ver-tpad vrheadrow bg-wite">
+      <div class="col-md-8 col-lg-8">
+        <span class="versiontitle">Versions</span>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <button type="button" class="close clsbtn m0btn" data-dismiss="modal" (click)="closeversion();versions=false"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="no-gutter scroller scrollbar force-overflow bg-wite" id="style-10" [style.height.px]="fieldDivHeight">
+      <div class="versionNoData" *ngIf="allDocVersionsResult && allDocVersionsResult.length==0">No
+        Versions
+        Found</div>
+      <div>
+        <div class="modal-body tday bg-wite" *ngFor="let version of allDocVersionsResult">
+          <div [ngClass]="{'highl-col': selectedversionid==version._id}" (click)="choosedversion(version._id)">
+            <div class="row">
+              <div class="tdaycontent" [ngClass]="{'tdaycontent-active': restoreVersionId==version._id}">
+                <span class="editbutton" *ngIf="selectedversionid==version._id && hideedit" (click)="editVersionName(version)">
+                  <img src="assets/images/ico-but-edit.png" class="hoverimg"></span>
+                <span class="editbutton" *ngIf="version._id==selectedVersion && selectedversionid==version._id && canedit && hidesave"
+                  (click)="saveversionfield(version)">
+                  <img src="assets/images/ico-but-save.png" class="hoverimg"></span>
+                <span class="line2">
+                  <input *ngIf="version._id==selectedVersion && selectedversionid==version._id && canedit"
+                    class="edit-input" type="text" name="versionname" [(ngModel)]="version.versionname"
+                    required #versionname1=ngModel>
+                  <span *ngIf="versionNameRequired && version._id==selectedVersion && selectedversionid==version._id && canedit"
+                    class="text-danger smedia-text-b error-msg-required">Required</span>
+                  <h3 class="smedia-text-b pad-for-date" *ngIf="!(version._id==selectedVersion && selectedversionid==version._id && canedit)">
+                    {{version.versionname}}</h3>
+                  <p class="smedia-text-s date-pos">{{version.created_at}}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row dt-tpad vrheadrow"></div>
+  <div class="row but-container">
+    <button *ngIf='restorebtn' (click)="restoreVesrion(selectedVersion)" class="but-restore" type="button">Restore
+      Version</button>
+    <button class="but-restore" *ngIf='restorebtn' (click)="back()" type="button"> Back </button>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<!--  version end-->
+              <!-- =======================================================CHAT START============================================================= -->
+
+              <div class="bg-wite" *ngIf='openChat'>
+                <app-chat *ngIf="openChat" [chatContent]="sharedRecord.fileid._id" [emailContent]="sharedRecord.toemail"
+                  [profile]="profiledata" class="bg-wite"></app-chat>
+              </div>
+              <!-- =======================================================CHAT END============================================================= -->
+            </div>
+            <!-- mobile view end -->
+
+          </div>
+        </div>
+      </section>
+      <section>
+        <div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<button hidden id="signatureModalBtn" mat-raised-button data-toggle="modal" data-target="#centralModallg" type="button"></button>
+<button hidden id="photoModalBtn" mat-raised-button data-toggle="modal" data-target="#photoModal" type="button"></button>
+<button hidden id="stampModalBtn" mat-raised-button data-toggle="modal" data-target="#stampModal" type="button"></button>
+<button hidden id="initialModalBtn" mat-raised-button data-toggle="modal" data-target="#initialModal" type="button"></button>
+<!-- Central Modal Small -->
+<div class="modal fade" id="centralModallg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  (click)="showdropdownclose()">
+  <!-- Change class .modal-sm to change the size of the modal -->
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content modal-height modal-height12" style="border-radius:20px">
+      <div class="modal-header mod-head ps-079">
+        <div class="flexx flex-rd-w">
+          <div *ngIf="SignatureList.length>0" [ngClass]="{'select-sign1' : tabactive == 'tab1' }" class="select-sign text-center pl-point show-tabs-img  show-tabs-img-sign"
+            (click)="tabOpen('tab1');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;selectimg=null;resend=false">
+            <h6 [ngClass]="{'select-signs1' : tabactive == 'tab1' }" class="select-signs hide-txt">
+              <p class="txthide">Select signatures</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+          <div (click)="tabOpen('tab3');colorcodefun('#000000');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;selectimg=null;resend=false"
+            [ngClass]="{'select-sign1' : tabactive == 'tab3' }" class="select-sign text-center pl-point show-tabs-img show-draw">
+
+            <h6 [ngClass]="{'select-sign-draw-font1' : tabactive == 'tab3' }" class="select-sign-draw-font hide-txt">
+              <p class="txthide">Draw</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+          <div (click)="tabOpen('tab2')" [ngClass]="{'select-sign1' : tabactive == 'tab2' }" class="select-sign text-center pl-point show-tabs-img show-mobile">
+
+            <h6 [ngClass]="{'select-sign-mobile-font1' : tabactive == 'tab2' }" class="select-sign-mobile-font hide-txt">
+              <p class="txthide">Mobile</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+          <div (click)="tabOpen('tab4');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;selectimg=null;resend=false"
+            [ngClass]="{'select-sign1' : tabactive == 'tab4' }" class="select-sign text-center pl-point show-tabs-img  show-im-2">
+
+            <h6 [ngClass]="{'select-sign-image-font1' : tabactive == 'tab4' }" class="select-sign-image-font hide-txt">
+              <p class="txthide">Image</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+          <div (click)="tabOpen('tab5');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null"
+            [ngClass]="{'select-sign1' : tabactive == 'tab5' }" class="select-sign text-center pl-point  show-tabs-img show-im-2 sh-font">
+            <h6 [ngClass]="{'select-sign-type-font1' : tabactive == 'tab5' }" class="select-sign-type-font hide-txt">
+              <p class="txthide">Type</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body mod-bod scroll-style">
+        <div>
+          <div *ngIf="tabactive == 'tab1'">
+            <div *ngIf="SignatureList.length>0" class="sign-1st" id="style-15">
+              <div class="row photo-field">
+                <div *ngFor="let sign of SignatureList" class="col-lg-3 col-md-12 col-xs-12 col-sm-12 ">
+                  <div class="text-center show-image wite-bg zoom imagebg">
+                    <button *ngIf="!sign.setDefault" (click)="sign.setDefault=true;setSignatureDefaultSettings(sign)"
+                      class="update set-default pl-point" type="button">Set
+                      Default</button>
+                    <button *ngIf="!sign.setDelete" (click)="sign.setDelete=true;setSignatureDefaultSettings(sign)"
+                      class="delete delete-icon pl-point" type="button"><img src="assets/images/Group3648.png"></button>
+                    <div data-dismiss="modal" (click)="selectSignature(sign,'Signature')">
+                      <div *ngIf="sign.type=='fileupload'">
+                        <img src="{{sign.path}}" alt="signature" class="flx image0size" draggable="false">
+                      </div>
+                      <div *ngIf="sign.type=='signaturepad'">
+                        <img [src]="sign.signaturebaseData" alt="signature" draggable="false" class="pad-14-tb flx image0size" />
+                      </div>
+                      <div *ngIf="sign.type=='font'" class="initial-wid">
+                        <span [ngClass]="{'active': fontstyle==sign.fontStyle}" style="color:black;word-break: break-all"
+                          [style.font-family]="sign.fontStyle">
+                          {{sign.fontText}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <button disabled=true *ngIf="sign.setDefault" class="defalt pl-point" type="button">Default</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab2'" class="mar-t-5rem" (click)="showdropdownclose()">
+            <form #signatureuploadlinkForm1="ngForm" name="signatureuploadlinkForm1" (ngSubmit)="sendLink(signatureuploadlinkForm1,signatureuploadlinkForm1.form.valid,'signature')">
+              <div class="text-center pad-ls-11rem ps-079">
+                <p class="mobile-para">Use your mobile device to easily draw or capture your signature.
+                  A link will be sent to your mobile device via text.</p>
+              </div>
+              <div class="row cen-dialog">
+                <div class="mob-fied-pos">
+                  <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12">
+                    <div class="input-group mb-3">
+                      <div class="mobile">
+                        <div class="he-d-flex">
+                          <div [ngClass]="{'alignicons11': !selectimg,'alignicons-bordernone': selectimg }" (click)="showdropdown($event,'signature')">
+                            <div *ngIf="selectimg" class="mr-10"><img src="../../assets/countries/{{selectimg | lowercase}}.png" />
+                            </div><span style="white-space: nowrap;">{{added}}</span>
+                            <i *ngIf="!selectimg" class="fa fa-globe globeicon11"></i>
+                            <i class="fa fa-caret-down careticon"></i>
+                          </div>
+                          <div class="hideinput">
+                            <input type="number" style="border: none" name="enteredvalue" id="country_toggle" [ngClass]="{'linht' :iebrowser}"
+                              class="br-e5" (keydown)="checkisnum($event)" [(ngModel)]='enteredvalue' placeholder="Enter Mobile Number"
+                              (ngModelChange)="mobileNumberValidation(signatureuploadlinkForm1);">
+                          </div>
+                        </div>
+                        <div class="error-hig">
+                          <div class="text-danger" *ngIf="req">Enter valid Mobile Number</div>
+                        </div>
+                        <div class="list" *ngIf="showlist && mobiledemo">
+                          <ul class="listitem" (click)="listshow1($event)">
+                            <li>
+                              <mat-form-field class="example-full-width mob-new-ch matstyle">
+                                <input type="text" matInput [matAutocomplete]="auto" name="searchcountry" (keyup)="Searchcountries(searchcountry,$event,'country_toggle')"
+                                  [(ngModel)]='searchcountry' placeholder="Enter Country" (click)="listshow1($event)"
+                                  (focus)="listshow1($event)" id="openmodel1">
+                                <mat-autocomplete #auto="matAutocomplete" class="sub" [displayWith]="displayFn">
+                                  <mat-option class="sub11" *ngFor="let option of countrylist" [(value)]="option"
+                                    (click)="addcountry(option,'country_toggle')">
+                                    <span><img src="../../assets/countries/{{option.code | lowercase}}.png" />
+                                      {{option.name}} {{option.dial_code}}</span>
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+                    <button type="submit" *ngIf="!resend" class="mobile-send-but send-place">Send</button>
+                    <button type="submit" *ngIf="resend" class="mobile-send-but send-place">Resend</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="none-select" *ngIf="tabactive == 'tab3'">
+            <div>
+              <h6 class="ml-3">Please Sign Below</h6>
+              <div class="row">
+                <div class="col-lg-9" id="signaturrepadwidth" #singnaturePad style="padding-left: 30px">
+                  <ng-signature-pad format="base64" *ngIf="isOpenPad" [(points)]="signatureValidation" (cleared)="clearsign()"
+                    (done)="showImage($event)" [penColor]='pencolor' class="btnspace" [emitOnDragEnd]='true' [width]="divsigpadWidth? divsigpadWidth :600"
+                    [height]="135" [showDoneButton]='false' [editable]='true' id="uploadCaptureInputFileSignature"></ng-signature-pad>
+                  <!-- Dummy Signature to resolve signature blinking Error/option-->
+                  <ng-signature-pad format="base64" *ngIf="!isOpenPad" (done)="showImage($event)" [penColor]='pencolor'
+                    class="btnspace" [emitOnDragEnd]='true' [width]="divsigpadWidth? divsigpadWidth :600" [height]="135"
+                    [showDoneButton]='false' [editable]='true' id="uploadCaptureInputFileSignature"></ng-signature-pad>
+                </div>
+                <div class="col-lg-3">
+                  <div class="space">
+                    <ul>
+                      <li class="signature-selected-color-list"><input type="radio" name='pencolor1' [(ngModel)]="pencolor"
+                          value='#008000' (change)="colorcodefun('#008000')" />Green
+                      </li>
+                      <li class="signature-selected-color-list">
+                        <input type="radio" name='pencolor1' [(ngModel)]="pencolor" value='#0000FF' (change)="colorcodefun('#0000FF')" />Blue
+                      </li>
+                      <li class="signature-selected-color-list">
+                        <input type="radio" name='pencolor1' [(ngModel)]="pencolor" value='#000000' (change)="colorcodefun('#000000')" />Black
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3">
+                <image-cropper *ngIf="isOpenPad && signatureValidation && signatureValidation.length > 0" class="cropimagesize"
+                  [imageBase64]="signatureImage" [maintainAspectRatio]="false" format="png" (imageCropped)="imageCropped($event)"
+                  [imageQuality]="100">
+                </image-cropper>
+              </div>
+              <div class="col-lg-9">
+                <div *ngIf="croppedImage && signatureValidation && signatureValidation.length > 0">
+                  <img [src]="croppedImage" draggable="false" class="hei-100 " />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab4'">
+            <div class="text-center image-pop-drag">
+              <div>
+                <label for="uploadCaptureInputFileSignature"> <span class="btn filebtn">Choose File</span></label>
+                <input style="visibility: hidden; position: absolute;display:none;" class="form-control" type="file"
+                  name="files" (change)="onFileSelected($event,'signature','signature')" accept=".png, .jpeg , .jpg" id="uploadCaptureInputFileSignature">
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <image-cropper class="cropimagesize crpimg" [imageChangedEvent]="imageFile" [maintainAspectRatio]="false"
+                    format="png" (imageCropped)="imageCropped($event)" [imageQuality]="100">
+                  </image-cropper>
+                </div>
+                <div class="col-lg-6" *ngIf="croppedImage">
+                  <img class="image-cropped wid-100 hei-100 previewimgstyle1 imagefit" draggable="false" [src]="croppedImage" />
+                </div>
+              </div>
+            </div>
+            <div *ngIf="croppedImage">
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab5'">
+            <div class="sign-types " id="style-15" fxLayout="column" [ngStyle.lt-sm]="'min-height: 800px;'">
+              <div class="row zero-marg">
+                <div class="fon-18 col-lg-2 col-sm-12 col-xs-12 col-md-12 sign-fon-type-pad-col-3 txtaln txtlft">
+                  Signature
+                </div>
+                <div class="col-lg-9 col-sm-12 col-xs-12 col-md-12 ">
+                  <input type="text" style="color:black" class="sign-type-fon-inp pd-lft border111" [(ngModel)]="preview"
+                    name="preview" id="uploadCaptureInputFile" maxlength="30" placeholder="Enter name">
+                </div>
+              </div>
+              <div class="row">
+                <div class="horizontal-container mt-5">
+                  <div class="vertical-container" style="text-align: center">
+                    <div class="row" style="justify-content: center">
+                      <div class=" sign-action-cont col-lg-4" *ngFor="let f of _presetFonts;let i = index">
+                        <span class="fonttypeselect no-bor" [ngClass]="{'active': fontstyle==f}" style="color:black; font-size: 30px;"
+                          [style.font-family]="f" (click)="selectFont(f,preview)">
+                          {{preview? preview :'sample'+i}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer mar-lr-3rem">
+        <button type="button" class="cancel-button-in-pop pl-point hovbtn" data-dismiss="modal" id="signatureModalCloseBtn"
+          (click)="signature();colorcodefun('#000000');croppedImage=null;phone=null;fontStyle=null;preview=null;added=null;enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false">Cancel</button>
+        <button type="button" class="submit-button-in-pop pl-point" [hidden]="tabactive == 'tab1' || tabactive == 'tab2'"
+          (click)="signatureSubmit('signature');signature();tabactive = 'tab1';resend=false">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Central Modal Small -->
+
+
+
+
+
+<!-- Central Modal Small -->
+<div class="modal fade" id="stampModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  (click)="showdropdownclose()">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content modal-height modal-height12">
+      <div class="modal-header mod-head">
+        <div class="flexx">
+          <div *ngIf="StampList.length>0" [ngClass]="{'select-sign1' : tabactive == 'tab1' }" class="select-sign text-center  pl-point  show-tabs-img show-stamp"
+            (click)="tabOpen('tab1');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null">
+            <h6 [ngClass]="{'select-stamp2' : tabactive == 'tab1' }" class="select-stamp hide-txt">
+              <p class="txthide">Stamps</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+          <div (click)="tabOpen('tab2')" [ngClass]="{'select-sign1' : tabactive == 'tab2' }" class="select-sign text-center pl-point show-tabs-img show-mobile">
+            <h6 [ngClass]="{'select-sign-mobile-font1' : tabactive == 'tab2' }" class="select-sign-type-font hide-txt">
+              <p class="txthide">Mobile</p>
+              <p class="pad-icon"></p>
+            </h6>
+          </div>
+          <div (click)="tabOpen('tab3');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null"
+            [ngClass]="{'select-sign1' : tabactive == 'tab3' }" class="select-sign text-center pl-point  show-tabs-img show-im-2">
+            <h6 [ngClass]="{'select-sign-image-font1' : tabactive == 'tab3' }" class="select-sign-image-font hide-txt">
+              <p class="txthide">Images</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body mod-bod scroll-style">
+        <div>
+          <div *ngIf="tabactive == 'tab1'">
+            <div *ngIf="StampList.length>0" class="sign-1st" id="style-15">
+              <div class="row">
+                <div *ngFor="let stamp of StampList" class="col-lg-3 col-md-12 col-xs-12 col-sm-12 ">
+                  <div class="text-center show-image wite-bg zoom imagebg">
+                    <button *ngIf="!stamp.setDefault" (click)="stamp.setDefault=true;setStampDefaultSettings(stamp)"
+                      class="update set-default" type="button">Set
+                      Default</button>
+                    <button *ngIf="!stamp.setDelete" (click)="stamp.setDelete=true;setStampDefaultSettings(stamp)"
+                      class="delete delete-icon" type="button"><img src="assets/images/Group3648.png"></button>
+                    <div data-dismiss="modal" (click)="selectStamp(stamp)">
+                      <div *ngIf="stamp.type=='stampupload'">
+                        <img src="{{stamp.path}}" alt="Stamp" draggable="false" class="pad-14-tb image0size">
+                      </div>
+                    </div>
+                  </div>
+                  <button disabled=true *ngIf="stamp.setDefault" class="defalt" type="button">Default</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab2'" class="mar-t-5rem" (click)="showdropdownclose()">
+            <form #signatureuploadlinkForm4="ngForm" name="signatureuploadlinkForm4" (ngSubmit)="sendLink(signatureuploadlinkForm4,signatureuploadlinkForm4.form.valid,'stamp')">
+              <div class="text-center pad-ls-11rem ps-079">
+                <p class="mobile-para">Use your mobile device to easily upload your stamp.
+                  A link will be sent to your mobile device via text.</p>
+              </div>
+              <div class="row cen-dialog">
+                <div class="mob-fied-pos">
+                  <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12">
+                    <div class="input-group mb-3">
+                      <div class="mobile">
+                        <div class="he-d-flex">
+                          <div [ngClass]="{'alignicons11': !selectimg,'alignicons-bordernone': selectimg }" (click)="showdropdown($event,'stamp')">
+                            <div *ngIf="selectimg" class="mr-10"><img src="../../assets/countries/{{selectimg | lowercase}}.png" />
+                            </div><span style="white-space: nowrap;">{{added}}</span>
+                            <i *ngIf="!selectimg" class="fa fa-globe globeicon11"></i>
+                            <i class="fa fa-caret-down careticon"></i>
+                          </div>
+                          <div class="hideinput">
+                            <input type="number" style="border: none" name="enteredvalue" id="country_toggle1"
+                              [ngClass]="{'linht' :iebrowser}" class="br-e5" (keydown)="checkisnum($event)" [(ngModel)]='enteredvalue'
+                              placeholder="Enter Mobile Number" (ngModelChange)="mobileNumberValidation(signatureuploadlinkForm4)">
+                          </div>
+                        </div>
+                        <div class="error-hig">
+                          <div class="text-danger" *ngIf="req">Enter valid Mobile Number</div>
+                        </div>
+                        <div class="list" *ngIf="showlist && mobiledemo">
+                          <ul class="listitem" (click)="listshow1($event)">
+                            <li>
+                              <mat-form-field class="example-full-width mob-new-ch matstyle">
+                                <input type="text" matInput [matAutocomplete]="auto" name="searchcountry" (keyup)="Searchcountries(searchcountry,$event,'country_toggle1')"
+                                  [(ngModel)]='searchcountry' placeholder="Enter Country" (click)="listshow1($event)"
+                                  (focus)="listshow1($event)" id="openmodel4">
+                                <mat-autocomplete #auto="matAutocomplete" class="sub" [displayWith]="displayFn">
+                                  <mat-option class="sub11" *ngFor="let option of countrylist" [(value)]="option"
+                                    (click)="addcountry(option,'country_toggle1')">
+                                    <span><img src="../../assets/countries/{{option.code | lowercase}}.png" />
+                                      {{option.name}} {{option.dial_code}}</span>
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+                    <button type="submit" *ngIf="!resend" class="mobile-send-but send-place">Send</button>
+                    <button type="submit" *ngIf="resend" class="mobile-send-but send-place">Resend</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div *ngIf="tabactive == 'tab3'">
+            <div class="text-center image-pop-drag">
+              <div>
+                <label for="uploadCaptureInputFileStamp"> <span class="btn filebtn">Choose File</span></label>
+                <input type="file" style="visibility: hidden; position: absolute;display:none;" class="form-control"
+                  name="stamp" placeholder="Modify" (change)="onFileSelected($event,'stamp')" accept=".png, .jpeg , .jpg"
+                  id="uploadCaptureInputFileStamp">
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <image-cropper [imageChangedEvent]="imageFile " [maintainAspectRatio]="false" format="png"
+                    (imageCropped)="imageCropped($event)" [imageQuality]="100" class="crpimg"></image-cropper>
+                </div>
+                <div class="col-lg-6">
+                  <div *ngIf="croppedImage">
+                    <img class="wid-100 hei-100 previewimgstyle imagefit" draggable="false" [src]="croppedImage" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer mar-lr-3rem">
+        <button type="button" class="cancel-button-in-pop pl-point hovbtn" data-dismiss="modal" id="stampModalCloseBtn"
+          (click)="imagedata=null;type=null;croppedImage=null;phone=null;enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null">Cancel</button>
+        <button type="button" class="submit-button-in-pop pl-point" [hidden]="tabactive == 'tab1' || tabactive == 'tab2'"
+          (click)="stampSubmit();resend=false">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Central Modal Small -->
+
+<!-- Central Modal Small -->
+<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  (click)="showdropdownclose()">
+  <!-- Change class .modal-sm to change the size of the modal -->
+  <div class="modal-dialog modal-lg" role="document">
+    <div [ngClass]="{'modal-height-for-img-crop':modelshow==true}" class="modal-content modal-height modal-height12">
+      <div class="modal-header mod-head ps-079">
+        <div class="flexx flex-rd-w">
+          <div *ngIf="PhotoList.length>0" (click)="tabOpen('tab1');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null"
+            [ngClass]="{'select-sign1' : tabactive == 'tab1' }" class="select-sign text-center pl-point  show-tabs-img show-photo">
+            <h6 [ngClass]="{'photo-show1' : tabactive == 'tab1'}" class="photo-show zero-marg hide-txt">
+              <p class="txthide">Photo</p>
+            </h6>
+          </div>
+          <div (click)="tabOpen('tab5');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null"
+            [ngClass]="{'select-sign1' : tabactive == 'tab5' }" class="select-sign text-center pl-point show-tabs-img select-live"
+            data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+            <h6 [ngClass]="{'select-live-pic1' : tabactive == 'tab5' }" class="select-live-pic zero-marg hide-txt">
+              <p class="txthide"> LivePhoto</p>
+            </h6>
+          </div>
+          <div [ngClass]="{'select-sign1' : tabactive == 'tab4' }" (click)="tabOpen('tab4');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null"
+            class="select-sign text-center pl-point show-tabs-img show-im-2">
+            <h6 [ngClass]="{'select-sign-image-font1' : tabactive == 'tab4' }" class="select-sign-image-font zero-marg hide-txt">
+              <p class="txthide"> Image</p>
+            </h6>
+          </div>
+          <div (click)="tabOpen('tab2')" [ngClass]="{'select-sign1' : tabactive == 'tab2' }" class="select-sign text-center pl-point show-tabs-img show-mobile">
+            <h6 [ngClass]="{'select-sign-mobile-font1' : tabactive == 'tab2' }" class="select-sign-mobile-font zero-marg hide-txt">
+              <p class="txthide">Mobile</p>
+            </h6>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body mod-bod scroll-style">
+        <div>
+          <div *ngIf="tabactive == 'tab1'">
+            <div *ngIf="PhotoList.length>0" class="sign-1st" id="style-16">
+              <div class="row photo-field">
+                <div *ngFor="let photo of PhotoList" class="col-lg-3 col-md-12 col-xs-12 col-sm-12 ">
+                  <div class="text-center show-image wite-bg zoom imagebg">
+                    <button *ngIf="!photo.setDefault" (click)="photo.setDefault=true;setPhotoDefaultSettings(photo)"
+                      class="update set-default" type="button">Set
+                      Default</button>
+                    <button *ngIf="!photo.setDelete" (click)="photo.setDelete=true;setPhotoDefaultSettings(photo)"
+                      class="delete delete-icon" type="button"><img src="assets/images/Group3648.png"></button>
+                    <div (click)="selectPhoto(photo)">
+                      <div *ngIf="photo._id">
+                        <img src="{{photo.path}}" alt="Photo" class="pad-14-tb flx image0size" draggable="false">
+                      </div>
+                    </div>
+                  </div>
+                  <button disabled=true *ngIf="photo.setDefault" class="defalt" type="button">Default</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab2'" class="mar-t-5rem" (click)="showdropdownclose()">
+            <form #signatureuploadlinkForm3="ngForm" name="signatureuploadlinkForm3" (ngSubmit)="sendLink(signatureuploadlinkForm3,signatureuploadlinkForm3.form.valid,'photo')">
+              <div class="text-center pad-ls-11rem ps-079">
+                <p class="mobile-para">Use your mobile device to easily capture your photo.
+                  A link will be sent to your mobile device via text.</p>
+              </div>
+              <div class="row cen-dialog">
+                <div class="mob-fied-pos">
+                  <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12">
+                    <div class="input-group mb-3">
+                      <div class="mobile">
+                        <div class="he-d-flex">
+                          <div [ngClass]="{'alignicons11': !selectimg,'alignicons-bordernone': selectimg }" (click)="showdropdown($event,'photo')">
+                            <div *ngIf="selectimg" class="mr-10"><img src="../../assets/countries/{{selectimg | lowercase}}.png" />
+                            </div><span style="white-space: nowrap;">{{added}}</span>
+                            <i *ngIf="!selectimg" class="fa fa-globe globeicon11"></i>
+                            <i class="fa fa-caret-down careticon"></i>
+                          </div>
+                          <div class="hideinput">
+                            <input type="number" style="border: none" name="enteredvalue" class="br-e5" id="country_toggle2"
+                              [ngClass]="{'linht' :iebrowser}" (keydown)="checkisnum($event)" [(ngModel)]='enteredvalue'
+                              placeholder="Enter Mobile Number" (ngModelChange)="mobileNumberValidation(signatureuploadlinkForm3)">
+                          </div>
+                        </div>
+                        <div class="error-hig">
+                          <div class="text-danger" *ngIf="req">Enter valid Mobile Number</div>
+                        </div>
+                        <div class=" list" *ngIf="showlist && mobiledemo">
+                          <ul class="listitem" (click)="listshow1($event)">
+                            <li>
+                              <mat-form-field class="example-full-width mob-new-ch matstyle">
+                                <input type="text" matInput [matAutocomplete]="auto" name="searchcountry" (keyup)="Searchcountries(searchcountry,$event,'country_toggle2')"
+                                  [(ngModel)]='searchcountry' placeholder="Enter Country" (click)="listshow1($event)"
+                                  (focus)="listshow1($event)" id="openmodel3">
+                                <mat-autocomplete #auto="matAutocomplete" class="sub" [displayWith]="displayFn">
+                                  <mat-option class="sub11" *ngFor="let option of countrylist" [(value)]="option"
+                                    (click)="addcountry(option,'country_toggle2')">
+                                    <span><img src="../../assets/countries/{{option.code | lowercase}}.png" />
+                                      {{option.name}} {{option.dial_code}}</span>
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+                    <button type="submit" *ngIf="!resend" class="mobile-send-but send-place">Send</button>
+                    <button type="submit" *ngIf="resend" class="mobile-send-but send-place">Resend</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div *ngIf="tabactive == 'tab4'">
+            <div class="text-center image-pop-drag">
+              <label for="uploadCaptureInputFilePhoto"> <span class="btn filebtn">Choose File</span></label>
+              <input type="file" style="visibility: hidden; position: absolute;display:none;" class="form-control" name="photo"
+                placeholder="Modify" (change)="onFileSelected($event,'photo','')" accept=".png, .jpeg , .jpg" id="uploadCaptureInputFilePhoto">
+              <div class="row">
+                <div class="col-lg-6">
+                  <image-cropper [imageChangedEvent]="imageFile" [maintainAspectRatio]="false" format="png"
+                    (imageCropped)="imageCropped($event)" [imageQuality]="100" class="crpimg"></image-cropper>
+                </div>
+                <div class="col-lg-6" *ngIf="croppedImage">
+                  <img class="wid-100 heii-100 imagefit" draggable="false" [src]="croppedImage" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab5'">
+            <div *ngIf="!showWebcam" style="text-align:center">
+              <button type="button" class="btn btn-primary" (click)="showWebcam=true">Open Camera</button>
+            </div>
+            <div *ngIf="showWebcam" style="text-align:center">
+              <div *ngIf="!webcamImage">
+                <h5>Capture Your Photo</h5>
+                <div>
+                  <webcam [height]="230" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                    *ngIf="showWebcam" [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+                    [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)"></webcam>
+                </div>
+                <br />
+                <button *ngIf="!webcamImage && !errors.length" type="button" class="btn btn-default" (click)="triggerSnapshot();"
+                  title="Take Picture" type="button">
+                  <mat-icon>photo_camera</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="text-center image-pop-drag" *ngIf="webcamImage && !errors.length">
+              <div class="row">
+                <div class="col-lg-6">
+                  <image-cropper [imageBase64]="webcamImage.imageAsDataUrl" [maintainAspectRatio]="false" format="png"
+                    (imageCropped)="imageCropped($event)" [imageQuality]="100"></image-cropper>
+                </div>
+                <div class="col-lg-6" *ngIf="croppedImage">
+                  <img class="wid-100 hei-100 imagefit" draggable="false"  [src]="croppedImage" />
+                </div>
+              </div>
+              <br />
+              <button type="button" class="cancel-button-in-pop" (click)="Cancel();">Re Take</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer mar-lr-3rem">
+        <button type="button" class="cancel-button-in-pop pl-point hovbtn" data-dismiss="modal" id="photoModalCloseBtn"
+          (click)="resend=false;imagedata=null;croppedImage=null;type=null;webcamImage=null;showWebcam=false;phone=null;enteredvalue=null;added=null;searchcountry=null">Cancel</button>
+        <button type="button" class="submit-button-in-pop pl-point" [hidden]="tabactive == 'tab1' || tabactive == 'tab2'"
+          (click)="photoSubmit();resend=false">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Central Modal Small -->
+
+<!-- Central Modal Small -->
+<div class="modal fade" id="initialModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  (click)="showdropdownclose()">
+  <!-- Change class .modal-sm to change the size of the modal -->
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content modal-height modal-height12" style="border-radius:20px">
+      <div class="modal-header mod-head ps-079">
+        <div class="flexx flex-rd-w">
+          <div *ngIf="initialList.length>0" [ngClass]="{'select-sign1' : tabactive == 'tab1' }" class="select-sign text-center pl-point show-tabs-img-sign show-tabs-img"
+            (click)="tabOpen('tab1');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null">
+            <h6 [ngClass]="{'select-signs1' : tabactive == 'tab1' }" class="select-signs hide-txt">
+              <p class="txthide">Set <br> initial</p>
+            </h6>
+          </div>
+          <div (click)="tabOpen('tab3');colorcodefun('#000000');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null"
+            [ngClass]="{'select-sign1' : tabactive == 'tab3' }" class="select-sign text-center pl-point show-tabs-img  show-draw">
+            <h6 [ngClass]="{'select-sign-draw-font1' : tabactive == 'tab3' }" class="select-sign-draw-font hide-txt">
+              <p class="txthide">Draw</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+          <div (click)="tabOpen('tab2')" [ngClass]="{'select-sign1' : tabactive == 'tab2' }" class="select-sign text-center pl-point show-tabs-img show-mobile"
+            data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+            <h6 [ngClass]="{'select-sign-mobile-font1' : tabactive == 'tab2' }" class="select-sign-mobile-font hide-txt">
+              <p class="txthide">Mobile</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+          <div (click)="tabOpen('tab4');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null"
+            [ngClass]="{'select-sign1' : tabactive == 'tab4' }" class="select-sign text-center pl-point show-tabs-img show-im-2">
+            <h6 [ngClass]="{'select-sign-image-font1' : tabactive == 'tab4' }" class="select-sign-image-font hide-txt">
+              <p class="txthide">Image</p>
+            </h6>
+            <p class="pad-icon"></p>
+          </div>
+          <div [ngClass]="{'select-sign1' : tabactive == 'tab5' }" class="select-sign text-center pl-point show-tabs-img sh-font">
+            <h6 [ngClass]="{'select-sign-type-font1' : tabactive == 'tab5' }" class="select-sign-type-font hide-txt"
+              (click)="tabOpen('tab5');enteredvalue=null;added=null;searchcountry=null;searchcountry=null;resend=false;selectimg=null">
+              <p class="txthide">Type</p>
+              <p class="pad-icon"></p>
+            </h6>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-body mod-bod scroll-style">
+        <div>
+          <div *ngIf="tabactive == 'tab1'">
+            <div *ngIf="initialList.length>0" class="sign-1st" id="style-15">
+              <div class="row photo-field">
+                <div *ngFor="let sign of initialList" class="col-lg-3 col-md-12 col-xs-12 col-sm-12">
+                  <div class="text-center show-image wite-bg zoom imagebg">
+                    <button *ngIf="!sign.setDefault" (click)="sign.setDefault=true;setInitialDefaultSettings(sign)"
+                      class="update set-default pl-point" type="button">Set
+                      Default</button>
+                    <button *ngIf="!sign.setDelete" (click)="sign.setDelete=true;setInitialDefaultSettings(sign)" class="delete delete-icon pl-point"><img
+                        src="assets/images/Group3648.png" type="button"></button>
+                    <div data-dismiss="modal" (click)="selectSignature(sign,'Initial')">
+                      <div *ngIf="sign.type=='fileupload'">
+                        <img src="{{sign.path}}" alt="Initial" draggable="false" class="image0size">
+                      </div>
+                      <div *ngIf="sign.type=='signaturepad'">
+                        <img [src]="sign.signaturebaseData" alt="Initial" draggable="false" class="pad-14-tb image0size" />
+                      </div>
+                      <div *ngIf="sign.type=='font'" class="initial-wid ">
+                        <span [ngClass]="{'active': fontstyle==sign.fontStyle}" style="color:black;word-break: break-all"
+                          [style.font-family]="sign.fontStyle">
+                          {{sign.fontText}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button disabled=true *ngIf="sign.setDefault" class="defalt pl-point" type="button">Default</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab2'" class="mar-t-5rem" (click)="showdropdownclose()">
+            <form #signatureuploadlinkForm2="ngForm" name="signatureuploadlinkForm2" (ngSubmit)="sendLink(signatureuploadlinkForm2,signatureuploadlinkForm2.form.valid,'initial')">
+              <div class="text-center pad-ls-11rem ps-079">
+                <p class="mobile-para">Use your mobile device to easily upload your initial.
+                  A link will be sent to your mobile device via text.</p>
+              </div>
+              <div class="row cen-dialog">
+                <div class="mob-fied-pos">
+                  <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12">
+                    <div class="input-group mb-3">
+                      <div class="mobile">
+                        <div class="he-d-flex">
+                          <div [ngClass]="{'alignicons11': !selectimg,'alignicons-bordernone': selectimg }" (click)="showdropdown($event,'initial')">
+                            <div *ngIf="selectimg" class="mr-10"><img src="../../assets/countries/{{selectimg | lowercase}}.png" />
+                            </div><span style="white-space: nowrap;">{{added}}</span>
+                            <i *ngIf="!selectimg" class="fa fa-globe globeicon11"></i>
+                            <i class="fa fa-caret-down careticon"></i>
+                          </div>
+                          <div class="hideinput">
+                            <input type="number" style="border: none" name="enteredvalue" id="country_toggle3"
+                              [ngClass]="{'linht' :iebrowser}" class="br-e5" (keydown)="checkisnum($event)" [(ngModel)]='enteredvalue'
+                              placeholder="Enter Mobile Number" (ngModelChange)="mobileNumberValidation(signatureuploadlinkForm2)">
+                          </div>
+                        </div>
+                        <div class="error-hig">
+                          <div class="text-danger" *ngIf="req">Enter valid Mobile Number</div>
+                        </div>
+                        <div class="list" *ngIf="showlist && mobiledemo">
+                          <ul class="listitem" (click)="listshow1($event)">
+                            <li>
+                              <mat-form-field class="example-full-width mob-new-ch matstyle">
+                                <input type="text" matInput [matAutocomplete]="auto" name="searchcountry" (keyup)="Searchcountries(searchcountry,$event,'country_toggle3')"
+                                  [(ngModel)]='searchcountry' placeholder="Enter Country" (click)="listshow1($event)"
+                                  (focus)="listshow1($event)" id="openmodel2">
+                                <mat-autocomplete #auto="matAutocomplete" class="sub" [displayWith]="displayFn">
+                                  <mat-option class="sub11" *ngFor="let option of countrylist" [(value)]="option"
+                                    (click)="addcountry(option,'country_toggle3')">
+                                    <span><img src="../../assets/countries/{{option.code | lowercase}}.png" />
+                                      {{option.name}} {{option.dial_code}}</span>
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+                    <button type="submit" *ngIf="!resend" class="mobile-send-but send-place">Send</button>
+                    <button type="submit" *ngIf="resend" class="mobile-send-but send-place">Resend</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="none-select" *ngIf="tabactive == 'tab3'">
+            <h6 class="ml-3">Please Sign Below</h6>
+            <div class="row">
+              <div class="col-lg-9" id="initialpadwidth" #intialSignature style="padding-left: 30px">
+                <ng-signature-pad format="base64" *ngIf="isOpenPad" [(points)]="signatureValidation" (cleared)="clearsign()"
+                  (done)="showImage($event)" [penColor]='pencolor' class="btnspace" [emitOnDragEnd]='true' [width]="divsigpadWidth? divsigpadWidth :600"
+                  [height]="135" [showDoneButton]='false' [editable]='true' id="uploadCaptureInputFileInitial">
+                  <div _ngcontent-c1="" class="signature-pad1">
+                  </div>
+                </ng-signature-pad>
+                <!-- Dummy Signature to resolve signature blinking Error/option-->
+                <ng-signature-pad format="base64" *ngIf="!isOpenPad" (done)="showImage($event)" [penColor]='pencolor'
+                  class="btnspace" [emitOnDragEnd]='true' [width]="divsigpadWidth? divsigpadWidth :600" [height]="135"
+                  [showDoneButton]='false' [editable]='true' id="uploadCaptureInputFileInitial">
+                  <div _ngcontent-c1="" class="signature-pad1">
+                  </div>
+                </ng-signature-pad>
+              </div>
+              <div class=" col-lg-3 space">
+                <ul>
+                  <li class="signature-selected-color-list"><input type="radio" name='pencolor' [(ngModel)]="pencolor"
+                      value='#008000' (change)="colorcodefun('#008000')" />Green</li>
+                  <li class="signature-selected-color-list"><input type="radio" name='pencolor' [(ngModel)]="pencolor"
+                      value='#0000FF' (change)="colorcodefun('#0000FF')" />Blue</li>
+                  <li class="signature-selected-color-list"><input type="radio" name='pencolor' [(ngModel)]="pencolor"
+                      value='#000000' (change)="colorcodefun('#000000')" />Black</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3">
+                <image-cropper *ngIf="isOpenPad && signatureValidation && signatureValidation.length > 0" class="cropimagesize"
+                  [imageBase64]="signatureImage" [maintainAspectRatio]="false" format="png" (imageCropped)="imageCropped($event)"
+                  [imageQuality]="100">
+                </image-cropper>
+              </div>
+              <div class="col-lg-9">
+                <div *ngIf="croppedImage && signatureValidation && signatureValidation.length > 0">
+                  <img [src]="croppedImage" draggable="false" class="hei-100" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab4'">
+            <div class="text-center image-pop-drag">
+              <div>
+                <span>
+                  <label for="uploadCaptureInputFileInitial"> <span class="btn filebtn">Choose File</span></label>
+                  <input type="file" style="visibility: hidden; position: absolute;display:none;" class="form-control"
+                    name="photo" placeholder="Modify" (change)="onFileSelected($event,'signature','initial')" id="poi"
+                    accept=".png, .jpeg , .jpg" id="uploadCaptureInputFileInitial">
+                </span>
+
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <image-cropper class="cropimagesize test crpimg" [imageChangedEvent]="imageFile"
+                    [maintainAspectRatio]="false" format="png" (imageCropped)="imageCropped($event)" [imageQuality]="100"></image-cropper>
+                </div>
+
+                <div class="col-lg-6" *ngIf="croppedImage">
+                  <img class="hei-100 wid-100 previewimgstyle imagefit" draggable="false" [src]="croppedImage" />
+                </div>
+              </div>
+            </div>
+            <div *ngIf="croppedImage">
+            </div>
+          </div>
+          <div *ngIf="tabactive == 'tab5'">
+            <div class="sign-types " id="style-15" fxLayout="column" [ngStyle.lt-sm]="'min-height: 800px;'">
+              <div class="row zero-marg">
+                <div class="fon-18 col-lg-2 col-sm-12 col-xs-12 col-md-12 sign-fon-type-pad-col-3 txtaln txtlft">Initial
+                </div>
+                <div class="col-lg-9 col-sm-12 col-xs-12 col-md-12 ">
+                  <input type="text" style="color:black" class="sign-type-fon-inp pd-lft border111" [(ngModel)]="preview"
+                    name="preview" id="uploadCaptureInputFile" maxlength="30" placeholder="Enter name">
+                </div>
+              </div>
+              <div class="row">
+                <div class="horizontal-container mt-5">
+                  <div class="vertical-container" style="text-align: center">
+                    <div class="row" style="justify-content: center">
+                      <div class=" sign-action-cont  col-lg-4" *ngFor="let f of _presetFonts;let i = index">
+                        <span class="fonttypeselect no-bor" [ngClass]="{'active': fontstyle==f}" style="color:black; font-size: 30px;"
+                          [style.font-family]="f" (click)="selectFont(f,preview)">
+                          {{preview? preview :'sample'+i}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer mar-lr-3rem">
+        <button type="button" class="cancel-button-in-pop pl-point hovbtn" data-dismiss="modal" id="initialModalCloseBtn"
+          (click)="imagedata=null;type=null;preview=null;
+            fontstyle=null;signature();colorcodefun('#000000');croppedImage=null;phone=null;enteredvalue=null;added=null;searchcountry=null;resend=false">Cancel</button>
+        <button type="button" class="submit-button-in-pop pl-point" [hidden]="tabactive == 'tab1' || tabactive == 'tab2'"
+          (click)="signatureSubmit('initial');signature();resend=false">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <app-aunthicate *ngIf='authenticate' [authIputSend]="authIput" [authenticateData] = 'authenticateData' [authenticateTitle] = 'authenticateTitle' (closeModel)="modelClosing($event)"></app-aunthicate>
+  <button type="button" hidden  data-keyboard="false" data-toggle="modal" data-target="#messageModal"
+    id="modalOpenBtn">Modal Open</button>
+  <!-- Message Modal  -->
+  <div class="modal fade" id="messageModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header" style="justify-content: end ; border-bottom: none;">
+          <button type="button" class="close" id="modalClosBtn" data-dismiss="modal" (click)="closemsgmodal()">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body container">
+          <div *ngIf="!camLoaderSuccess && !camLoaderFail">
+            <div class="row align-items-center " style="text-align: center;">
+              <div style="width:100%; ">
+                <div class="preloader"></div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="camLoaderSuccess && !camLoaderFail">
+            <div class="row align-items-center " style="text-align: center;">
+              <div style="width:100%; "><img src="assets/images/Group7538.png"> </div>
+              <div class="hr-w text-center">
+                <h4 style="color:#79DE53">Sucessfully Verified</h4>
+              </div>
+              <div style="width:100%;color:#000000 ">Your face authentication was successfully verified.
+                Please click on Submit button for confirm the photo.</div>
+              <div style="width:100%; color:red" *ngIf="expired">{{errorres}}</div>
+            </div>
+            <div class="row align-items-center justify-content-center" style="padding: 30px">
+              <button type="button" class="btn side_bg" (click)="setPhoto();closemsgmodal()">
+                <img *ngIf="otploader" src="../assets/newloader.gif" />Submit</button>
+            </div>
+          </div>
+          <div *ngIf="!camLoaderSuccess && camLoaderFail">
+            <div class="row align-items-center " style="text-align: center;">
+              <div class="hr-w"><img src="/assets/images/Group7542.png"> </div>
+              <div class="hr-w text-center">
+                <h4 style="color:#F05228">Not Verified</h4>
+              </div>
+              <div style="width:100%;color:#000000 ">Your authentication was failed!. Please click to Retry
+                button for try again.</div>
+            </div>
+            <div class="row align-items-center justify-content-center" style="padding: 30px"><button type="button"
+                class="btn  side_bg" (click)="retry()">Retry</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<button hidden id="basicExampleModal" mat-raised-button data-toggle="modal" data-target="#basicExampleModal1" type="button"></button>
+<div class="modal fade bd-example-modal-xl" id="basicExampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content side_bg">
+      <div class="pad-1rem">
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12  m-auto pt-4 white-colr">
+            <div class="row">
+              <div class="col-lg-5 col-md-12 col-sm-12">
+                <img src="assets/images/succ-man.png" width="100%" class="img-responsive">
+              </div>
+              <div class="col-lg-7 col-md-12 col-sm-12 m-auto">
+                <div *ngIf="documentres">
+                  <span><b class="fw-5 fon-18 wrdbrk">{{documentres.fromid.name}}</b></span> <span class="ml-2">{{documentres.fromid.email}}</span>
+                </div>
+                <div class="mt-2">
+                  <span><b class="fw-5 fon-18 wrdbrk" *ngIf="documentRecord && !reviewfile">Thank
+                      You,"{{documentRecord.name}}"
+                      has been
+                      submitted successfully.</b></span>
+                  <span><b class="fw-5 fon-18 wrdbrk" *ngIf="documentRecord && reviewfile">Thank You,"{{documentRecord.name}}"
+                      has been
+                      Reviewed successfully.</b></span>
+                </div>
+                <div class="mt-5"><span><button class="btn btn-md sign-button fon-18" id="basicExampleModalclose"
+                      data-dismiss="modal" aria-label="Close" type="button">ok</button></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button hidden id="basicExampleModal" mat-raised-button data-toggle="modal" data-target="#basicExampleModal1" type="button"></button>
+
+<div class="modal fade bd-example-modal-xl" id="basicExampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content side_bg">
+      <div class="pad-1rem">
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12  m-auto pt-4 white-colr">
+            <div class="row">
+              <div class="col-lg-5 col-md-12 col-sm-12">
+                <img src="assets/images/succ-man.png" width="100%" class="img-responsive">
+              </div>
+              <div class="col-lg-7 col-md-12 col-sm-12 m-auto">
+                <div class="mt-2">
+                  <span *ngIf="documentRecord"><b class="fw-5 fon-18" *ngIf="documentRecord">Thank
+                      You,"{{documentRecord.name}}" has been signed successfully.</b></span>
+                </div>
+                <div class="mt-4"><span class="ml-2"> The signed document is submitted successfully.</span></div>
+                <div class="mt-5"><span><button class="btn btn-md sign-button fon-18" id="basicExampleModalclose"
+                      data-dismiss="modal" aria-label="Close" type="button">ok</button></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade download-pdf" id="savetemp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true"  data-keyboard="false">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header mod-head-bg">
+        <h4 class="modal-title w-100 add-new-emp-pop titletxtclr" id="myModalLabel">Download PDF</h4>
+        <button type="button" class="close " id="savetempclose" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="white-colr">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pop-height">
+        <!-- ===================field-----starts========================== -->
+        <div class="dwnload-form">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group row">
+              <div class="col-md-5 col-sm-5 col-xs-12">
+                <label class="col-form-label lable11" for="inputPassword">Download To</label>
+              </div>
+              <div class="col-md-7 col-sm-7 col-xs-12">
+                <select name="downloadType" class="form-control pdng11" [(ngModel)]="downloadType">
+                  <option selected value="computer">Computer</option>
+                  <option value="attachment" id="">Send Email Attachemnt</option>
+                  <option value="drive">Google Drive</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-5 col-sm-5 col-xs-12"> </div>
+              <div class="col-md-7 col-sm-7 col-xs-12">
+                <input type="text" class="form-control input-box" *ngIf="downloadType == 'attachment'" [(ngModel)]="email"
+                  #emailcheck="ngModel" placeholder="Enter Email" pattern="([A-Za-z]|[0-9])[A-Za-z0-9.-]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group row">
+              <div class="col-md-5 col-sm-5 col-xs-12">
+                <label class="col-form-label lable11" for="inputPassword">Version</label>
+              </div>
+              <div class="col-md-7 col-sm-7 col-xs-12">
+                <select name="downloadFile" class="form-control pdng11" [(ngModel)]="downloadFile">
+                  <option selected value="current">Current Version</option>
+                  <option value="withoutchanges">Orginal File with out changes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="downloadFile == 'current'">
+            <div class="form-group row">
+              <div class="col-md-5 col-sm-5 col-xs-12">
+                <label class="col-form-label lable11" for="inputPassword">Attach with Log</label>
+              </div>
+              <div class="col-md-7 col-sm-7 col-xs-12">
+                <input type="checkbox" class="checkmark check111" id="inputPassword" name="withlog" [(ngModel)]="withlog">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+
+          <button class="sav-but-in-new-temp" *ngIf="downloadType == 'computer'" (click)="pdfDownload()" type="button">Download</button>
+          <button class="sav-but-in-new-temp" *ngIf="downloadType == 'attachment'" (click)="pdfDownload(email)" type="button">Send
+            Attachment</button>
+          <button class="sav-but-in-new-temp" *ngIf="downloadType == 'drive'" (click)="loadGoogleDrive()" type="button">Export
+            To Drive</button>
+
+        </div>
+      </div>
+      <!-- ===================field-----ends========================== -->
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+<!-- agree to Review or Sign Model Start-->
+
+<button hidden id="agreetosign" mat-raised-button data-toggle="modal" data-target="#basicExampleModal2"></button>
+<div class="modal fade bd-example-modal-lg"  data-keyboard="false"  data-backdrop="false"id="basicExampleModal2"
+  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modalhegt modal-dialog-centered" role="document">
+    <div class="modal-content side_bg">
+      <div class="pad-1rem p-2">
+        <button type="button" id="agreetoSignclose" hidden class="close shareview-close" data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <button type="button" class="close shareview-close" data-dismiss="modal"
+        aria-label="Close" (click)="LocationBack();">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12  m-auto white-colr">
+            <div class="row">
+              <div class="col-lg-5 col-md-12 col-sm-12">
+                <img src="assets/images/b-lock.png" width="100%">
+              </div>
+              <div class="col-lg-7 col-md-12 col-sm-12 m-auto">
+                <h4>Welcome !</h4>
+                <p>Please Review & Act on This Document</p>
+                <div *ngIf="sharedRecord && sharedRecord.fromid" class="pb-2">
+                  <p class="mb-0">Shared By : {{sharedRecord.fromid.name}}</p>
+                  <p>({{sharedRecord.fromid.email}})</p>
+                </div>
+                <div class="pb-2 shareview-message scroll-style" *ngIf="sharedRecord && sharedRecord.message">
+                  <span>Message :</span>
+                  <span class="ml-2 word-brk" style="white-space: pre-line;">{{sharedRecord.message}}</span></div>
+                <div class="shared-checkbox pb-3 pt-3"><input type="checkbox" name="agreetoSign"
+                    [(ngModel)]="agreetoSign" width="10px" height="10px"> Agree to our <i class="pl-point"><u
+                      (click)="termsandpol()">Terms and
+                      Conditions,</u> <u (click)="privacypolicy()">Privacy Policy</u></i></div>
+                <div class="pb-2" *ngIf="sharedRecord && (sharedRecord.agreetoSign==false && !sharedRecord.view)">
+                  <span><button class="btn btn-md sharereivew-button fon-18"
+                      (click)="agreeToSign(sharedRecord,agreetoSign)">Agree
+                      to sign</button></span>
+                </div>
+                <div class="pb-2" *ngIf="sharedRecord && (sharedRecord.agreetoReview==false && sharedRecord.view) ">
+                  <span><button class="btn btn-md sharereivew-button fon-18"
+                      (click)="agreetoreview(sharedRecord,agreetoSign)">Continue</button></span>
+                </div>
+                <div class="pb-2"
+                  *ngIf="documentLogs &&documentLogs.length==0 && !(sharedRecord && (sharedRecord.agreetoReview=='undefined' && sharedRecord.view)) &&!(sharedRecord && (sharedRecord.agreetoSign=='undefined' && !sharedRecord.view))  && !(sharedRecord.agreetoReview==false && sharedRecord.view) ">
+                  <span><button class="btn btn-md sharereivew-button fon-18"
+                      (click)="agreetoreview(sharedRecord,agreetoSign)">Continue</button></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Agree to Review or Sign Model End-->
+
+<!-- ====================================Change password  modal starts======================================= -->
+
+<div class="modal fade bed-example-modal-xl " tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+  aria-hidden="true"  data-keyboard="false"  data-backdrop="false">
+  <button type="button" id="changePassCloseBtn" class="close no-bor-outlin" data-toggle="modal" data-target=".bed-example-modal-xl">
+
+  </button>
+  <button type="button" class="close no-bor-outlin" style="display:none;" id="changePassCloseBtn" data-dismiss="modal"
+    aria-label="Close">
+    <span aria-hidden="true" class="pad-all-20">&times;</span>
+  </button>
+
+  <div class="modal-dialog modal-xl fix-m-w">
+    <div class="modal-content">
+
+      <div>
+        <div class="modal-body  redbg fix-modal-h">
+          <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-5 d-non imgnone">
+              <div class="welcome-creat-ac">
+                <div class="">
+                  <h5 class="white-colr txt2font">Reset Password !</h5>
+                </div>
+                <div class="reset-img-mar">
+                  <img src="assets/images/reserpassword.png" class="img-fluid" alt="Responsive image">
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-7">
+              <button type="button" class="close no-bor-outlin" id="changePassCloseBtn" data-dismiss="modal" aria-label="Close"
+                (click)="cancel1(userForm)" appPasswordshowhide>
+                <span aria-hidden="true" class="pad-all-20">&times;</span>
+              </button>
+              <div class="alert alert-danger alert-dismissible" *ngIf="displayerror">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                <strong>{{errorres}}</strong>
+              </div>
+
+              <form class="create-ac-sec" #userForm="ngForm" (ngSubmit)="otpfun(userForm)" name="userForm">
+                <div class="">
+                  <p class="modal-title headfont">Change your password</p>
+                </div>
+
+                <div class="alternate-register  fon-14 col-80">To have a strong password. Make sure to have
+                  alphanumeric, special characters and it has at least of 8 characters.</div>
+                <div>
+                  <div class="md-form txt2font form-mar-bot-2 mar-tb-12  wid-100" id='input_old'>
+                    <i class=" prefix" style="margin: -12px 0 0 0"><img src="assets/images/Path15375.png"></i>
+                    <input type="password" style="padding: 4px 24px; margin: 0;" placeholder="Old Password" (keyup)="checkpassword(oldpass)"
+                      [(ngModel)]="oldpass" name="oldpass" pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]{8,14}'
+                      #oldpassword="ngModel" [class.has-error]="oldpassword.invalid && oldpassword.touched"
+                      [class.has-success]="oldpassword.valid" required (focusout)="checkpasswor(oldpassword,'old')"
+                      (keypress)="Restrictspacekey($event)">
+                      <div class="tooltipp t00l" appPasswordshowhide>
+                        <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                          visibility_off
+                          </i>
+                        <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                          remove_red_eye
+                          </i>
+                      </div>
+                  
+                    <div class="text-danger" *ngIf="isOldPassword">Old password mismatch </div>
+                    <div *ngIf="(oldpassword.invalid && (oldpassword.dirty || oldpassword.touched)|| formSubmitted && oldpassword.errors) && !iebrowser">
+                      <div class="text-danger" *ngIf="!isOldPassword && oldpassword.errors.required">Please Enter Old
+                        Password </div>
+                    </div>
+                    <div *ngIf="(oldpassword.invalid && (oldpassword.dirty || oldpassword.touched)|| formSubmitted && oldpassword.errors) &&  iebrowser">
+                      <div class="text-danger" *ngIf="invalidoldpassword">Please Enter Old
+                        Password </div>
+                    </div>
+                  </div>
+
+                  <div class="md-form txt2font form-mar-bot-2  mar-tb-12 wid-100" id='input_new'>
+                    <i class="prefix" style="margin: -12px 0 0 0"><img src="assets/images/Path15375.png">&nbsp;&nbsp;</i>
+                    <input type="password" placeholder="Password length 8 to 14 characters" [type]="hide1 ? 'password' : 'text'"
+                      (keyup)="checkpassword(oldpass)" (keyup)="checkpassword1(newpass)" #newpassword="ngModel"
+                      [(ngModel)]="newpass" name="newpass" pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]{8,14}'
+                      [class.has-error]="newpassword.invalid && newpassword.touched" [class.has-success]="newpassword.valid"
+                      [ngModelOptions]="{ updateOn: 'change' }" placeholder="New Password" style="padding: 4px 24px; margin: 0;"
+                      required (focusout)="checkpasswor(newpassword,'new1');focus=false;" (focus)="focus=true"
+                      (keypress)="Restrictspacekey($event)">
+                      <div class="tooltipp t00l" appPasswordshowhide>
+                        <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                          visibility_off
+                          </i>
+                        <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                          remove_red_eye
+                          </i>
+                      </div>
+                   
+                    <div class="text-danger" *ngIf="((newpass==oldpass) && newpass) && oldpass">Please Do Not Enter The
+                      Old Password</div>
+                    <div *ngIf="(newpassword.invalid && (newpassword.dirty || newpassword.touched)|| formSubmitted && newpassword.errors) && !iebrowser">
+                      <div class="text-danger" *ngIf="newpassword.errors.required">Please Enter New Password </div>
+                      <div class="text-danger sml-danger-txt nunito-font" *ngIf="newpassword.errors.pattern">Password
+                        Length must be 8 to 14
+                        characters </div>
+                    </div>
+                    <div *ngIf="(newpassword.invalid && (newpassword.dirty || newpassword.touched)|| formSubmitted && newpassword.errors) && iebrowser">
+                      <div class="text-danger" *ngIf="invalidnewpas">Please Enter New Password </div>
+                      <div class="text-danger sml-danger-txt nunito-font" *ngIf="newpassword.errors.pattern">Password
+                        Length must be 8 to 14
+                        characters </div>
+                    </div>
+                  </div>
+
+                  <div class="md-form txt2font form-mar-bot-2 mar-tb-12  wid-100" id='input_new_cnf'>
+                    <i class="prefix" style="margin: -12px 0 0 0"><img src="assets/images/Path15375.png">&nbsp;&nbsp;</i>
+                    <input matInput type="password" appConfirmEqualValidator="newpass" style="padding: 4px 24px; margin: 0;"
+                      placeholder="Confirm Password" [class.has-error]="verifypassword.invalid && verifypassword.touched"
+                      [class.has-success]="verifypassword.valid" [(ngModel)]="pwd3" name="pwd3" #verifypassword="ngModel"
+                      required (focusout)="checkpasswor(verifypassword,'new2')" (keypress)="Restrictspacekey($event)">
+                      <div class="tooltipp t00l" appPasswordshowhide>
+                        <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                          visibility_off
+                          </i>
+                        <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                          remove_red_eye
+                          </i>
+                      </div>
+                    
+
+
+                    <div *ngIf="(verifypassword.invalid && (verifypassword.dirty || verifypassword.touched)|| formSubmitted && verifypassword.errors) && !iebrowser">
+                      <div class="text-danger" *ngIf="verifypassword.errors.required">Please Enter Confirm Password
+                      </div>
+                    </div>
+
+                    <div *ngIf="(verifypassword.invalid && (verifypassword.dirty || verifypassword.touched)|| formSubmitted && verifypassword.errors) && iebrowser">
+                      <div class="text-danger" *ngIf="invalidconfpas">Please Enter Confirm Password
+                      </div>
+                    </div>
+                    <div class="text-danger" *ngIf="((newpass!=pwd3) && newpass) && pwd3">Password Mismatch</div>
+                  </div>
+                  <div class="row tpad-20 txt2font text-center dis-fx">
+                    <div class=" ">
+                      <button type="submit" class="btn btn-sm sign-in1li txtun" appPasswordshowhide>Change Password</button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================Change password  modal Ends======================================= -->

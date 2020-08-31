@@ -1,0 +1,240 @@
+<section>
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark main-nav">
+        <div class="container">
+            <a class="navbar-brand zero-pad" href="#"><img class="wid-260" src="assets/images/logo.svg"></a>
+            <button class="navbar-toggler" style="background:#EF6D65" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse me-bg" id="navbarSupportedContent-333">
+                <ul class="navbar-nav ml-auto pad-10">
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+
+<section>
+    <div class="container" style="padding:80px 0">
+        <div *ngIf="linkexpire">
+            <h5 class="fon-40 fon-col3 fw-5 txt2font alignmiddle" style="padding-top: 50px;text-align: -webkit-center">
+                Link Is Expired
+            </h5>
+        </div>
+        <div class="redbg fix-modal-h" *ngIf="status && !linkexpire">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-5 d-non">
+                    <div class="welcome-creat-ac">
+                        <div class="text-center">
+                            <h5 class="white-colr txt2font">Welcome !</h5>
+                        </div>
+                        <div class="suit-img-mar text-center">
+                            <img src="assets/img/signin1.svg" class="img-fluid" alt="Responsive image">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-7">
+                    <div *ngIf="show1" class="forgot-pass-section2 col-lg-9 col-md-12 col-sm-12 results">
+                        <div class="col-lg-5 m-auto" *ngIf="!show">
+                            <img src="assets/images/success.png" class="pt-4" width="100%">
+                        </div>
+                        <h5 class="success-title mb-0">Success!</h5>
+                        <h6 class="success-msg">Your password has been Updated successfully </h6>
+                        <div class="mt-093">
+                            <a class="back-to-sign-fon" href="#">Back to Sign In</a>
+                        </div>
+                    </div>
+                    <form class="create-ac-sec" #forgotForm="ngForm" (ngSubmit)="activateemail(forgotForm)"
+                        name="forgotForm" autocomplete="off" *ngIf="show">
+                        <div class="">
+                            <p class="modal-title headfont">Start your account today.</p>
+                        </div>
+                        <div>
+                            <div class="md-form txt2font form-mar-bot-2">
+                                <i class=" prefix" style="margin: -12px 0 0 0"><img
+                                        src="assets/images/Path15375.png"></i>
+                                <input type="password" placeholder="Enter Password" #fcPassword="ngModel"
+                                    [(ngModel)]="cPassword" name="cPassword" style="padding: 4px 24px; margin: 0;"
+                                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,14}$"
+                                    [class.has-error]="fcPassword.invalid && fcPassword.touched"
+                                    [class.has-success]="fcPassword.valid" [ngModelOptions]="{ updateOn: 'change' }"
+                                    required class="form-control "
+                                    (keyup)="formSubmitted=false;validate(cPassword); Password = false;"
+                                    (keypress)="Restrictspacekey($event)">
+                                <div class="tooltipp t00l"
+                                    *ngIf="(fcPassword.invalid&&(fcPassword.dirty||fcPassword.touched)||req&&fcPassword.errors) ||formSubmitted  ">
+                                    <img src="assets/images/exclemetic.png" class="prefix error-icon img001">
+                                    <div class="tooltiptext pop-up-dis-non" style="padding-left: 10px;">
+                                        <div style="text-align:left;padding-left:10px;">
+                                            Password Policy
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-2 lef-pad text-right">
+                                                <i class="fa fa-circle listicn"></i>
+                                            </div>
+                                            <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordupper }">
+                                                1 Capital Letter </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-2 lef-pad text-right">
+                                                <i class="fa fa-circle listicn"></i>
+                                            </div>
+                                            <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordLower }">
+                                                1 Small Letter
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-2 lef-pad text-right">
+                                                <i class="fa fa-circle listicn"></i>
+                                            </div>
+                                            <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordSpecial }">
+                                                1 Special Character
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-2 lef-pad text-right">
+                                                <i class="fa fa-circle listicn"></i>
+                                            </div>
+                                            <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left':passwordNumber }">
+                                                1 Numeric
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    *ngIf="fcPassword.invalid&&(fcPassword.dirty||fcPassword.touched)||req&&fcPassword.errors">
+                                    <div class="text-danger"
+                                        *ngIf="fcPassword.errors.required && !formSubmitted && !Password"> Password is
+                                        Required</div>
+                                    <div class="text-danger" *ngIf="fcPassword.errors.pattern">Must be combination of
+                                        atleast
+                                        one uppercase,one lowercase,one digit and one special character with 8 to 14
+                                        characters Range
+                                    </div>
+                                </div>
+                                <div class="text-danger" *ngIf="formSubmitted || Password"> Password is Required</div>
+                            </div>
+                            <div class="md-form txt2font form-mar-bot-2 ">
+                                <i class="prefix" style="margin: -12px 0 0 0"><img
+                                        src="assets/images/Path15375.png">&nbsp;&nbsp;</i>
+                                <input type="password" appConfirmEqualValidator="newpass"
+                                    style="padding: 4px 24px; margin: 0;" placeholder="Enter Confirm Password"
+                                    [class.has-error]="fcverifypassword.invalid && fcverifypassword.touched"
+                                    [class.has-success]="fcverifypassword.valid" [(ngModel)]="ConfirmPassword"
+                                    name="ConfirmPassword" #fcverifypassword="ngModel" required class="form-control "
+                                    (keypress)="Restrictspacekey($event);"
+                                    (keyup)="formSubmitted=false; confirmPassword = false;">
+                                <div class="tooltipp t00l"
+                                    *ngIf="(fcverifypassword.invalid&&(fcverifypassword.dirty||fcverifypassword.touched)||req&&fcverifypassword.errors) ||formSubmitted || (((forgotForm.value.cPassword!=forgotForm.value.ConfirmPassword) && fcverifypassword.dirty && fcverifypassword.touched) && forgotForm.value.cPassword) ">
+                                    <img src="assets/images/exclemetic.png" class="prefix error-icon img001">
+                                    <div class="tooltiptext pop-up-dis-non" style="padding-left: 10px;">
+                                        <div style="text-align:left;padding-left:10px;">
+                                            Password Policy
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-2 lef-pad text-right">
+                                                <i class="fa fa-circle listicn"></i>
+                                            </div>
+                                            <div class="col-lg-10 zero-pad special-char-clr text-left"
+                                                [ngClass]="{'col-lg-10 zero-pad special-char-clrgreen text-left': !(((forgotForm.value.cPassword!=forgotForm.value.ConfirmPassword) && fcverifypassword.dirty && fcverifypassword.touched) && forgotForm.value.cPassword) }">
+                                                Confirm Password </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    *ngIf="fcverifypassword.invalid&&(fcverifypassword.dirty||fcverifypassword.touched)||req&&fcverifypassword.errors">
+                                    <div class="text-danger"
+                                        *ngIf="fcverifypassword.errors.required && !formSubmitted && !confirmPassword">
+                                        Confirm Password is
+                                        Required</div>
+                                </div>
+                                <div class="text-danger"
+                                    *ngIf="((forgotForm.value.cPassword!=forgotForm.value.ConfirmPassword) && fcverifypassword.dirty && fcverifypassword.touched) && forgotForm.value.cPassword && forgotForm.value.ConfirmPassword">
+                                    Password
+                                    Mismatch
+
+                                </div>
+                                <div class="text-danger" *ngIf="formSubmitted || confirmPassword">Confirm Password is
+                                    Required</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-check">
+                                <input type="checkbox" required class="form-check-input" id="exampleCheck1"
+                                    name="agreetoSign" [(ngModel)]="agreetoSign">
+                                    <div class="shared-checkbox anchorcolor" > Agree to our <i class="pl-point"><u
+                                          (click)="termsandpol()">Terms and
+                                          Conditions,</u> <u (click)="privacypolicy()">Privacy Policy</u></i></div>
+                            </div>
+                        </div>
+                        <div class="row tpad-20 txt2font text-center dis-fx">
+                            <div class=" ">
+                                <button class="btn btn-sm sign-in1li txtun" type="submit">Sign up</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class=" footer-bg">
+    <div class="container">
+        <div class="row" style="padding: 22% 0 0 0;">
+            <div class="col-lg-3 col-sm-12 col-xs-12 col-md-12">
+                <a><img src="assets/images/FLogo.svg"></a>
+            </div>
+            <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12" style="margin: 24px 0 0 0;">
+                <a routerLink="/about" class="white-colr">About Us</a>
+            </div>
+            <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12" style="margin: 24px 0 0 0;">
+                <a routerLink="/features" class="white-colr">Features</a>
+            </div>
+
+            <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12" style="margin: 24px 0 0 0;">
+                <a routerLink="/faq" class="white-colr">FAQ's</a>
+            </div>
+            <div class="col-lg-1 col-sm-12 col-xs-12 col-md-12" style="margin: 24px 0 0 0;padding: 0">
+                <a routerLink="/contact" class="white-colr">Contact Us</a>
+            </div>
+            <div class="col-lg-2 col-sm-12 col-xs-12 col-md-12 mt-4">
+                <a routerLink="/privacy" class="white-colr">Privacy</a><span class="privacy">/</span> <a
+                    routerLink="/termsandconditions" class="white-colr">Terms & Conditions</a>
+            </div>
+            <div class="col-lg-2 col-sm-12 col-xs-12 col-md-12" style="margin: -20px 0 0 0;text-align: right">
+                <p class="white-colr">Follow Us</p>
+                <span style="padding: 0 3px">
+                    <a>
+                        <img src="assets/images/fb.png">
+                    </a>
+                </span>
+                <span style="padding: 0 3px">
+                    <a>
+                        <img src="assets/images/mail1.png">
+                    </a>
+                </span>
+                <span style="padding: 0 3px">
+                    <a>
+                        <img src="assets/images/Twitter1.png">
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="row" style="border-top:1px solid #fff">
+            <div class="col-6 white-colr">
+                © 2019-2020 All Rights reserved to DOC INTACT
+            </div>
+            <div class="col-6" style="text-align: right">
+                <span class="white-colr">Payment Modes Accepted :</span>
+                <span><img src="assets/images/Group2209(2).png"></span>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,7 @@
+<app-after-confirmation [fileElements]="fileElements| async" [fileData]="files| async" [Myfiles]=Myfiles
+    [modalElement]='myElements' [currentRoot]='currentRoot' [path]="currentPath" [canNavigateUp]="canNavigateUp"
+    (fileAdded)="addFile($event)" (folderAdded)="addFolder($event)" (elementRemoved)="removeElement($event)"
+    (removefavorite)="Removefavorite($event)" (elementfavorite)=Favorite($event) (elementShared)="ShareElement($event)"
+    (navigatedDown)="navigateToFolder($event)" (navigatedUp)="navigateUp()" (elementRenamed)="renameElement($event)"
+    (elementMoved)="moveElement($event)" (modalnavigate)="modalnavigate($event)" (modalPath)="modalnavigatepop()">
+</app-after-confirmation>

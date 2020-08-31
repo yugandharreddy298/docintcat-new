@@ -1,0 +1,1021 @@
+<div class="socialloader" *ngIf="isSocialLoading"></div>
+
+<div class="top_nav p-0 sh-none navposition" style="background-color:white" [ngClass]="{'addzindex': headerzindex}">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-2 col-lg-3  col-md-5 mdqimage d-none d-sm-none d-md-block">
+        <a class=" mr-0 mr-md-2 p-0 mt-2" href="#" *ngIf="role == 'user' && userType == 'individual'"
+          routerLink="/individual/home/myfiles" [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{exact:true}">
+          <img src="https://docintact.s3.ap-south-1.amazonaws.com/logs/logo.svg" onerror="this.src='assets/images/logo.svg' " class="pt-2" width="233px">
+        </a>
+        <a class=" mr-0 mr-md-2 p-0 mt-2" href="#"
+          *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+          routerLink="/organization/home/myfiles" [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{exact:true}">
+          <img src="https://docintact.s3.ap-south-1.amazonaws.com/logs/logo.svg" onerror="this.src='assets/images/logo.svg'" class="pt-2" width="233px" height="90px" alt=''>
+        </a>
+      </div>
+      <div class="col-xl-10 col-lg-9 col-md-7">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12  p-0">
+            <ul class="new-li p-0 m-0 mb-3 mb-lg-0 pull-right d-none d-sm-none d-md-block">
+              <li class="mt-4 li-mb">
+                <form class="search-form  mdq-search-form" #searchForm="ngForm" (ngSubmit)="searchnavigate()"
+                  name="searchForm" autocomplete="off">
+                  <div class="d-flex justify-content-center h-100">
+                    <div class="searchbar">
+                      <input type="text" required class="search_input" placeholder="Search"
+                        aria-label="Recipient's username" style="border-left:none;" aria-describedby="basic-addon2"
+                        [(ngModel)]="SearchValue" (keyup)="Search(SearchValue)" name="SearchValue"
+                        [ngClass]="{'searchbox-filleddata':SearchValue }" />
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of searchdata" [value]="option.name">
+                          {{option.name}}
+                        </mat-option>
+                      </mat-autocomplete>
+                      <a class="search_icon"><i class="fas fa-search" (click)="searchnavigate()"></i></a>
+                    </div>
+                  </div>
+                </form>
+
+              </li>
+              <li class="mt-4 li-mb">
+
+                <img src="https://docintact.s3.ap-south-1.amazonaws.com/logs/Group2834.png" class="pl-3 i-left nav-link12 bor-none curpointer"
+                   onerror="this.src='assets/images/Group2834.png' "
+                  (click)="loadoneDrive()" matTooltipClass="example-tooltip-red" matTooltip="One Drive"
+                  aria-label="Button that displays a red tooltip when focused or hovered over" alt="">
+
+              </li>
+              <li class="mt-4 li-mb">
+                <img src="https://docintact.s3.ap-south-1.amazonaws.com/logs/Group2837.png" class="nav-link12 curpointer" (click)="loaddropbox()"
+                  onerror="this.src='assets/images/Group2837.png' "
+                  matTooltipClass="example-tooltip-red" matTooltip="Drop box"
+                  aria-label="Button that displays a red tooltip when focused or hovered over" alt="">
+              </li>
+              <li class="mt-4 li-mb">
+
+                <img src="https://docintact.s3.ap-south-1.amazonaws.com/logs/Group2833.png" class="i-right pr-3 nav-link12 curpointer"
+                onerror="this.src='assets/images/Group2833.png' "
+                  (click)="loadGoogleDrive()" matTooltipClass="example-tooltip-red" matTooltip="Google Drive"
+                  aria-label="Button that displays a red tooltip when focused or hovered over" alt="">
+              </li>
+
+              <!-------------------------------------- Chat notification start------------------------------------------------->
+              <li class="nav-item dropdown txt2font mt-4 li-mb valign chatnote">
+
+                <a class="social-media-tooltips1 bor-none nav-link tab-p-0 p-0">
+                  <!-- <i _ngcontent-c15="" class="material-icons p-2 iconimg_nav chat-icon-left-border">chat</i> -->
+                  <!-- <span class="social-media-tooltipstext1">Chats</span> -->
+                  <i  style="font-size: 26px;margin-top: -2px;"
+                    class="material-icons p-2 iconimg_nav chat-icon-left-border border_lft_none p-0 fon-22 clickicon"
+                    (click)="chatshownotifitab = false;$event. preventDefault()" *ngIf="chatshownotifitab" 
+                    matTooltipClass="example-tooltip-red" matTooltip="Chats"
+                    aria-label="Button that displays a red tooltip when focused or hovered over"> chat_bubble </i>
+                  <i  style="font-size: 26px;margin-top: -2px;"
+                    class="material-icons p-2 iconimg_nav chat-icon-left-border border_lft_none fon-22 "
+                    (click)="chatshownotifitab = true;$event. preventDefault();shownotifitab= false" *ngIf="!chatshownotifitab"
+                    matTooltipClass="example-tooltip-red" matTooltip="Chats"
+                  aria-label="Button that displays a red tooltip when focused or hovered over"> chat_bubble </i>
+                  <span *ngIf="chatnotificationlogsCount> 0"
+                    class="badge  badge-sc2 chat_badge">{{chatnotificationlogsCount}}</span>
+                  <!-- <span  class="badge  badge-sc2 chat_badge">10</span> -->
+                </a>
+                <div class="latest-notifications scroll-style" *ngIf="chatshownotifitab && !shownotifitab">
+                  <div
+                    [ngClass]="{'mwi-drop' : chatnotificationlogs && chatnotificationlogs.length!=0 , 'mwi-drop-pro' :chatnotificationlogs && chatnotificationlogs.length==0 }">
+                    <div class="row fxddiv" *ngIf='chatnotificationlogs && chatnotificationlogs.length>0'
+                      style="margin:0; background-color: rgb(226, 226, 226);">
+                      <div class="col-6 ">Chats</div>
+                      <div class="col-2"></div>
+                      <div class="col-4 f-right col-90 text-right">
+                        <span class="pl-point" *ngIf='chatnotificationlogs && chatnotificationlogs.length>0'
+                          (click)="clearAllNotifications(chatnotificationlogs,'chat')">Mark all as read
+
+                        </span></div>
+                    </div>
+
+                    <div *ngFor='let notification of chatnotificationlogs'>
+                      <!-- notification -->
+                      <div class="row txt2font fon-14 m-auto" [ngClass]="{'chatbackground':notification.active}"
+                        *ngIf='notification.type == "chat" && (notification.toid || notification.toemail) && ((notification.toid && userEmail==notification.toid.email) || userEmail==notification.toemail)'
+                        (click)='clearnotification(notification)'>
+                        <div class="col-lg-2 col-md-2 col-sm-12 mt-1 notification-flex"><span>
+                            <ngx-avatar [name]="notification.fromEmail" value="D" size="35" [round]="true"
+                              *ngIf="notification.fromEmail">
+                            </ngx-avatar>
+                          </span>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12" (click)="NotificationNavigate(notification)">
+                          <div *ngIf="notification.documentid" class="mt-1 fw-3">
+                            <div>
+                              <p class="mb-0 txt-ellip">{{notification.documentid.name}}</p>
+                              <p class="mb-0 txt-ellip">{{notification.type}} by {{notification.fromEmail}}</p>
+                            </div>
+                            <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                              {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                              {{notification.diff.second}}sec</p>
+                          </div>
+                          <div *ngIf="notification.folderid" class="mt-1 fw-3">
+                            <div>
+                              <p class="mb-0 txt-ellip">Folder {{notification.folderid.name}}</p>
+                              <p class="mb-0 txt-ellip">{{notification.type}} by {{notification.fromEmail}}</p>
+                            </div>
+                            <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                              {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                              {{notification.diff.second}}sec</p>
+                          </div>
+                          <div *ngIf="!notification.documentid && !notification.folderid && notification.fromEmail"
+                            class="mt-1 fw-3">
+                            <p class="mb-0">Document {{notification.type}} by {{notification.fromEmail}} has been
+                              deleted.</p>
+                            <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                              {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                              {{notification.diff.second}}sec
+                            </p>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <hr *ngIf='notification.type == "chat"' class="m-0">
+
+                    </div>
+
+                    <!-- no notification avaliable -->
+                    <div *ngIf="chatnotificationlogs && chatnotificationlogs.length==0" class="mwi-drop-pro">
+                      <a class="text-center">
+                        <div class="row">
+                          <div class="col-12 m-auto">
+                            <img src="assets/images/Group3630.png">
+                            <div class="fon-16 f-50 p-3 col-67">No notifications to show</div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+              </li>
+              <!-------------------------------------- Chat notification end------------------------------------------------->
+
+              <!-------------------------------------- notification start------------------------------------------------->
+              <li class="nav-item dropdown txt2font mt-4 li-mb valign">
+
+                <a class="social-media-tooltips1 bor-none nav-link tab-p-0 pl-0"
+                  (click)="clearAllNotificationsactive(notificationlogs)">
+                  <!-- <span class="social-media-tooltipstext1">Notifications</span> -->
+                  <i  class="material-icons i_col fon-22 nav-link12"
+                    (click)="hidenot()" *ngIf="shownotifitab"
+                    matTooltipClass="example-tooltip-red" matTooltip="Notifications"
+                  aria-label="Button that displays a red tooltip when focused or hovered over"> notifications </i>
+                  <i  class="material-icons i_col fon-22 nav-link12"
+                    (click)="shownotification()" *ngIf="!shownotifitab"
+                    matTooltipClass="example-tooltip-red" matTooltip="Notifications"
+                  aria-label="Button that displays a red tooltip when focused or hovered over"> notifications </i>
+                  <span *ngIf='count>0 ' class="badge  badge-sc2 notif_badge">{{count}}</span>
+                  <!-- <span  class="badge  badge-sc2 notif_badge">10</span> -->
+                </a>
+                <div class="latest-notifications scroll-style" *ngIf="shownotifitab && !chatshownotifitab">
+                  <div
+                    [ngClass]="{'mwi-drop' : notificationlogs && notificationlogs.length!=0 , 'mwi-drop-pro' :notificationlogs && notificationlogs.length==0 }">
+                    <div class="row fxddiv" *ngIf='notificationlogs && notificationlogs.length>0'
+                      style="margin:0; background-color: rgb(226, 226, 226);">
+                      <div class="col-6 ">Notifications</div>
+                      <div class="col-2"></div>
+                      <div class="col-4 f-right col-90 text-right">
+                        <span class="pl-point" *ngIf='notificationlogs && notificationlogs.length>0'
+                          (click)="clearAllNotifications(notificationlogs,'notification')">Clear All
+
+                        </span></div>
+                    </div>
+
+                    <div *ngFor='let notification of notificationlogs'>
+                      <!-- notification -->
+                      <div class="row txt2font fon-14 m-auto"
+                        *ngIf='notification.type != "chat" && (notification.toid || notification.toemail) && ((notification.toid && userEmail==notification.toid.email) || userEmail==notification.toemail)'>
+                        <div class="col-lg-2 col-md-2 col-sm-12 mt-1 notification-flex"><span>
+                            <ngx-avatar [name]="notification.fromEmail" value="D" size="35" [round]="true"
+                              *ngIf="notification.fromEmail">
+                            </ngx-avatar>
+                          </span>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12" (click)="NotificationNavigate(notification)">
+                          <div *ngIf="notification.documentid" class="mt-1 fw-3">
+                            <div>
+                              <p class="mb-0 txt-ellip">{{notification.documentid.name}}</p>
+                              <p class="mb-0 txt-ellip">{{notification.type}} by {{notification.fromEmail}}</p>
+                            </div>
+                            <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                              {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                              {{notification.diff.second}}sec</p>
+                          </div>
+                          <div *ngIf="notification.folderid" class="mt-1 fw-3">
+                            <div>
+                              <p class="mb-0 txt-ellip">Folder {{notification.folderid.name}}</p>
+                              <p class="mb-0 txt-ellip">{{notification.type}} by {{notification.fromEmail}}</p>
+                            </div>
+                            <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                              {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                              {{notification.diff.second}}sec</p>
+                          </div>
+                          <div *ngIf="!notification.documentid && !notification.folderid && notification.fromEmail"
+                            class="mt-1 fw-3">
+                            <p class="mb-0">Document {{notification.type}} by {{notification.fromEmail}} has been
+                              deleted.</p>
+                            <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                              {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                              {{notification.diff.second}}sec
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12  fw-3 notification-flex"
+                          (click)='clearnotification(notification)'
+                          *ngIf="notification.documentid || notification.folderid || (!notification.documentid && !notification.folderid && notification.fromEmail)">
+                          <p class="pt-3 col-90" style="cursor: pointer"> Clear</p>
+                        </div>
+                      </div>
+
+                      <hr class="m-0">
+
+                    </div>
+
+                    <!-- no notification avaliable -->
+                    <div *ngIf="notificationlogs && notificationlogs.length==0" class="mwi-drop-pro">
+                      <a class="text-center">
+                        <div class="row">
+                          <div class="col-12 m-auto">
+                            <img src="assets/images/Group3630.png">
+                            <div class="fon-16 f-50 p-3 col-67">No notifications to show</div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+              </li>
+              <!--------------------------------- notification end---------------------------------- -->
+
+
+              <!--------------------------------- notification end---------------------------------- -->
+
+              <!------------------------------------- profile start-------------------------------------------------- -->
+              <li class="nav-item dropdown mt-3 li-mb" *ngIf="profiledata">
+                <a class="dropdown-toggle pt-0 " id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false" (click)="hidenot()">
+                  <ngx-avatar [name]="userName" value="userName" size="40" [round]="true">
+                  </ngx-avatar>
+                </a>
+                <div
+                  class="dropdown-menu txt2font dropdown-menu-right dropdown-default mwi-drop-pro p-0 menu-pad nav-main arrow_box13 bx-sh1"
+                  aria-labelledby="navbarDropdownMenuLink-333" style="width:100%">
+
+                  <a class="dropdown-item">
+
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 mt-1">
+                        <span>
+                          <ngx-avatar [name]="userName" value="userName" size="40" [round]="true" *ngIf="userName">
+                          </ngx-avatar>
+                        </span>
+                      </div>
+                      <div class="col-lg-10 col-md-10 col-sm-12 pl-3 mt-1 fon-16 fw-3">
+                        <p class="th-space txt-ellip mb-0">{{userName}}</p>
+                        <p class="fon-14 fw-4 si-tx-col th-space txt-ellip">{{userEmail}}</p>
+
+                      </div>
+
+                    </div>
+                  </a>
+                  <hr class="m-0">
+                  <a class="dropdown-item fon-14 fw-4 si-tx-col" data-toggle="modal"
+                    data-target=".bed-example-modal-xl">
+                    Change Password
+                  </a>
+                  <hr class="m-0">
+
+                  <a class="dropdown-item fon-14 fw-4 si-tx-col" (click)='sessionsClear()'>
+                    Clear all other sessions
+                  </a>
+                  <hr class="m-0">
+
+                  <a class="dropdown-item fon-14 fw-4 si-tx-col" routerLinkActive="active-link" (click)='logout()'
+                    [routerLinkActive]="['active']">
+                    Sign Out
+                  </a>
+                </div>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<section>
+  <div class="container-fluid bckground" (click)="hidenot()">
+    <div class="row headfont">
+
+
+      <div class="col-md-12 col-xs-12 col-sm-12 col-lg-2 responsive-toggle mobfit" style="padding:0px;">
+        <nav class="navbar navbar-expand-lg navbar-dark indigo side side_bg">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+
+            <img src="assets/images/menu11.png">
+
+          </button>
+          <div class="col-6 mdqimage  d-sm-block d-md-none responsive-nav">
+            <a class=" mr-0 mr-md-2 p-0 mt-2">
+              <img src="assets/images/Group2244.png" width="140px">
+            </a>
+          </div>
+          <ul class="new-li p-0 m-0 mb-3 mb-lg-0 pull-right d-sm-block d-md-none notification-responsive">
+            <!-------------------------------------- chat notification start------------------------------------------------->
+            <li class="nav-item dropdown txt2font mt-4 li-mb valign">
+              <a class="social-media-tooltips1 bor-none nav-link tab-p-0">
+                <i _ngcontent-c1="" _ngcontent-c28="" class="material-icons i_col1 fon-22 nav-link12 pr-3"
+                  (click)="chatshownotifitab = false;" *ngIf="chatshownotifitab">chat </i>
+                <i _ngcontent-c1="" _ngcontent-c28="" class="material-icons i_col1 fon-22 nav-link12 pr-3"
+                  (click)="chatshownotifitab = true;$event. stopPropagation();" *ngIf="!chatshownotifitab"> chat
+                </i>
+                <span *ngIf='chatnotificationlogsCount >0 '
+                  class="badge  badge-sc2">{{chatnotificationlogsCount}}</span>
+              </a>
+              <div class="mobile-latest-notifications scroll-style" *ngIf="chatshownotifitab">
+                <div
+                  [ngClass]="{'mwi-drop' : chatnotificationlogs && chatnotificationlogs.length!=0 , 'mwi-drop-pro' :chatnotificationlogs && chatnotificationlogs.length==0 }">
+                  <div class="row" *ngIf='chatnotificationlogs && chatnotificationlogs.length>0'
+                    style="margin:0; background-color: rgba(127, 140, 141, 0.18);">
+                    <div class="col-4">Notifications</div>
+                    <div class="col-2"></div>
+                    <div class="col-6 f-right col-90 text-right">
+                      <span class="pl-point" *ngIf='chatnotificationlogs && chatnotificationlogs.length>0'
+                        (click)="clearAllNotifications(chatnotificationlogs,'chat')">Mark all as read
+                      </span></div>
+                  </div>
+                  <div *ngFor='let notification of chatnotificationlogs'>
+                    <!-- notification -->
+                    <div class="row txt2font fon-14 m-auto"
+                      *ngIf='(notification.toid || notification.toemail) && ((notification.toid && userEmail==notification.toid.email) || userEmail==notification.toemail)'>
+                      <div class="col-3 mt-1 notification-flex"><span>
+                          <ngx-avatar [name]="notification.fromEmail" value="D" size="35" [round]="true"
+                            *ngIf="notification.fromEmail">
+                          </ngx-avatar>
+                        </span></div>
+                      <div class="col-6">
+                        <div *ngIf="notification.documentid" class="mt-1 fw-3">
+                          <div>
+                            <p class="mb-0">{{notification.documentid.name}}</p>
+                            <p class="mb-0">{{notification.type}} by {{notification.fromEmail}}</p>
+                          </div>
+                          <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                            {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                            {{notification.diff.second}}sec</p>
+                        </div>
+                        <div *ngIf="notification.folderid" class="mt-1 fw-3">
+                          <div>
+                            <p class="mb-0">Folder {{notification.folderid.name}}</p>
+                            <p class="mb-0">{{notification.type}} by {{notification.fromEmail}}</p>
+                          </div>
+                          <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                            {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                            {{notification.diff.second}}sec</p>
+                        </div>
+                        <div *ngIf="!notification.documentid && !notification.folderid && notification.fromEmail"
+                          class="mt-1 fw-3">
+                          <p class="mb-0"> Document {{notification.type}} by {{notification.fromEmail}} has been
+                            deleted.</p>
+                          <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                            {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                            {{notification.diff.second}}sec
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-3 fw-3 notification-flex" (click)='clearnotification(notification)'>
+                        <p class="pt-3 col-90" style="cursor: pointer"> Clear</p>
+                      </div>
+                    </div>
+
+                    <hr class="m-0">
+
+                  </div>
+
+                  <!-- no notification avaliable -->
+                  <div *ngIf="notificationlogs && notificationlogs.length==0" class="mwi-drop-pro">
+                    <a class="text-center">
+                      <div class="row">
+                        <div class="col-12 m-auto">
+                          <img src="assets/images/Group3630.png">
+                          <div class="fon-16 f-50 p-3 col-67">No notifications to show</div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </li>
+            <!-------------------------------------- chat notification end------------------------------------------------->
+            <!-------------------------------------- notification start------------------------------------------------->
+            <li class="nav-item dropdown txt2font mt-4 li-mb valign">
+
+              <a class="social-media-tooltips1 bor-none nav-link tab-p-0"
+                (click)="clearAllNotificationsactive(notificationlogs)">
+                <i _ngcontent-c1="" _ngcontent-c28="" class="material-icons i_col1 fon-22 nav-link12 pr-3"
+                  (click)="hidenot()" *ngIf="shownotifitab"> notifications_none </i>
+                <i _ngcontent-c1="" _ngcontent-c28="" class="material-icons i_col1 fon-22 nav-link12 pr-3"
+                  (click)="shownotification();$event. stopPropagation();" *ngIf="!shownotifitab"> notifications_none
+                </i>
+                <span *ngIf='count>0 ' class="badge  badge-sc3">{{count}}</span>
+
+              </a>
+              <div class="mobile-latest-notifications scroll-style" *ngIf="shownotifitab">
+                <div
+                  [ngClass]="{'mwi-drop' : notificationlogs && notificationlogs.length!=0 , 'mwi-drop-pro' :notificationlogs && notificationlogs.length==0 }">
+                  <div class="row" *ngIf='notificationlogs && notificationlogs.length>0'
+                    style="margin:0; background-color: rgba(127, 140, 141, 0.18);">
+                    <div class="col-4">Notifications</div>
+                    <div class="col-2"></div>
+                    <div class="col-6 f-right col-90 text-right">
+                      <span class="pl-point" *ngIf='notificationlogs && notificationlogs.length>0'
+                        (click)="clearAllNotifications(notificationlogs,'notification')">Clear All
+
+                      </span></div>
+                  </div>
+
+                  <div *ngFor='let notification of notificationlogs'>
+                    <!-- notification -->
+                    <div class="row txt2font fon-14 m-auto"
+                      *ngIf='(notification.toid || notification.toemail) && ((notification.toid && userEmail==notification.toid.email) || userEmail==notification.toemail)'>
+                      <div class="col-3 mt-1 notification-flex"><span>
+                          <ngx-avatar [name]="notification.fromEmail" value="D" size="35" [round]="true"
+                            *ngIf="notification.fromEmail">
+                          </ngx-avatar>
+                        </span></div>
+                      <div class="col-6">
+                        <div *ngIf="notification.documentid" class="mt-1 fw-3">
+                          <div>
+                            <p class="mb-0">{{notification.documentid.name}}</p>
+                            <p class="mb-0">{{notification.type}} by {{notification.fromEmail}}</p>
+                          </div>
+                          <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                            {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                            {{notification.diff.second}}sec</p>
+                        </div>
+                        <div *ngIf="notification.folderid" class="mt-1 fw-3">
+                          <div>
+                            <p class="mb-0">Folder {{notification.folderid.name}}</p>
+                            <p class="mb-0">{{notification.type}} by {{notification.fromEmail}}</p>
+                          </div>
+                          <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                            {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                            {{notification.diff.second}}sec</p>
+                        </div>
+                        <div *ngIf="!notification.documentid && !notification.folderid && notification.fromEmail"
+                          class="mt-1 fw-3">
+                          <p class="mb-0"> Document {{notification.type}} by {{notification.fromEmail}} has been
+                            deleted.</p>
+                          <p class="fw-4 hr-tx" *ngIf="notification.diff">{{notification.diff.day}} days
+                            {{notification.diff.hour}} hours {{notification.diff.minute}} min
+                            {{notification.diff.second}}sec
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-3 fw-3 notification-flex" (click)='clearnotification(notification)'>
+                        <p class="pt-3 col-90" style="cursor: pointer"> Clear</p>
+                      </div>
+                    </div>
+
+                    <hr class="m-0">
+
+                  </div>
+
+                  <!-- no notification avaliable -->
+                  <div *ngIf="notificationlogs && notificationlogs.length==0" class="mwi-drop-pro">
+                    <a class="text-center">
+                      <div class="row">
+                        <div class="col-12 m-auto">
+                          <img src="assets/images/Group3630.png">
+                          <div class="fon-16 f-50 p-3 col-67">No notifications to show</div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </li>
+
+            <!--------------------------------- notification end---------------------------------- -->
+
+
+            <!--------------------------------- notification end---------------------------------- -->
+
+            <!------------------------------------- profile start-------------------------------------------------- -->
+            <li class="nav-item dropdown mt-3 li-mb" *ngIf="profiledata">
+              <a class="dropdown-toggle pt-0 " id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" (click)="hidenot();">
+                <ngx-avatar [name]="userName" value="userName" size="40" [round]="true">
+                </ngx-avatar>
+              </a>
+              <div
+                class="dropdown-menu txt2font dropdown-menu-right dropdown-default mwi-drop-pro p-0 menu-pad nav-main arrow_box13 bx-sh1"
+                aria-labelledby="navbarDropdownMenuLink-333"
+                style="width:100%;transform: translate3d(-262px, 40px, 0px);">
+
+                <a class="dropdown-item">
+
+                  <div class="row">
+                    <div class="col-lg-2 col-md-2 col-2 mt-1"><span>
+                        <ngx-avatar [name]="userName" value="userName" size="40" [round]="true" *ngIf="userName">
+                        </ngx-avatar>
+                      </span></div>
+                    <div class="col-lg-10 col-md-10 col-10 pl-3 mt-1 fon-16 fw-3">
+                      <p class="th-space txt-ellip mb-0">{{userName}}</p>
+                      <p class="fon-14 fw-4 si-tx-col th-space txt-ellip">{{userEmail}}</p>
+
+                    </div>
+
+                  </div>
+                </a>
+                <hr class="m-0">
+                <a class="dropdown-item fon-14 fw-4 si-tx-col" data-toggle="modal" data-target=".bed-example-modal-xl">
+                  Change Password
+                </a>
+                <hr class="m-0">
+
+                <a class="dropdown-item fon-14 fw-4 si-tx-col" routerLinkActive="active-link" (click)='logout()'
+                  [routerLinkActive]="['active']">
+                  Sign Out
+                </a>
+              </div>
+            </li>
+          </ul>
+          <div class="collapse navbar-collapse sh-none" id="navbarTogglerDemo01" (click)="clearval()">
+
+            <ul class="navbar-nav mr-auto mt-lg-0 bg_none togg font01 minilptp"
+              style="flex-direction: column;width:100%;">
+              <li class="nav-item pt-3" data-target="#navbarTogglerDemo01">
+                <a class="nav-link fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  routerLink="/individual/home/dashboard" [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{exact:true}">Dashboard <span class="sr-only">(current)</span></a>
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  routerLink="/organization/home/dashboard" [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{exact:true}">Dashboard <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item pt-3 trig" data-target="#navbarTogglerDemo01">
+                <a class="nav-link fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  routerLink="/individual/home/" [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{exact:true}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  routerLink="/organization/home/" [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{exact:true}">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item pt-3" *ngIf="userType=='organisation'" data-target="#navbarTogglerDemo01">
+
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  [routerLinkActive]="['active']" routerLink="/organization/home/addemployee">Employees</a>
+              </li>
+              <li class="nav-item pt-3" *ngIf="userType=='organisation'" data-target="#navbarTogglerDemo01">
+
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  [routerLinkActive]="['active']" routerLink="/organization/home/adddepartment">Departments</a>
+              </li>
+              <li class="nav-item pt-3" data-target="#navbarTogglerDemo01">
+                <a class="nav-link fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  [routerLinkActive]="['active']" routerLink="/individual/home/myfiles">My Files</a>
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  [routerLinkActive]="['active']" routerLink="/organization/home/myfiles">My Files</a>
+              </li>
+              <li class="nav-item pt-3" data-target="#navbarTogglerDemo01">
+                <a class="nav-link  fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  routerLink="/individual/home/favorites" [routerLinkActive]="['active']">Favourites</a>
+                <a class="nav-link  fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  routerLink="/organization/home/favorites" [routerLinkActive]="['active']">Favourites</a>
+              </li>
+              <li class="nav-item pt-3" data-target="#navbarTogglerDemo01">
+                <a class="nav-link fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  routerLink="/individual/home/sentfiles" [routerLinkActive]="['active']">Sent
+                  Files</a>
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  routerLink="/organization/home/sentfiles" [routerLinkActive]="['active']">Sent
+                  Files</a>
+              </li>
+              <li class="nav-item pt-3" data-target="#navbarTogglerDemo01">
+                <a class="nav-link fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  routerLink="/individual/home/shareddocument" [routerLinkActive]="['active']">Shared
+                  With Me</a>
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  routerLink="/organization/home/shareddocument" [routerLinkActive]="['active']">Shared
+                  With Me</a>
+              </li>
+
+              <li class="nav-item pt-3" data-target="#navbarTogglerDemo01">
+                <a class="nav-link fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  routerLink="/individual/home/binfiles" [routerLinkActive]="['active']">Show
+                  Deleted Files</a>
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  routerLink="/organization/home/binfiles" [routerLinkActive]="['active']">Show
+                  Deleted Files</a>
+              </li>
+              <li class="nav-item pt-3" data-target="#navbarTogglerDemo01">
+                <a class="nav-link fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  routerLink="/individual/home/templates" [routerLinkActive]="['active']">Templates</a>
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  routerLink="/organization/home/templates" [routerLinkActive]="['active']">Templates</a>
+              </li>
+              <li class="nav-item pt-3" data-target="#navbarTogglerDemo01">
+                <a class="nav-link fw-5" href="#" *ngIf="role == 'user' && userType == 'individual'"
+                  [routerLinkActive]="['active']" routerLink="/individual/home/verification">Verification</a>
+                <a class="nav-link fw-5" href="#"
+                  *ngIf="role == 'user' && (userType == 'employee' || userType == 'organisation')"
+                  [routerLinkActive]="['active']" routerLink="/organization/home/verification">Verification</a>
+              </li>
+              <li class="nav-item pt-3 dropdown  d-sm-block d-md-none" data-target="#navbarTogglerDemo01">
+                <a class="dropdown-toggle nav-link fw-5" data-toggle="dropdown" href="#"
+                  [routerLinkActive]="['active']">Sync Your Files
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li class="li-mb"> <a class="bor-none" (click)="loadoneDrive()">
+
+                      <img src="assets/images/Group2834.png" class="pr-3 i-left nav-link12 bor-none curpointer"
+                        width="43px">
+                      <span>One Drive</span>
+                    </a>
+                  </li>
+                  <li class="mt-4 li-mb"> <a class="bor-none" (click)="loaddropbox()">
+
+                      <img src="assets/images/Group2837.png" class="pr-3 nav-link12 curpointer" width="43px">
+                      <span>Drop box</span>
+                    </a> </li>
+                  <li class="mt-4 li-mb"> <a class="bor-none" (click)="loadGoogleDrive()">
+                      <img src="assets/images/Group2833.png" class="pr-3 nav-link12 curpointer" width="43px">
+                      <span>Google Drive</span>
+                    </a></li>
+                </ul>
+              </li>
+
+            </ul>
+          </div>
+        </nav>
+        <ul class="mobile-list-search  d-sm-block d-md-none">
+          <li class="mt-4 li-mb">
+            <form class="search-form" #searchForm="ngForm" (ngSubmit)="searchnavigate()" name="searchForm"
+              autocomplete="off">
+              <div class="d-flex justify-content-center h-100">
+                <div class="mobile-searchbar">
+                  <input type="text" required class="mobile_search_input" placeholder="Search"
+                    aria-label="Recipient's username" style="border-left:none;" aria-describedby="basic-addon2"
+                    [(ngModel)]="SearchValue" (keyup)="Search(SearchValue)" name="SearchValue"
+                    [ngClass]="{'searchbox-filleddata':SearchValue }" />
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of searchdata" [value]="option.name">
+                      {{option.name}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <a class="mobile_search_icon"><i class="fas fa-search" (click)="searchnavigate()"></i></a>
+                </div>
+              </div>
+            </form>
+
+          </li>
+        </ul>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="col-lg-10 col-md-12 col-xs-12 col-sm-12 b0dy-bg" (click)="hidenot();">
+
+        <router-outlet></router-outlet>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ====================================Change password  modal starts======================================= -->
+
+
+<div class="modal fade bed-example-modal-xl " tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+  aria-hidden="true" data-keyboard="false" data-backdrop="false">
+  <button type="button" id="changePassCloseBtn" class="close no-bor-outlin" data-toggle="modal"
+    data-target=".bed-example-modal-xl">
+
+  </button>
+  <button type="button" class="close no-bor-outlin" style="display:none;" id="changePassCloseBtn" data-dismiss="modal"
+    aria-label="Close">
+    <span aria-hidden="true" class="pad-all-20">&times;</span>
+  </button>
+
+  <div class="modal-dialog modal-xl fix-m-w">
+    <div class="modal-content">
+
+      <div>
+        <div class="modal-body  redbg fix-modal-h">
+          <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-5 d-non imgnone">
+              <div class="welcome-creat-ac">
+                <div class="">
+                  <h5 class="white-colr txt2font">Reset Password !</h5>
+                </div>
+                <div class="reset-img-mar">
+                  <img src="assets/images/reserpassword.png" class="img-fluid" alt="Responsive image">
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-7">
+              <button type="button" class="close no-bor-outlin" id="changePassCloseBtn" data-dismiss="modal"
+                aria-label="Close" (click)="cancel(userForm)" appPasswordshowhide>
+                <span aria-hidden="true" class="pad-all-20">&times;</span>
+              </button>
+              <div class="alert alert-danger alert-dismissible" *ngIf="displayerror">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                <strong>{{errorres}}</strong>
+              </div>
+
+              <form class="create-ac-sec" #userForm="ngForm" (ngSubmit)="otpfun(userForm)" name="userForm">
+                <div class="">
+                  <p class="modal-title headfont">Change your password</p>
+                </div>
+
+                <div class="alternate-register  fon-14 col-80">To have a strong password. Make sure to have
+                  alphanumeric, special characters and it has at least of 8 characters.</div>
+
+
+                <div>
+
+
+                  <div class="md-form txt2font form-mar-bot-2 mar-tb-12  wid-100" id='input_old'>
+                    <i class=" prefix" style="margin: -12px 0 0 0"><img src="assets/images/Path15375.png"></i>
+                    <input type="password" style="padding: 4px 24px; margin: 0;" placeholder="Old Password"
+                      (keyup)="checkpassword(oldpass)" [(ngModel)]="oldpass" name="oldpass"
+                      pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]{8,14}'
+                      #oldpassword="ngModel" [class.has-error]="oldpassword.invalid && oldpassword.touched"
+                      [class.has-success]="oldpassword.valid" required (focusout)="checkpasswor(oldpassword,'old')"
+                      (keypress)="Restrictspacekey($event)">
+                    <div class="tooltipp t00l" appPasswordshowhide>
+                      <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                        visibility_off
+                      </i>
+                      <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                        remove_red_eye
+                      </i>
+                    </div>
+
+
+
+                    <div class="text-danger" *ngIf="isOldPassword">Old password mismatch </div>
+                    <div
+                      *ngIf="(oldpassword.invalid && (oldpassword.dirty || oldpassword.touched)|| formSubmitted && oldpassword.errors) && !iebrowser">
+                      <div class="text-danger" *ngIf="!isOldPassword && oldpassword.errors.required">Please Enter Old
+                        Password </div>
+                    </div>
+                    <div
+                      *ngIf="(oldpassword.invalid && (oldpassword.dirty || oldpassword.touched)|| formSubmitted && oldpassword.errors) &&  iebrowser">
+                      <div class="text-danger" *ngIf="invalidoldpassword">Please Enter Old
+                        Password </div>
+                    </div>
+
+
+
+
+                  </div>
+
+
+                  <div class="md-form txt2font form-mar-bot-2  mar-tb-12 wid-100" id='input_new'>
+                    <i class="prefix" style="margin: -12px 0 0 0"><img
+                        src="assets/images/Path15375.png">&nbsp;&nbsp;</i>
+                    <input type="password" (keyup)="checkpassword(oldpass)" (keyup)="checkpassword1(newpass)"
+                      #newpassword="ngModel" [(ngModel)]="newpass" name="newpass"
+                      pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~])[A-Za-z\d !"#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]{8,14}'
+                      [class.has-error]="newpassword.invalid && newpassword.touched"
+                      [class.has-success]="newpassword.valid" [ngModelOptions]="{ updateOn: 'change' }"
+                      placeholder="New Password" style="padding: 4px 24px; margin: 0;" required
+                      (focusout)="checkpasswor(newpassword,'new1');focus=false;" (focus)="focus=true"
+                      (keypress)="Restrictspacekey($event)">
+                    <div class="tooltipp t00l" appPasswordshowhide>
+                      <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                        visibility_off
+                      </i>
+                      <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                        remove_red_eye
+                      </i>
+                    </div>
+
+                    <div class="text-danger" *ngIf="((newpass==oldpass) && newpass) && oldpass">Please Do Not Enter The
+                      Old Password</div>
+                    <div
+                      *ngIf="(newpassword.invalid && (newpassword.dirty || newpassword.touched)|| formSubmitted && newpassword.errors) && !iebrowser">
+                      <div class="text-danger" *ngIf="newpassword.errors.required">Please Enter New Password </div>
+                      <div class="text-danger sml-danger-txt nunito-font" *ngIf="newpassword.errors.pattern">Password
+                        Length must be 8 to 14
+                        characters </div>
+                    </div>
+                    <div
+                      *ngIf="(newpassword.invalid && (newpassword.dirty || newpassword.touched)|| formSubmitted && newpassword.errors) && iebrowser">
+                      <div class="text-danger" *ngIf="invalidnewpas">Please Enter New Password </div>
+                      <div class="text-danger sml-danger-txt nunito-font" *ngIf="newpassword.errors.pattern">Password
+                        Length must be 8 to 14
+                        characters </div>
+                    </div>
+
+
+                  </div>
+
+
+                  <div class="md-form txt2font form-mar-bot-2 mar-tb-12  wid-100" id='input_new_cnf'>
+                    <i class="prefix" style="margin: -12px 0 0 0"><img
+                        src="assets/images/Path15375.png">&nbsp;&nbsp;</i>
+                    <input matInput type="password" appConfirmEqualValidator="newpass"
+                      style="padding: 4px 24px; margin: 0;" placeholder="Confirm Password"
+                      [class.has-error]="verifypassword.invalid && verifypassword.touched"
+                      [class.has-success]="verifypassword.valid" [(ngModel)]="pwd3" name="pwd3"
+                      #verifypassword="ngModel" required (focusout)="checkpasswor(verifypassword,'new2')"
+                      (keypress)="Restrictspacekey($event)">
+                    <div class="tooltipp t00l" appPasswordshowhide>
+                      <i class="material-icons prefix error-icon" style="font-size: 24px;">
+                        visibility_off
+                      </i>
+                      <i class="material-icons prefix error-icon hidedefault" style="font-size: 24px;">
+                        remove_red_eye
+                      </i>
+
+                    </div>
+
+
+
+
+                    <div
+                      *ngIf="(verifypassword.invalid && (verifypassword.dirty || verifypassword.touched)|| formSubmitted && verifypassword.errors) && !iebrowser">
+                      <div class="text-danger" *ngIf="verifypassword.errors.required">Please Enter Confirm Password
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="(verifypassword.invalid && (verifypassword.dirty || verifypassword.touched)|| formSubmitted && verifypassword.errors) && iebrowser">
+                      <div class="text-danger" *ngIf="invalidconfpas">Please Enter Confirm Password
+                      </div>
+                    </div>
+                    <div class="text-danger" *ngIf="((newpass!=pwd3) && newpass) && pwd3">Password Mismatch</div>
+
+
+                  </div>
+
+                  <div class="row tpad-20 txt2font text-center dis-fx">
+                    <div class=" ">
+                      <button type="submit" class="btn btn-sm sign-in1li txtun" appPasswordshowhide>Change
+                        Password</button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ====================================Change password  modal Ends======================================= -->
+
+<button id="openModalButton" data-toggle="modal" data-target="#myModal" style="display:none;"></button>
+
+<div>
+  <div id="myModal" class="modal fade  modalstyleeee" #myModal role="dialog" data-backdrop="false"
+    data-keyboard="false">
+    <div class="modal-dialog mdlpp mbmdl">
+      <!-- Modal content-->
+      <div class="modal-content brdrrdus">
+        <div class="modal-header modalhed mbhdwdth">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-8 mbwdth">
+                <h4 class="txtpop" *ngIf="queue">Uploading {{queue.length}} Files</h4>
+              </div>
+              <div class="col-md-4 mbwdth">
+                <ul class="unlist pull-right pl-point " [ngClass]="{'iealn00' :iebrowser}">
+                  <li *ngIf="!uploading"><i class="fa fa-angle-down fntsz fntsz1" href="#demo" data-toggle="collapse"
+                      (click)="uploading=true"></i></li>
+                  <li *ngIf="uploading"><i class="fa fa-angle-up fntsz fntsz1" href="#demo" data-toggle="collapse"
+                      (click)="uploading=false"></i></li>
+                  <li><span aria-hidden="true" data-dismiss="modal" (click)="uploader.clearQueue();totalfilelength=0"
+                      class="fntsz1" id='closeFileModal'>&times;</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="demo" class="modal-body scrlmodal customscrl collapse in show scroll-shw">
+          <div class="col-md-12">
+            <div *ngIf="queue">
+              <div class="row" *ngFor="let item of queue ">
+                <div class="col-md-2 mbwdth01" *ngIf="item.type=='pdf'">
+                  <div class="txt2 mbtxt">
+                    PDF
+                  </div>
+                </div>
+                <div class="col-md-2 mbwdth01" *ngIf="item.type=='doc'  || item.type== 'docx'">
+                  <div class="txt8">
+                    DOC
+                  </div>
+                </div>
+                <div class="col-md-2" *ngIf="item.type!='pdf' && item.type!='doc' && item.type!= 'docx'">
+                  <div class="txt8">
+                    ??
+                  </div>
+                </div>
+                <div class="col-md-8 mbwdth02">
+                  <label class="txt3 zero-marg">{{item?.file?.resultFileName || item?.file?.name}}</label>
+                  <p class="txt3 error-color" *ngIf="item.type!='pdf' && item.type!='doc' && item.type!= 'docx'">
+                    Unsupported Format</p>
+                  <p class="size_exceed error-color"
+                    *ngIf="(item.type=='pdf' || item.type=='doc' || item.type== 'docx') && item.size>10">Maximum file
+                    size 10 MB </p>
+
+                  <div class="progress"
+                    *ngIf="(item.type=='pdf' || item.type=='doc' || item.type== 'docx') && item.size<=10">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                      aria-valuemax="100" [style.width.%]='item.progress'>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 text-center mbwdth03">
+                  <span *ngIf="item.inProgress() && (item.type=='pdf' || item.type=='doc' || item.type== 'docx')"
+                    class="fas fa-close mbfaicn" (click)="uploader._cancel(item)"></span>
+                  <span class="fas fa-exclamation text-danger mbfaicn"
+                    *ngIf="(item.type!='pdf' && item.type!='doc' && item.type!= 'docx') || item.size>10">
+                  </span>
+                  <span *ngIf="item.isSuccess()" class="fas fa-check mbfaicn"> </span>
+                  <span *ngIf="item.isError()" class="fa fa-undo mbfaicn" (click)="uploader._upload(item)"> </span>
+                </div>
+
+                <div class="col-md-12 pl-point">
+                  <div class="row status mbtp"
+                    *ngIf="(item.type=='pdf' || item.type=='doc' || item.type== 'docx') && item.size<=10">
+                    <label class="col-md-6 fntclr mbwdth04"> {{ item?.file?.size | filesize}} </label>
+                    <label class="col-md-6 fntclr fntclr1 mbwdth04">Uploading...
+                      {{item.progress}}%</label>
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </div>
+            <div class="col-md-12">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

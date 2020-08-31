@@ -1,0 +1,239 @@
+@media (max-width: 800px) {
+  .redbg {
+    background-image: none !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+  }
+  .bg2 {
+    background-image: none !important;
+  }
+  .no-mar {
+    margin: 0;
+  }
+  .double-down-sub {
+    color: #353535 !important;
+  }
+  .pad-10 {
+    padding: 0 !important
+  }
+  .create-ac-sec {
+    padding: 3% 0 0 6%;
+  }
+}
+
+.redbg {
+  background-image: url(/../../assets/images/redsparrk.png);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+}
+
+.fix-modal-h {
+  height: 480px;
+}
+
+.fix-m-w {
+  max-width: 1037px;
+}
+
+@media (min-width: 992px) {
+  .fix-m-w {
+    max-width: 899px;
+  }
+}
+
+.no-bor-outlin {
+  border: none;
+  outline: none;
+}
+
+.pad-all-20 {
+  position: relative;
+  right: 15px;
+  top: 6px;
+}
+
+@media (max-width: 800px) {
+  .forgot-pass-section {
+    padding: 14% 10%;
+  }
+  .d-non {
+    display: none;
+  }
+  .bg {
+    background-image: none;
+  }
+}
+
+.welcome-creat-ac {
+  padding-top: 14%;
+  margin-left: 13%;
+}
+
+.welcome-creat-ac h5 {
+  font-size: 24px;
+  padding: 5% 7%;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.welcome-creat-ac p {
+  color: #ffffff;
+  padding: 8% 11% 0% 0%;
+}
+
+.create-ac-sec {
+  padding: 8% 9% 0% 28%;
+  margin: 0;
+}
+
+.modal-title {
+  font-size: 20px;
+  color: #E95354 !important;
+  font-weight: 500;
+  padding: 0 0 6px;
+}
+
+.sign-in1li {
+  background-image: linear-gradient(#E75555, #F17A6D);
+  border-radius: 6px;
+  font-size: 16px !important;
+  padding: .2rem 3.1rem !important;
+  font-weight: 500;
+}
+
+.reset-img-mar {
+  margin: -2rem 0 0 -2rem;
+}
+
+.dis-fx {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.suit-img-mar {
+  margin: 3rem 0 0 0;
+}
+
+.alignmiddle {
+  line-height: 7;
+}
+
+.fon-col3 {
+  color: #4AADD1 !important;
+}
+
+.fon-40 {
+  font-size: 40px;
+}
+
+.results {
+  padding-left: 62px;
+  margin-top: 37px;
+  margin-left: 72px;
+}
+
+.tooltipp {
+  position: relative;
+}
+
+.tooltipp .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #fff;
+  color: #000000;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  left: 325px;
+  top: 36px;
+  font-size: 12px;
+}
+
+.tooltipp .tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-top: -5px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+}
+
+.tooltipp:hover .tooltiptext {
+  visibility: visible;
+}
+
+.activeTooltip .tooltiptext {
+  visibility: visible;
+  width: 160px;
+  background-color: #fff;
+  color: #000000;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  left: 230px;
+  top: 36px;
+  font-size: 12px;
+}
+
+.activeTooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-top: -5px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+}
+
+.t00l {
+  position: static;
+}
+
+.img001 {
+  right: -7px;
+}
+
+.special-char-clr {
+  color: #ed645f;
+}
+
+.listicn {
+  font-size: 5px;
+  font-weight: 700;
+}
+
+.special-char-clrgreen {
+  font-weight: 400;
+  color: green!important;
+}
+
+.lef-pad {
+  padding: 0 4px 0 0!important;
+}
+
+.anchorcolor {
+  color: #0e8ef1;
+}
+
+.privacy {
+  color: #fff;
+}
+@media(min-width:1920px){
+  .footer-bg {
+      height: 350px;
+    
+  }
+  .padng22 {
+      padding: 18% 0 0 0;
+  }
+}

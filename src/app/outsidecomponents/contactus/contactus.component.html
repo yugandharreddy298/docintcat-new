@@ -1,0 +1,180 @@
+<section class="white-bg">
+  <div class="container">
+    <div class="row map-bg">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <img src="assets/images/contact-us.png" class="img-responsive wid-100">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="pad-t-6rem">
+          <p class="blak-clr fon-48 zero-marg mb-4">Contact Us</p>
+        </div>
+        <p class="fon-18  pad-r-2rem text-justify"> HILL#2, PLOT#6, APIIC
+          SEZ IT/ITES, Rushikonda, Madhurawada, Visakhapatnam, Andhra Pradesh 530045 or
+          support@DocIntact.com. </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="under-contact-bg">
+  <div class="container">
+    <div class="row pad-t-4rem">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center bor-rit">
+        <div>
+          <button class="phone-pic-bg">
+            <img src="assets/images/telephone.png">
+          </button>
+        </div>
+        <div>
+          <p class="mar-t-1rem fon-18">Phone Number</p>
+          <p class="zero-marg ash-color">+91-891-6659999</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center bor-rit">
+        <div>
+          <button class="phone-pic-bg">
+            <img src="assets/images/location.png">
+          </button>
+        </div>
+        <div>
+          <p class="mar-t-1rem fon-18">Address</p>
+          <p class="zero-marg ash-color">HILL#2, PLOT#6, APIIC SEZ IT/ITES, Rushikonda, <br>Madhurawada, Visakhapatnam,
+            Andhra Pradesh 530045.</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+        <div>
+          <button class="phone-pic-bg">
+            <img src="assets/images/mailpic.png">
+          </button>
+        </div>
+        <div>
+          <p class="mar-t-1rem fon-18">Email</p>
+          <p class="zero-marg ash-color">no-reply@docintact.com<br>noreply@cognitiveinnovations.in</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15194.855025437664!2d83.391214!3d17.805145!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd86dcd1b82026188!2sCognitive+Innovations+Labs+Pvt+Ltd!5e0!3m2!1sen!2sin!4v1561047273025!5m2!1sen!2sin"
+      width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+  </div>
+</section>
+
+<section class="pad-t-4rem">
+  <div class="container">
+    <div>
+      <div *ngIf="successalert">
+        <div class="alert alert-success alert-dismissible fade show">
+          {{contactdata.res}}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      </div>
+      <div *ngIf="failalert">
+        <div class="alert alert-danger alert-dismissible fade show">
+          {{contactdata.fail}}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      </div>
+      <form class="border border-light white-bg" #userForm="ngForm" (ngSubmit)="contactSubmit(userForm)">
+        <p class="h4 get-in-touch font-22 text-center">Get in Touch With Us</p>
+        <div class="form-row mb-4 pad-ltb-2rem">
+          <div class="col">
+            <!-- First name -->
+            <input type="text" id="defaultRegisterFormFirstName" class="form-control input-bg" name="fname"
+              [(ngModel)]="fname" placeholder="Your Name" required #fname1="ngModel" pattern="[A-Za-z][A-Za-z0-9\s_@]*"
+              (focusout)="checkData(fname1, 'name')">
+            <div *ngIf="(fname1.invalid && (fname1.dirty||fname1.touched)|| req &&fname1.errors) && !iebrowser">
+              <div class="text-danger" *ngIf="fname1.errors.required"> Name is required
+              </div>
+              <div class="text-danger" *ngIf="fname1.errors.pattern">Please enter characters only!</div>
+            </div>
+            <div *ngIf="(fname1.invalid && (fname1.dirty||fname1.touched)|| req &&fname1.errors) && iebrowser">
+              <div class="text-danger" *ngIf="nameinvalid"> Name is required
+              </div>
+              <div class="text-danger" *ngIf="fname1.errors.pattern">Please enter characters only!</div>
+            </div>
+          </div>
+          <div class="col">
+            <!-- Last name -->
+            <input type="text" id="defaultRegisterFormLastName" name="lname" [(ngModel)]="lname"
+              class="form-control input-bg" placeholder="Company Name (Optional)" required #lname1="ngModel"
+              pattern="[A-Za-z][A-Za-z0-9\s_@]*">
+          </div>
+        </div>
+
+        <div class="form-row mb-4 pad-ltb-2rem">
+          <div class="col">
+            <!-- First name -->
+            <input type="text" id="defaultRegisterFormFirstName" name="email" required #email2="ngModel"
+              pattern="([A-Za-z]|[0-9])[A-Za-z0-9.-]+[A-Za-z0-9]@((?:[-a-z0-9]+\.)+[a-z]{2,})" [(ngModel)]="email"
+              class="form-control input-bg" placeholder="Your Email Id" (focusout)="checkData(email2, 'mail')">
+            <div *ngIf="(email2.invalid && (email2.dirty || email2.touched)|| req && email2.errors) && !iebrowser">
+              <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="email2.errors.required">Please
+                Enter Email</div>
+              <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="(email2.errors.pattern)">Invalid
+                Email</div>
+            </div>
+            <div *ngIf="(email2.invalid && (email2.dirty || email2.touched)|| req && email2.errors) && iebrowser">
+              <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="emailinvalid">Please
+                Enter Email</div>
+              <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="(email2.errors.pattern)">Invalid
+                Email</div>
+            </div>
+          </div>
+          <div class="col">
+            <!-- Last name -->
+            <input type="text" id="defaultRegisterFormLastName" required name="mnumber" [(ngModel)]="mnumber"
+              #mobilenumber2="ngModel" pattern="[0-9]{10}" class="form-control input-bg" placeholder="Mobile Number"
+              (focusout)="checkData(mobilenumber2, 'mobile')">
+            <div
+              *ngIf="(mobilenumber2.invalid && (mobilenumber2.dirty || mobilenumber2.touched)|| req && mobilenumber2.errors) && !iebrowser">
+              <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="mobilenumber2.errors.required ">Please
+                Enter Mobile Number
+              </div>
+              <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="(mobilenumber2.errors.pattern)">
+                Invalid
+                Mobile Number
+              </div>
+            </div>
+            <div
+              *ngIf="(mobilenumber2.invalid && (mobilenumber2.dirty || mobilenumber2.touched)|| req && mobilenumber2.errors) && iebrowser">
+              <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="mobileinvalid">Please
+                Enter Mobile Number
+              </div>
+              <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="(mobilenumber2.errors.pattern)">
+                Invalid
+                Mobile Number
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group pad-lb-2rem">
+          <textarea class="form-control rounded-0 input-bg" required name="message" [(ngModel)]="message"
+            #msg1="ngModel" id="exampleFormControlTextarea2" rows="3" placeholder="Enter Your Message here...."
+            (focusout)="checkData(msg1, 'message')"></textarea>
+
+          <div *ngIf="(msg1.invalid && (msg1.dirty || msg1.touched)|| req && msg1.errors) && !iebrowser">
+            <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="msg1.errors.required ">Please
+              Enter Message
+            </div>
+          </div>
+          <div *ngIf="(msg1.invalid && (msg1.dirty || msg1.touched)|| req && msg1.errors) && iebrowser">
+            <div class="text-danger sml-danger-txt error-message-in-mob" *ngIf="invalidmsg">Please
+              Enter Message
+            </div>
+          </div>
+        </div>
+        <div class="pad-tb-1rem text-center">
+          <button class="send-message-but fon-18">
+            Send Message
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

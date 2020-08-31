@@ -1,0 +1,47 @@
+<section class="document-verification">
+  <div class="container">
+    <div class="web-portal">
+      <div class="row">
+        <h2 *ngIf="urldata[1]=='verification'" class="text-center">Welcome to DocIntact’s Verification Portal!</h2>
+        <h2 *ngIf="urldata[1]!='verification'" class="text-center"> DocIntact’s Verification Portal!</h2>
+
+        <p >
+          DocIntact verification portal helps to verify the documents, it checks whether the uploaded document is
+          registered with DocIntact or not. Secure your files by uploading and verifying the documents using Doclntact's
+          Verification Portal.
+          Please click on Upload Document to verify.</p>
+      </div>
+      <div class="input-group-append">
+        <button class="input-group-text strat-free-trail-but pl-point btn-lg" (click)="upload()">
+          <input type="file" id="webportal_document" hidden (change)="onFileSelected($event)" accept="application/pdf">
+          <img *ngIf="isLoading" class="strat-free-trail-inpt-gap rem-sh" src="assets/images/loader.gif" width="50%">
+          <img *ngIf="!isLoading" class="strat-free-trail-inpt-gap rem-sh" src="assets/images/upload_document.png"
+            width="25%">{{fileName}}
+        </button>
+      </div>
+    </div>
+    <div *ngIf="result">
+      <div class="document_result">
+        <h3>Result of "{{fileName}}"</h3>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 pdf_result">
+          <img *ngIf="result && result.verified==true" src="assets/images/document_sucess.png">
+          <img *ngIf="result && result.verified==false" src="assets/images/errordocument.png">
+          <!-- <img *ngIf="result && result.verified==false" src="assets/images/modified_document.png"> -->
+          <img *ngIf="result && result.verified==undefined && result.Message" src="assets/images/errordocument.png">
+        </div>
+        <div class="col-lg-8 pdf_result">
+          <h3 *ngIf="result && result.verified==true" class="text-success">Success</h3>
+          <h3 *ngIf="result && result.verified==false" class="text-danger">Verification Failed</h3>
+          <h3 *ngIf="result && result.verified==undefined && result.Message" class="text-warning">File Upload Fail</h3>
+          <p *ngIf="result && result.verified==true">"{{fileName}}" <span> The file is successfully verified by
+              DocIntact.</span></p>
+          <p *ngIf="result && result.verified==false">"{{fileName}}" <span> This file is not valid and is not registered
+              with DocIntact.</span></p>
+          <p *ngIf="result && result.verified==undefined && result.Message">{{result.Message}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
